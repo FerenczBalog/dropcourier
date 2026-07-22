@@ -133,6 +133,13 @@ const TEMPLATE_B64_PFA = "UEsDBBQACAgIAMhl9VwAAAAAAAAAAAAAAAAQAAAAd29yZC9oZWFkZX
   }
 
   // ---------- Helpers ----------
+ // Automatizált nagybetűsítés minden szöveges beviteli mezőnél
+document.querySelectorAll('#contractForm input[type="text"]').forEach(input => {
+  input.addEventListener('input', () => {
+    input.value = input.value.toUpperCase();
+  });
+});
+ 
   function b64ToArrayBuffer(b64){
     const bin = atob(b64);
     const len = bin.length;
@@ -278,10 +285,23 @@ const TEMPLATE_B64_PFA = "UEsDBBQACAgIAMhl9VwAAAAAAAAAAAAAAAAQAAAAd29yZC9oZWFkZX
     return ok;
   }
 
-  function safeName(data){
-    const base = mode==='cim' ? (data.nume_salariat||'salariat') : (data.denumire_prestator||'prestator');
-    return base.replace(/[^a-z0-9]+/gi,'_');
-  }
+  function removeAccents(str) {
+  return str
+    .normalize("NFD") // Szétszedi az ékezetes karaktereket az alapkarakterre és az ékezetre
+    .replace(/[\u0300-\u036f]/g, "") // Eltávolítja a különálló ékezetjeleket
+    .replace(/ș/g, "s").replace(/Ș/g, "S") // Román speciális karakterek kezelése (ha a normalize nem kapná el)
+    .replace(/ț/g, "t").replace(/Ț/g, "T");
+}
+
+function safeName(data){
+  const base = mode==='cim' ? (data.nume_salariat||'salariat') : (data.denumire_prestator||'prestator');
+  
+  // 1. Ékezetek eltávolítása
+  const cleanBase = removeAccents(base);
+  
+  // 2. Szóközök és speciális karakterek cseréje alulvonásra
+  return cleanBase.replace(/[^a-z0-9]+/gi, '_').toUpperCase();
+}
 
   // ---------- Preview only ----------
   btnPreview.addEventListener('click', ()=>{

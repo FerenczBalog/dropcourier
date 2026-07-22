@@ -26,6 +26,10 @@
   ::selection{background:var(--accent);color:#fff;}
   .wrap{max-width:920px;margin:0 auto;padding:0 24px 120px;}
 
+#contractForm input[type="text"] {
+  text-transform: uppercase;
+}
+
   /* ---------- HERO ---------- */
   header.hero{
     padding:52px 24px 36px;

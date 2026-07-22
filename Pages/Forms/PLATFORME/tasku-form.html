@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DROP fleet — Cerere de contract Tasku</title>
+
+<link rel="icon" type="image/png" href="/Favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/Favicon/favicon.svg" />
+<link rel="shortcut icon" href="/Favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/Favicon/apple-touch-icon.png" />
+<link rel="manifest" href="/Favicon/site.webmanifest" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="logo-mark"><img src="Media/DROP-LOGO-BLUE.svg" alt="DROP fleet" width="15%"></div>
+    <h1>Depune cererea pentru contractul tău,<br><span>Tasku.</span></h1>
+    <p>Alege tipul de colaborare, completează datele tale și trimitel spre aprobare.</p>
+  </div>
+</header>
+
+<section class="info-section">
+  <div class="info-inner">
+    <div class="info-kicker">Înainte de a aplica</div>
+    <div class="info-title">Informații importante</div>
+    <div class="info-grid">
+
+      <div class="info-card">
+        <h3><span class="tag">01</span>Descrierea activității</h3>
+        <p>Momentan, activitatea constă exclusiv în <b>picking</b> (pregătirea și colectarea comenzilor pentru platformele Glovo, Wolt și Bringo). și <b>reaprovizionare</b></p>
+      </div>
+
+      <div class="info-card">
+        <h3><span class="tag">02</span>Condiții contractuale</h3>
+        <p>Pentru activarea contului, vom încheia un <b>contract individual de muncă de 4 ore</b> sau un contract de prestări servicii, în funcție de opțiunea aleasă mai jos.</p>
+        <p>Volumul de lucru minim obligatoriu este de <span class="figure">10 ore pe săptămână</span>.</p>
+      </div>
+
+      <div class="info-card">
+        <h3><span class="tag">03</span>Detalii financiare</h3>
+
+        <p>Venitul se calculeaza pe baza unui tarif de <span class="figure">0,69 RON/SKU</span>, adică produs scanat. SKU se referă la unitatea de măsură pentru fiecare tip de produs.</p>
+        <p>Din venitul săptămânal se vor deduce:</p>
+        <ul>
+          <li><span class="figure">11 lei</span> pentru fiecare oră lucrată (reprezentând taxele de stat aferente contractului)</li>
+          <li>Un comision de administrare de <span class="figure">10%</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3><span class="tag">04</span>Contact</h3>
+        <p>Așteptăm documentele dumneavoastră pentru a demara procesul de angajare. Dacă aveți întrebări, vă stăm la dispoziție.</p>
+        <a class="whatsapp-btn" href="https://wa.me/40753903370" target="_blank" rel="noopener">WhatsApp: 0753 903 370</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="mode-section">
+  <div class="mode-inner">
+    <div class="info-kicker">Pasul 1</div>
+    <div class="info-title">Alege tipul de colaborare</div>
+    <div class="mode-grid">
+      <div class="mode-card" id="card-pfa" data-mode="pfa">
+        <div class="check"></div>
+        <span class="tag2">Opțiunea A</span>
+        <h4>PFA / SRL</h4>
+        <p>Contract de prestări servicii logistice, încheiat cu firma ta (PFA sau S.R.L.) în calitate de Prestator.</p>
+      </div>
+      <div class="mode-card" id="card-cim" data-mode="cim">
+        <div class="check"></div>
+        <span class="tag2">Opțiunea B</span>
+        <h4>Contract individual de muncă (CIM)</h4>
+        <p>Angajare part-time clasică, cu fracțiune de normă (max. 80 ore/lună), ca persoană fizică salariată.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <form id="contractForm" novalidate>
+
+    <div class="route">
+
+      <!-- STOP: fields (mode-dependent) -->
+      <div class="stop-rail"><div class="stop-marker" data-marker="1">2</div><div class="line"></div></div>
+      <section class="stop">
+
+        <!-- PFA FIELDS -->
+        <div id="pfaFields" class="mode-fields hidden">
+          <div class="stop-head">
+            <div class="stop-kicker">Pasul 2</div>
+            <div class="stop-title">Datele firmei (PRESTATOR)</div>
+            <div class="stop-sub">Acestea vor fi introduse în contract ca date ale părții care prestează serviciile.</div>
+          </div>
+          <div class="card">
+            <div class="grid2">
+              <div class="field span2">
+                <label>Denumirea firmei / numele PFA</label>
+                <input type="text" data-group="pfa" name="denumire_prestator" placeholder="ex. Popescu Delivery S.R.L.">
+              </div>
+              <div class="field span2">
+                <label>Sediul (adresa completă)</label>
+                <input type="text" data-group="pfa" name="sediu_prestator" placeholder="ex. București, Sector 1, Str. Exemplu nr. 10">
+              </div>
+              <div class="field">
+                <label>Nr. Registrul Comerțului</label>
+                <input type="text" data-group="pfa" name="nr_reg_com" placeholder="ex. J40/1234/2024">
+              </div>
+              <div class="field">
+                <label>Cod unic de înregistrare (CUI)</label>
+                <input type="text" data-group="pfa" name="cui_prestator" placeholder="ex. RO12345678">
+              </div>
+              <div class="field">
+                <label>IBAN</label>
+                <input type="text" data-group="pfa" name="iban_prestator" placeholder="ex. RO00XXXX0000000000000000">
+              </div>
+              <div class="field">
+                <label>Denumirea băncii</label>
+                <input type="text" data-group="pfa" name="banca_prestator" placeholder="ex. BANCA TRANSILVANIA">
+              </div>
+              <div class="field span2">
+                <label>Numele reprezentantului legal</label>
+                <input type="text" data-group="pfa" name="reprezentant_prestator" placeholder="ex. Ionescu Andrei">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CIM FIELDS -->
+        <div id="cimFields" class="mode-fields hidden">
+          <div class="stop-head">
+            <div class="stop-kicker">Pasul 2</div>
+            <div class="stop-title">Datele tale (SALARIAT)</div>
+            <div class="stop-sub">Acestea vor fi introduse în contractul individual de muncă și în fișa postului.</div>
+          </div>
+          <div class="card">
+            <div class="grid2">
+              <div class="field span2">
+                <label>Nume și prenume</label>
+                <input type="text" data-group="cim" name="nume_salariat" placeholder="ex. Popescu Andrei">
+              </div>
+              <div class="field span2">
+                <label>Domiciliul (adresa completă)</label>
+                <input type="text" data-group="cim" name="domiciliu_salariat" placeholder="ex. București, Sector 2, Str. Exemplu nr. 5">
+              </div>
+              <div class="field">
+                <label>CNP</label>
+                <input type="text" data-group="cim" name="cnp_salariat" placeholder="ex. 1900101123456" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label>IBAN (pentru plata salariului)</label>
+                <input type="text" data-group="cim" name="iban_salariat" placeholder="ex. RO00XXXX0000000000000000">
+              </div>
+              <div class="field">
+                <label>Seria CI</label>
+                <input type="text" data-group="cim" name="serie_ci" placeholder="ex. RT">
+              </div>
+              <div class="field">
+                <label>Numărul CI</label>
+                <input type="text" data-group="cim" name="numar_ci" placeholder="ex. 123456">
+              </div>
+              <div class="field">
+                <label>Eliberată de</label>
+                <input type="text" data-group="cim" name="eliberat_de" placeholder="ex. SPCLEP Sector 3">
+              </div>
+              <div class="field">
+                <label>Data eliberării CI</label>
+                <input type="text" data-group="cim" name="data_eliberare_ci" placeholder="ex. 12.03.2021">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field span2" style="margin-top:14px;">
+          <label>E-mail de contact <span class="opt">(nu apare în contract, doar pentru răspuns)</span></label>
+          <input type="email" name="contact_email" placeholder="tu@email.com">
+        </div>
+
+        <div class="field">
+          <label>Număr de telefon <span class="opt">(doar pentru contact)</span></label>
+          <input type="tel" name="contact_phone" placeholder="ex. 07xxxxxxxx">
+        </div>
+      </section>
+
+      <!-- STOP: contract data -->
+      <div class="stop-rail"><div class="stop-marker" data-marker="2">3</div><div class="line"></div></div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 3</div>
+          <div class="stop-title">Datele contractului</div>
+          <div class="stop-sub">Datele se completează automat cu ziua de azi — activitatea începe la 3 zile de la semnare.</div>
+        </div>
+        <div class="card">
+          <div class="auto-row">
+            <div class="auto-chip">
+              <div class="k">Data semnării</div>
+              <div class="v" id="dispSemnare">—</div>
+            </div>
+            <div class="auto-chip">
+              <div class="k">Data începerii activității</div>
+              <div class="v" id="dispInceperii">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP: ID -->
+      <div class="stop-rail"><div class="stop-marker" data-marker="3">4</div><div class="line"></div></div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 4</div>
+          <div class="stop-title">Cartea de identitate</div>
+          <div class="stop-sub">Fă câte o fotografie clară și lizibilă pentru fiecare față.</div>
+        </div>
+        <div class="card">
+          <div class="upload-grid">
+            <label class="dropzone" id="dz-front">
+              <input type="file" accept="image/*" name="id_front" required>
+              <div class="lbl">Fața</div>
+              <div class="sub">Fotografie, date personale</div>
+            </label>
+            <label class="dropzone" id="dz-back">
+              <input type="file" accept="image/*" name="id_back" required>
+              <div class="lbl">Verso</div>
+              <div class="sub">Adresă, semnătură</div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP: review -->
+      <div class="stop-rail"><div class="stop-marker" data-marker="4">5</div></div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 5 — ultimul pas</div>
+          <div class="stop-title">Verificare &amp; trimitere</div>
+          <div class="stop-sub">Sistemul generează contractul .docx completat și îl trimite prin e-mail împreună cu cartea de identitate.</div>
+        </div>
+        <div class="card">
+          <div class="review-list" id="reviewList"></div>
+          <div class="actions">
+            <button type="submit" class="btn-primary" id="btnSend">Generează și trimite contractul</button>
+            <button type="button" class="btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>
+          </div>
+          <div class="status" id="statusBox"></div>
+        </div>
+      </section>
+    </div>
+  </form>
+</div>
+
+<footer>
+  <p>Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">BiF web solutions</a> &copy; 2026</p>
+  <img src="/Media/LOGO.png" alt="drop fleet" width="15%">
+</footer>
+
+<script src="https://unpkg.com/pizzip@3.1.7/dist/pizzip.js"></script>
+<script src="https://unpkg.com/docxtemplater@3.50.0/build/docxtemplater.js"></script>
+<script src="templates.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

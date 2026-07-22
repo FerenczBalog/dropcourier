@@ -3,19 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DROP</title>
+<title>DROP fleet — Cerere de contract Tasku</title>
+
+<link rel="icon" type="image/png" href="/Favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/Favicon/favicon.svg" />
+<link rel="shortcut icon" href="/Favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/Favicon/apple-touch-icon.png" />
+<link rel="manifest" href="/Favicon/site.webmanifest" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
 
 <header class="hero">
   <div class="hero-inner">
-    <div class="logo-mark"><b>drop</b></div>
+    <div class="logo-mark"><img src="Media/DROP-LOGO-BLUE.svg" alt="DROP fleet" width="15%"></div>
     <h1>Depune cererea pentru contractul tău,<br><span>Tasku.</span></h1>
-    <p>Alege tipul de colaborare, completează datele tale, iar sistemul generează automat contractul completat și îl trimite spre aprobare.</p>
+    <p>Alege tipul de colaborare, completează datele tale și trimitel spre aprobare.</p>
   </div>
 </header>
 
@@ -83,38 +89,14 @@
 
     <div class="route">
 
-      <!-- STOP: ID -->
-      <div class="stop-rail"><div class="stop-marker" data-marker="1">2</div><div class="line"></div></div>
-      <section class="stop">
-        <div class="stop-head">
-          <div class="stop-kicker">Pasul 2</div>
-          <div class="stop-title">Cartea de identitate</div>
-        </div>
-        <div class="card">
-          <div class="upload-grid">
-            <label class="dropzone" id="dz-front">
-              <input type="file" accept="image/*" name="id_front" required>
-              <div class="lbl">Fața</div>
-              <div class="sub">Fotografie, date personale</div>
-            </label>
-            <label class="dropzone" id="dz-back">
-              <input type="file" accept="image/*" name="id_back" required>
-              <div class="lbl">Verso</div>
-              <div class="sub">Adresă, semnătură</div>
-            </label>
-          </div>
-          <div class="ocr-status" id="ocrStatus"></div>
-        </div>
-      </section>
-
       <!-- STOP: fields (mode-dependent) -->
-      <div class="stop-rail"><div class="stop-marker" data-marker="2">3</div><div class="line"></div></div>
+      <div class="stop-rail"><div class="stop-marker" data-marker="1">2</div><div class="line"></div></div>
       <section class="stop">
 
         <!-- PFA FIELDS -->
         <div id="pfaFields" class="mode-fields hidden">
           <div class="stop-head">
-            <div class="stop-kicker">Pasul 3</div>
+            <div class="stop-kicker">Pasul 2</div>
             <div class="stop-title">Datele firmei (PRESTATOR)</div>
             <div class="stop-sub">Acestea vor fi introduse în contract ca date ale părții care prestează serviciile.</div>
           </div>
@@ -155,22 +137,22 @@
         <!-- CIM FIELDS -->
         <div id="cimFields" class="mode-fields hidden">
           <div class="stop-head">
-            <div class="stop-kicker">Pasul 3</div>
+            <div class="stop-kicker">Pasul 2</div>
             <div class="stop-title">Datele tale (SALARIAT)</div>
-            <div class="stop-sub"></div>
+            <div class="stop-sub">Acestea vor fi introduse în contractul individual de muncă și în fișa postului.</div>
           </div>
           <div class="card">
             <div class="grid2">
               <div class="field span2">
-                <label>Nume și prenume <span class="opt"></span></label>
+                <label>Nume și prenume</label>
                 <input type="text" data-group="cim" name="nume_salariat" placeholder="ex. Popescu Andrei">
               </div>
               <div class="field span2">
-                <label>Domiciliul (adresa completă) <span class="opt"></span></label>
+                <label>Domiciliul (adresa completă)</label>
                 <input type="text" data-group="cim" name="domiciliu_salariat" placeholder="ex. București, Sector 2, Str. Exemplu nr. 5">
               </div>
               <div class="field">
-                <label>CNP <span class="opt"></span></label>
+                <label>CNP</label>
                 <input type="text" data-group="cim" name="cnp_salariat" placeholder="ex. 1900101123456" inputmode="numeric">
               </div>
               <div class="field">
@@ -178,19 +160,19 @@
                 <input type="text" data-group="cim" name="iban_salariat" placeholder="ex. RO00XXXX0000000000000000">
               </div>
               <div class="field">
-                <label>Seria CI <span class="opt"></span></label>
+                <label>Seria CI</label>
                 <input type="text" data-group="cim" name="serie_ci" placeholder="ex. RT">
               </div>
               <div class="field">
-                <label>Numărul CI <span class="opt"></span></label>
+                <label>Numărul CI</label>
                 <input type="text" data-group="cim" name="numar_ci" placeholder="ex. 123456">
               </div>
               <div class="field">
-                <label>Eliberată de <span class="opt"></span></label>
+                <label>Eliberată de</label>
                 <input type="text" data-group="cim" name="eliberat_de" placeholder="ex. SPCLEP Sector 3">
               </div>
               <div class="field">
-                <label>Data eliberării CI <span class="opt"></span></label>
+                <label>Data eliberării CI</label>
                 <input type="text" data-group="cim" name="data_eliberare_ci" placeholder="ex. 12.03.2021">
               </div>
             </div>
@@ -201,16 +183,22 @@
           <label>E-mail de contact <span class="opt">(nu apare în contract, doar pentru răspuns)</span></label>
           <input type="email" name="contact_email" placeholder="tu@email.com">
         </div>
+
+        <div class="field">
+          <label>Număr de telefon <span class="opt">(doar pentru contact)</span></label>
+          <input type="tel" name="contact_phone" placeholder="ex. 07xxxxxxxx">
+        </div>
       </section>
 
       <!-- STOP: contract data -->
-      <div class="stop-rail"><div class="stop-marker" data-marker="3">4</div><div class="line"></div></div>
+      <div class="stop-rail"><div class="stop-marker" data-marker="2">3</div><div class="line"></div></div>
       <section class="stop">
         <div class="stop-head">
-          <div class="stop-kicker">Pasul 4</div>
+          <div class="stop-kicker">Pasul 3</div>
           <div class="stop-title">Datele contractului</div>
+          <div class="stop-sub">Datele se completează automat cu ziua de azi — activitatea începe la 3 zile de la semnare.</div>
         </div>
-        <div class="card">        
+        <div class="card">
           <div class="auto-row">
             <div class="auto-chip">
               <div class="k">Data semnării</div>
@@ -220,6 +208,30 @@
               <div class="k">Data începerii activității</div>
               <div class="v" id="dispInceperii">—</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP: ID -->
+      <div class="stop-rail"><div class="stop-marker" data-marker="3">4</div><div class="line"></div></div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 4</div>
+          <div class="stop-title">Cartea de identitate</div>
+          <div class="stop-sub">Fă câte o fotografie clară și lizibilă pentru fiecare față.</div>
+        </div>
+        <div class="card">
+          <div class="upload-grid">
+            <label class="dropzone" id="dz-front">
+              <input type="file" accept="image/*" name="id_front" required>
+              <div class="lbl">Fața</div>
+              <div class="sub">Fotografie, date personale</div>
+            </label>
+            <label class="dropzone" id="dz-back">
+              <input type="file" accept="image/*" name="id_back" required>
+              <div class="lbl">Verso</div>
+              <div class="sub">Adresă, semnătură</div>
+            </label>
           </div>
         </div>
       </section>
@@ -234,7 +246,6 @@
         </div>
         <div class="card">
           <div class="review-list" id="reviewList"></div>
-
           <div class="actions">
             <button type="submit" class="btn-primary" id="btnSend">Generează și trimite contractul</button>
             <button type="button" class="btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>
@@ -247,14 +258,13 @@
 </div>
 
 <footer>
-  Trimiterea se face prin serviciul <b>formsubmit.co</b>, direct din browserul tău — serverul nostru nu stochează datele tale.<br>
-  Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">PiF web solutions</a> &copy; 2026
+  <p>Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">BiF web solutions</a> &copy; 2026</p>
+  <img src="/Media/LOGO.png" alt="drop fleet" width="15%">
 </footer>
 
 <script src="https://unpkg.com/pizzip@3.1.7/dist/pizzip.js"></script>
 <script src="https://unpkg.com/docxtemplater@3.50.0/build/docxtemplater.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="templates.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>

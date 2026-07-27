@@ -259,7 +259,7 @@ const TEMPLATE_B64_PFA = "UEsDBBQACAgIAFQ39lwAAAAAAAAAAAAAAAAQAAAAd29yZC9oZWFkZX
 
   function collectData(){
     const currentNum = getNextContractNumber();
-    const nrFormatted = `înregistrat sub nr. ${currentNum} din data de ${dataSemnare}`;
+    const nrFormatted = `${currentNum}`;
 
     if(mode==='pfa'){
       return {

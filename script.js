@@ -86,7 +86,7 @@ const TEMPLATE_B64_CIM = "UEsDBBQACAgIAE039lwAAAAAAAAAAAAAAAAQAAAAd29yZC9oZWFkZX
         dz.appendChild(fname);
       };
       reader.readAsDataURL(file);
-      refreshMarkers();
+      refreshMarkers(); 
     });
   }
   wireDropzone('dz-front');

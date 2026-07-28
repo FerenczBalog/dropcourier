@@ -4,7 +4,7 @@
   --ink: #0B0C0E;
   --ink-soft: #5B616B;
   --line: rgba(11, 12, 14, 0.10);
-  --accent: #1A56FF;
+  --accent: #1CA8EB;
   --accent-ink: #FFFFFF;
   --accent-soft: #EAF0FF;
   --surface: #FFFFFF;
@@ -132,7 +132,7 @@ nav ul li a:hover {
   font-size: 48px;
   font-weight: 700;
   margin: 0 0 20px 0;
-  color: rgb(74, 189, 247)
+  color: var(--accent);
 }
 
 .hero-text p {

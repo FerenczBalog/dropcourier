@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>2FA Beállítása</title>
+    <style>
+        .setup-container {
+            font-family: sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        #qrImage {
+            margin: 20px 0;
+            width: 200px;
+            height: 200px;
+        }
+        .secret-key {
+            font-family: monospace;
+            background: #f4f4f4;
+            padding: 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="setup-container">
+    <h2>Kétlépcsős azonosítás beállítása</h2>
+    <p>Olvasd be az alábbi QR-kódot a Google Authenticator alkalmazással:</p>
+    
+    <!-- Ide töltődik be a szerver által generált QR-kód -->
+    <img id="qrImage" src="" alt="QR-kód betöltése...">
+
+    <p>Ha nem tudod beolvasni, add meg ezt a kulcsot kézzel:</p>
+    <div class="secret-key" id="secretText">Betöltés...</div>
+</div>
+
+<script>
+    // Lekérjük a szervertől a generált QR-kódot
+    async function fetch2FASetup() {
+        try {
+            const response = await fetch('/api/setup-2fa');
+            const data = await response.json();
+
+            // Kép és szöveges kulcs beállítása a DOM-ban
+            document.getElementById('qrImage').src = data.qrCode;
+            document.getElementById('secretText').innerText = data.secret;
+        } catch (error) {
+            console.error('Hiba a betöltéskor:', error);
+        }
+    }
+
+    fetch2FASetup();
+</script>
+
+</body>
+</html>

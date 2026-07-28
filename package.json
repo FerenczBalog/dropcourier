@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "express": "^5.2.1",
+    "otplib": "^13.4.1",
+    "qrcode": "^1.5.4"
+  }
+}

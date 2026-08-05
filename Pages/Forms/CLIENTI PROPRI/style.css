@@ -125,8 +125,16 @@ h1 {
   color: var(--ink);
 }
 
-h1 span {
+.hero-inner span {
   color: var(--accent);
+}
+
+hero h1 {
+  font-size: 32px;
+}
+
+.hero-inner > p span {
+  font-weight: 600;
 }
 
 .hero p {

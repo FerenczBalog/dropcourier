@@ -145,6 +145,16 @@
                   <label>Numele reprezentantului legal</label>
                   <input type="text" data-group="pfa" name="reprezentant_prestator" placeholder="ex. Ionescu Andrei">
                 </div>
+                <div class="field span2" style="margin-top: 8px;">
+                  <label>Certificat de Înregistrare (CUI)</label>
+                  <div class="upload-grid" style="margin-top:6px;">
+                    <label class="dropzone" id="dz-cui" style="grid-column: 1 / -1; min-height: 120px;">
+                      <input type="file" data-group="pfa" name="certificat_cui" required>
+                      <div class="lbl">Încarcă Certificatul de Înregistrare</div>
+                      <div class="sub">Se acceptă PDF, JPG, PNG</div>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -233,7 +243,7 @@
           </div>
         </section>
 
-        <!-- STOP 3: Személyi fotók -->
+        <!-- STOP 3: Személyi fotók & Lakcímigazolás -->
         <div class="stop-rail">
           <div class="stop-marker" data-marker="3">3</div>
           <div class="line"></div>
@@ -242,19 +252,28 @@
           <div class="stop-head">
             <div class="stop-kicker">Pasul 4</div>
             <div class="stop-title">Cartea de identitate</div>
-            <div class="stop-sub">Fă câte o fotografie clară și lizibilă pentru fiecare față.</div>
+            <div class="stop-sub">Fă câte o fotografie clară și lizibilă pentru fiecare document.</div>
           </div>
           <div class="card">
             <div class="upload-grid">
               <label class="dropzone" id="dz-front">
-                <input type="file" accept="image/*" name="id_front" required>
+                <input type="file" name="id_front" required>
                 <div class="lbl">Fața</div>
-                <div class="sub">Fotografie, date personale</div>
+                <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
               </label>
+
               <label class="dropzone" id="dz-back">
-                <input type="file" accept="image/*" name="id_back" required>
+                <input type="file" name="id_back" required>
                 <div class="lbl">Verso</div>
-                <div class="sub">Adresă, semnătură</div>
+                <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
+                <div class="sub" style="color:#f04438; font-size: 11px; margin-top: 4px;">Este nevoie doar în cazul actelor de identitate noi, cu cip.</div>
+              </label>
+
+              <label class="dropzone" id="dz-address">
+                <input type="file" name="AddressProof">
+                <div class="lbl">Dovadă de reședință</div>
+                <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
+                <div class="sub" style="color:#f04438; font-size: 11px; margin-top: 4px;">Este nevoie doar în cazul actelor de identitate noi, cu cip.</div>
               </label>
             </div>
           </div>

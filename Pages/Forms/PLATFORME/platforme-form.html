@@ -15,19 +15,27 @@
 </head>
 <body>
 
-  <header>
-    <div class="logo-mark">
-      <img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet">
-    </div>
-    <nav>
-      <ul>
-        <li><a href="/index.html">Acasa</a></li>
-        <li><a href="/Pages/Despre-noi.html">Despre noi</a></li>
-        <li><a href="/Pages/Colaborare.html">Colaborare</a></li>
-        <li><a href="/Pages/Contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+<header>
+  <div class="logo-mark">
+    <a href="/index.html"><img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet"></a>
+  </div>
+
+  <!-- Hamburger ikonos gomb mobilon -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Deschide meniul">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav id="navMenu">
+    <ul>
+      <li><a href="/index.html">Acasa</a></li>
+      <li><a href="/Pages/Despre-noi.html">Despre noi</a></li>
+      <li><a href="/Pages/Colaborare.html">Colaborare</a></li>
+      <li><a href="/Pages/Contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
 
   <section class="hero">
     <div class="hero-inner">
@@ -418,6 +426,28 @@
     <p>Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">BiF web solutions</a> &copy; 2026</p>
     <img src="/Media/LOGO.png" alt="drop fleet" width="120">
   </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMenu = document.getElementById('navMenu');
+
+    if (hamburgerBtn && navMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('open');
+        navMenu.classList.toggle('open');
+      });
+
+      // Menü bezárása, ha a felhasználó rákattint egy navigációs linkre
+      document.querySelectorAll('nav ul li a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburgerBtn.classList.remove('open');
+          navMenu.classList.remove('open');
+        });
+      });
+    }
+  });
+</script>
 
   <script src="https://unpkg.com/pizzip@3.1.7/dist/pizzip.js"></script>
   <script src="https://unpkg.com/docxtemplater@3.50.0/build/docxtemplater.js"></script>

@@ -822,7 +822,7 @@ footer p {
   }
   
   .parallelogram {
-    transform: skewX(0deg);
+    transform: skewX(-10deg);
   }
 
   .parallelogram a {

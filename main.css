@@ -1,0 +1,233 @@
+:root {
+  --bg: #FFFFFF;
+  --bg-soft: #F5F7FA; 
+  --ink: #0B0C0E;
+  --ink-soft: #5B616B;
+  --line: rgba(11, 12, 14, 0.10);
+  --accent: #1CA8EB;
+  --accent-blue: #2490FD;
+  --accent-soft: #EAF0FF;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-top: 100px;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+/* CÍMSOROK (LOGÓHOZ ILLŐ BALOO 2) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Baloo 2', cursive, sans-serif;
+  margin-top: 0;
+}
+
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 24px 120px;
+}
+
+/* ---------- HEADER & NAV ---------- */
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+
+.logo-mark {
+  margin: 0;
+  padding: 0;
+}
+
+.logo-mark img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+nav ul li a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: var(--accent);
+}
+
+/* ---------- GOMBOK ---------- */
+.cta-button, .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-blue);
+  color: #ffffff;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(36, 144, 253, 0.3);
+  transition: all 0.2s ease;
+}
+
+.cta-button:hover, .btn-primary:hover {
+  background-color: #1a78d6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(36, 144, 253, 0.4);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  height: calc(100vh - 100px);
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('/Media/486525179_1621459291947662_9026406712776786859_n.jpg') no-repeat center center / cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.65);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 720px;
+  padding: 0 24px;
+  color: #ffffff;
+}
+
+.hero-content h1 {
+  font-size: 56px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  color: var(--accent);
+}
+
+.hero-content p {
+  font-size: 20px;
+  margin-bottom: 32px;
+  opacity: 0.95;
+  line-height: 1.6;
+}
+
+/* ---------- SZEKCIÓK (KÉK - FEHÉR VÁLTAKOZÁS) ---------- */
+.servicii-section, .avantaje-section, .about-section.bg-blue {
+  background: var(--accent-blue);
+  color: #ffffff;
+  padding: 80px 0;
+}
+
+.servicii-intro h1, .header-avantaje h2, .about-section.bg-blue h1 {
+  color: #ffffff;
+}
+
+.serviciu-card, .avantaj-card, .bg-blue .value-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.serviciu-card:hover, .avantaj-card:hover, .bg-blue .value-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.clienti-section, .callTOapply, .about-section.bg-soft {
+  background: var(--bg-soft);
+  padding: 80px 0;
+}
+
+/* ---------- SUPPORTED BY ---------- */
+.supportedBy {
+  background: var(--accent-blue);
+  color: #ffffff;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.supportedBy-header { max-width: 840px; margin: 0 auto 36px; }
+.supportedBy-header h2 { font-size: 16px; font-weight: 500; line-height: 1.6; margin: 0; color: #ffffff; }
+.supportedBy-content { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
+.supportedBy-content img { max-width: 140px; height: auto; }
+
+/* ---------- FOOTER ---------- */
+footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  padding: 30px 24px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-top: 40px;
+}
+
+footer img { height: 40px; width: auto; }
+footer a { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 1024px) {
+  header { padding: 0 20px; }
+  nav ul { gap: 20px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+}

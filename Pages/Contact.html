@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DROP fleet — Home</title>
+<title>DROP fleet — Contact</title>
 
 <link rel="icon" type="image/png" href="/Favicon/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="/Favicon/favicon.svg" />
@@ -12,13 +12,17 @@
 <link rel="manifest" href="/Favicon/site.webmanifest" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/main.css">
+<link rel="stylesheet" href="/Pages/style.css">
 </head>
 <body>
 
 <header>
-    <div class="logo-mark"><img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet" width="200%"></div>
+    <div class="logo-mark">
+      <a href="/index.html"><img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet"></a>
+    </div>
 
     <div>
       <nav>
@@ -26,16 +30,144 @@
           <li><a href="/index.html">Acasa</a></li>
           <li><a href="/Pages/Despre-noi.html">Despre noi</a></li>
           <li><a href="/Pages/Colaborare.html">Colaborare</a></li>
-          <li><a href="/Pages/Contact.html">Contact</a></li>
+          <li><a href="/Pages/Contact.html" class="active">Contact</a></li>
         </ul>
       </nav>
     </div>
 </header>
 
-<h1>CONTACT</h1>
-
-<section class="supportedBy">
+<main class="wrap">
   
+  <!-- HERO SECTION -->
+  <section class="contact-hero">
+    <h1>Ne-ar plăcea să ne auzim!</h1>
+    <p>Ne poți scrie pentru orice întrebare legată de serviciile noastre, colaborare sau suport. Completează formularul de mai jos sau folosește datele noastre de contact din orașul tău.</p>
+  </section>
+
+  <!-- MAIN CONTACT CONTENT -->
+  <section class="contact-grid">
+    
+    <!-- BAL OLDAL: SZÉKHELY + VÁROSONKÉNTI KONTAKTOK -->
+    <div class="contact-info-block">
+
+      <!-- VÁROSONKÉNTI KONTAKTOK -->
+      <div class="info-group">
+        <h2>Contacte regionale pe orașe</h2>
+
+        <div class="city-contacts-grid">
+
+          <!-- Cluj-Napoca -->
+          <div class="city-card">
+            <h3>Cluj-Napoca</h3>
+            <span class="contact-person">Balog Ferencz</span>
+            <p><strong>Email:</strong> <a href="mailto:cluj@dropcourier.ro">cluj@dropcourier.ro</a></p>
+            <p><strong>Tel:</strong> <a href="tel:+40753903370">+40 753 903 370</a></p>
+          </div>
+
+          <!-- Târgu Mureș -->
+          <div class="city-card">
+            <h3>Târgu Mureș</h3>
+            <span class="contact-person">Balog Ferencz</span>
+            <p><strong>Email:</strong> <a href="mailto:tg.mures@dropcourier.ro">tg.mures@dropcourier.ro</a></p>
+            <p><strong>Tel:</strong> <a href="tel:+40753903370">+40 753 903 370</a></p>
+          </div>
+
+          <!-- Timișoara -->
+          <div class="city-card">
+            <h3>Timișoara</h3>
+            <span class="contact-person">Dan</span>
+            <p><strong>Email:</strong> <a href="mailto:timisoara@dropcourier.ro">timisoara@dropcourier.ro</a></p>
+            <p><strong>Tel:</strong> <a href="tel:+40747757300">+40 747 757 300</a></p>
+          </div>
+
+          <!-- București -->
+          <div class="city-card">
+            <h3>București</h3>
+            <span class="contact-person">Cristian Ionescu</span>
+            <p><strong>Email:</strong> <a href="mailto:bucuresti@dropcourier.ro">bucuresti@dropcourier.ro</a></p>
+            <p><strong>Tel:</strong> <a href="tel:+40741265655">+40 741 265 655</a></p>
+          </div>
+
+          <!-- Oradea -->
+          <div class="city-card">
+            <h3>Oradea</h3>
+            <span class="contact-person">Tomi</span>
+            <p><strong>Email:</strong> <a href="mailto:oradea@dropcourier.ro">oradea@dropcourier.ro</a></p>
+            <p><strong>Tel:</strong> <a href="tel:+40726333448">+40 726 333 448</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL LINKS -->
+      <div class="info-group">
+        <h2>Urmărește-ne</h2>
+        <div class="social-links-row">
+          <a href="https://www.facebook.com/dropcourier" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://www.instagram.com/dropcourier" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.linkedin.com/company/dropcourier" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- JOBB OLDAL: FORMSUBMIT KAPCSOLATFELVÉTELI ŰRLAP -->
+    <div class="contact-form-block">
+      <h2>Trimite-ne un mesaj</h2>
+      
+      <form class="contact-form" action="https://formsubmit.co/office@dropcourier.ro" method="POST">
+        
+        <!-- FormSubmit Beállítások -->
+        <input type="text" name="_honey" style="display:none">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="Mesaj nou de pe Drop Courier (Contact)">
+        <input type="hidden" name="_next" value="https://www.dropcourier.ro/Pages/Thank-you.html">
+
+        <div class="form-group">
+          <label for="name">Nume complet *</label>
+          <input type="text" id="name" name="Nume" placeholder="Numele și prenumele tău" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="Email" placeholder="adresa@de-email.ro" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefon</label>
+          <input type="tel" id="phone" name="Telefon" placeholder="+40 7xx xxx xxx">
+        </div>
+
+        <div class="form-group">
+          <label for="city">Orașul tău</label>
+          <select id="city" name="Oras" class="form-select">
+            <option value="Cluj-Napoca">Cluj-Napoca</option>
+            <option value="Timișoara">Timișoara</option>
+            <option value="Oradea">Oradea</option>
+            <option value="București">București</option>
+            <option value="TgMureș">Tg. Mureș</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subiect *</label>
+          <input type="text" id="subject" name="Subiect" placeholder="Despre ce este vorba?" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Mesaj *</label>
+          <textarea id="message" name="Mesaj" rows="5" placeholder="Scrie mesajul tău aici..." required></textarea>
+        </div>
+
+        <button type="submit" class="cta-button submit-btn">Trimite mesajul</button>
+      </form>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- SUPPORTED BY SECTION -->
+<section class="supportedBy">  
   <div class="supportedBy-header">
     <h2>Our activity is supported by inVest – Urban Mobility Accelerator, 
       a programme co-funded by EIT Urban Mobility and ADR Vest. EIT Urban 
@@ -45,15 +177,15 @@
   </div>
 
   <div class="supportedBy-content">
-    <img src="/Media/clienti/INVEST.png" alt="inVest" width="30%">
-    <img src="/Media/clienti/EU.png" alt="EIT Urban Mobility" width="30%">
-    <img src="/Media/clienti/ADRVEST.png" alt="ADR Vest" width="30%">
+    <img src="/Media/clienti/INVEST.png" alt="inVest">
+    <img src="/Media/clienti/EU.png" alt="EIT Urban Mobility">
+    <img src="/Media/clienti/ADRVEST.png" alt="ADR Vest">
   </div>
 </section>
 
 <footer>
   <p>Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">BiF web solutions</a> &copy; 2026</p>
-  <img src="/Media/LOGO.png" alt="drop fleet" width="15%">
+  <img src="/Media/LOGO.png" alt="drop fleet">
 </footer>
 
 </body>

@@ -20,19 +20,35 @@ const TEMPLATE_DECLARATIE = "UEsDBBQACAgIADYhBV0AAAAAAAAAAAAAAAASAAAAd29yZC9udW1
 
   let mode = null; // 'pfa' | 'cim'
 
-  // ---------- Szerződésszám generáló ----------
-  function getNextContractNumber() {
-    let currentNum = parseInt(localStorage.getItem('last_contract_number'), 10);
-    if (isNaN(currentNum) || currentNum < 427) {
-      currentNum = 427;
-      localStorage.setItem('last_contract_number', currentNum);
+ // ---------- Szerződésszám generáló (API-alapú) ----------
+  async function getNextContractNumber() {
+    try {
+      // Lekérjük a jelenlegi globális számlálót
+      const res = await fetch('https://api.countapi.xyz/get/dropfleet_contracts/contract_nr');
+      const data = await res.json();
+      let currentNum = data.value;
+      if (!currentNum || currentNum < 438) {
+        // Ha még nem létezik, beállítjuk 438-ra
+        const setRes = await fetch('https://api.countapi.xyz/set/dropfleet_contracts/contract_nr?value=427');
+        const setData = await setRes.json();
+        return setData.value;
+      }
+      return currentNum;
+    } catch (e) {
+      // Tartalék (fallback) localStorage, ha az API nem elérhető
+      let currentNum = parseInt(localStorage.getItem('last_contract_number'), 10);
+      return (isNaN(currentNum) || currentNum < 438) ? 438 : currentNum;
     }
-    return currentNum;
   }
 
-  function incrementContractNumber() {
-    const currentNum = getNextContractNumber();
-    localStorage.setItem('last_contract_number', currentNum + 1);
+  async function incrementContractNumber() {
+    try {
+      // Globálisan növeljük a számlálót 1-gyel a sikeres küldés után
+      await fetch('https://api.countapi.xyz/hit/dropfleet_contracts/contract_nr');
+    } catch (e) {
+      const currentNum = parseInt(localStorage.getItem('last_contract_number'), 10) || 438;
+      localStorage.setItem('last_contract_number', currentNum + 1);
+    }
   }
 
   // ---------- Dátumok ----------

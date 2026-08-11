@@ -65,7 +65,7 @@
           <div class="city-card">
             <h3>Cluj-Napoca</h3>
             <span class="contact-person">Balog Ferencz</span>
-            <p><strong>Email:</strong> <a href="mailto:cluj@dropcourier.ro">cluj@dropcourier.ro</a></p>
+            <p><strong>Email:</strong> <a href="mailto:balogferencz.artist@gmail.com">cluj@dropcourier.ro</a></p>
             <p><strong>Tel:</strong> <a href="tel:+40753903370">+40 753 903 370</a></p>
           </div>
 
@@ -73,7 +73,7 @@
           <div class="city-card">
             <h3>Târgu Mureș</h3>
             <span class="contact-person">Balog Ferencz</span>
-            <p><strong>Email:</strong> <a href="mailto:tg.mures@dropcourier.ro">tg.mures@dropcourier.ro</a></p>
+            <p><strong>Email:</strong> <a href="mailto:balogferencz.artist@gmail.com">tg.mures@dropcourier.ro</a></p>
             <p><strong>Tel:</strong> <a href="tel:+40753903370">+40 753 903 370</a></p>
           </div>
 
@@ -81,7 +81,7 @@
           <div class="city-card">
             <h3>Timișoara</h3>
             <span class="contact-person">Dan</span>
-            <p><strong>Email:</strong> <a href="mailto:timisoara@dropcourier.ro">timisoara@dropcourier.ro</a></p>
+            <p><strong>Email:</strong> <a href="mailto:contact@eastride.ro">timisoara@dropcourier.ro</a></p>
             <p><strong>Tel:</strong> <a href="tel:+40747757300">+40 747 757 300</a></p>
           </div>
 
@@ -89,7 +89,7 @@
           <div class="city-card">
             <h3>București</h3>
             <span class="contact-person">Cristian Ionescu</span>
-            <p><strong>Email:</strong> <a href="mailto:bucuresti@dropcourier.ro">bucuresti@dropcourier.ro</a></p>
+            <p><strong>Email:</strong> <a href="mailto:cristian@eastride.ro">bucuresti@dropcourier.ro</a></p>
             <p><strong>Tel:</strong> <a href="tel:+40741265655">+40 741 265 655</a></p>
           </div>
 
@@ -97,7 +97,7 @@
           <div class="city-card">
             <h3>Oradea</h3>
             <span class="contact-person">Tomi</span>
-            <p><strong>Email:</strong> <a href="mailto:oradea@dropcourier.ro">oradea@dropcourier.ro</a></p>
+            <p><strong>Email:</strong> <a href="mailto:arpad@eastride.ro">oradea@dropcourier.ro</a></p>
             <p><strong>Tel:</strong> <a href="tel:+40726333448">+40 726 333 448</a></p>
           </div>
         </div>
@@ -119,13 +119,12 @@
     <div class="contact-form-block">
       <h2>Trimite-ne un mesaj</h2>
       
-      <form class="contact-form" action="https://formsubmit.co/office@dropcourier.ro" method="POST">
-        
+      <form id="contactForm" class="contact-form" action="https://formsubmit.co/cluj@dropcourier.ro" method="POST">        
         <!-- FormSubmit Beállítások -->
         <input type="text" name="_honey" style="display:none">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_subject" value="Mesaj nou de pe Drop Courier (Contact)">
-        <input type="hidden" name="_next" value="https://www.dropcourier.ro/Pages/Thank-you.html">
+        <input type="hidden" name="_next" value="http://192.168.0.143:5500/Pages/ThankYou.html">
 
         <div class="form-group">
           <label for="name">Nume complet *</label>
@@ -138,18 +137,18 @@
         </div>
 
         <div class="form-group">
-          <label for="phone">Telefon</label>
-          <input type="tel" id="phone" name="Telefon" placeholder="+40 7xx xxx xxx">
+          <label for="phone">Telefon *</label>
+          <input type="tel" id="phone" name="Telefon" placeholder="+40 7xx xxx xxx" required>
         </div>
 
         <div class="form-group">
           <label for="city">Orașul tău</label>
           <select id="city" name="Oras" class="form-select">
-            <option value="Cluj-Napoca">Cluj-Napoca</option>
-            <option value="Timișoara">Timișoara</option>
-            <option value="Oradea">Oradea</option>
-            <option value="București">București</option>
-            <option value="TgMureș">Tg. Mureș</option>
+            <option value="balogferencz.artist@gmail.com">Cluj-Napoca</option>
+            <option value="contact@eastride.ro">Timișoara</option>
+            <option value="arpad@eastride.ro">Oradea</option>
+            <option value="cristian@eastride.ro">București</option>
+            <option value="balogferencz.artist@gmail.com">Tg. Mureș</option>
           </select>
         </div>
 
@@ -195,6 +194,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Hamburger menü logika
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const navMenu = document.getElementById('navMenu');
 
@@ -204,7 +204,6 @@
         navMenu.classList.toggle('open');
       });
 
-      // Menü bezárása, ha a felhasználó rákattint egy navigációs linkre
       document.querySelectorAll('nav ul li a').forEach(link => {
         link.addEventListener('click', () => {
           hamburgerBtn.classList.remove('open');
@@ -212,8 +211,27 @@
         });
       });
     }
+
+    // DINAMIKUS FORMSUBMIT EMAIL CÍM VÁLTÓ LOGIKA
+    const contactForm = document.getElementById('contactForm');
+    const citySelect = document.getElementById('city');
+
+    function updateFormAction() {
+      if (contactForm && citySelect) {
+        const selectedEmail = citySelect.value;
+        contactForm.action = `https://formsubmit.co/${selectedEmail}`;
+      }
+    }
+
+    if (citySelect) {
+      // Frissítés a kiválasztott város megváltoztatásakor
+      citySelect.addEventListener('change', updateFormAction);
+      
+      // Frissítés az oldal betöltésekor is (alapértelmezett opció beállítása)
+      updateFormAction();
+    }
   });
-</script> 
+</script>
 
 </body>
 </html>

@@ -21,6 +21,18 @@
     <div class="logo-mark">
       <img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet">
     </div>
+
+      <div class="logo-mark">
+    <a href="/index.html"><img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet"></a>
+    </div>
+
+    <!-- Hamburger ikonos gomb mobilon -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Deschide meniul">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
     <nav>
       <ul>
         <li><a href="https://www.dropcourier.ro/">Acasa</a></li>
@@ -38,10 +50,10 @@
     </div>
   </section>
 
-  <section class="info-section">
+ <section class="info-section">
     <div class="info-inner">
       <div class="info-kicker">Înainte de a aplica</div>
-      <div class="info-title">Informații importante</div>
+      <div class="info-title">Informații importante &amp; Ghid de calcul</div>
       <div class="info-grid">
 
         <div class="info-card">
@@ -55,17 +67,52 @@
           <p>Volumul de lucru minim obligatoriu este de <span class="figure">10 ore pe săptămână</span>.</p>
         </div>
 
-        <div class="info-card">
-          <h3><span class="tag">03</span>Detalii financiare</h3>
-          <p>Venitul se calculează pe baza unui tarif de <span class="figure">0,69 RON/SKU</span>, adică produs scanat. SKU se referă la unitatea de măsură pentru fiecare tip de produs.</p>
-          <p>Din venitul săptămânal se vor deduce:</p>
-          <ul>
-            <li><span class="figure">11 lei</span> pentru fiecare oră lucrată (reprezentând taxele de stat aferente contractului)</li>
-            <li>Un comision de administrare de <span class="figure">10%</span></li>
-          </ul>
+        <div class="info-card span2" style="grid-column: 1 / -1;">
+          <h3><span class="tag">03</span>Ghid de calcul al veniturilor pentru Taskeri</h3>
+          <p>Spre deosebire de un job clasic, veniturile tale pe platforma Tasku depind direct de performanța și eficiența ta din teren. Cu cât colectezi mai rapid și mai corect produsele, cu atât venitul tău pe oră va fi mai mare!</p>
+          
+          <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <b>1. Cum ești plătit? (Sistemul pe SKU)</b>
+              <p style="margin: 4px 0 0 0;">Plata se face la numărul de SKU-uri scanate (articole unice), nu la numărul de produse fizice din coș.</p>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;"><i>Exemplu: 6 sticle de apă Borsec de 1L reprezintă 1 singur SKU. 1 sticlă de apă Borsec și 1 pungă de pufuleți înseamnă 2 SKU-uri.</i></p>
+            </div>
+
+            <div>
+              <b>2. Cum monitorizezi numărul de SKU-uri? (⚠️ IMPORTANT)</b>
+              <p style="margin: 4px 0 0 0;">Numărul de SKU-uri scanate este înregistrat exclusiv în scannerul fizic primit de la magazinul Carrefour. Pentru a afla numărul exact de SKU-uri scanate, trimite un e-mail la: <a href="mailto:support@traxlo.com">support@traxlo.com</a>.</p>
+            </div>
+
+            <div>
+              <b>3. Tarife brute &amp; Estimare câștig</b>
+              <p style="margin: 4px 0 0 0;">Tariful este uniformizat la toate magazinele Carrefour la <span class="figure">0,69 RON/SKU</span>.</p>
+              <p style="margin: 4px 0 0 0;">Estimare: un tasker realizează în medie un venit brut de <span class="figure">25 - 40 RON / oră</span>.</p>
+            </div>
+
+            <div>
+              <b>4. Taxe și comisioane scăzute din Venitul Brut:</b>
+              <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+                <li>Comisionul flotei: <span class="figure">10%</span> din totalul brut realizat.</li>
+                <li>Taxele către stat: <span class="figure">11 RON</span> pentru fiecare oră de muncă pontată.</li>
+              </ul>
+            </div>
+
+            <div class="note-box" style="background: #f8f9fa; border-left: 4px solid #0056b3; padding: 10px 14px; margin-top: 6px;">
+              <b>5. Exemplu practic de calcul (Tură de 4 ore / 200 SKU-uri):</b><br>
+              • <b>Venit Brut:</b> 200 SKU x 0,69 RON = 138 RON brut<br>
+              • <b>După comision flotă (-10%):</b> 138 RON - 13,8 RON = 124,2 RON<br>
+              • <b>După taxe de muncă (-11 RON/h x 4h):</b> 124,2 RON - 44 RON = <b>80,2 RON NET</b> (~20 RON net/oră)
+            </div>
+
+            <div>
+              <b>6. Când primești banii? 💳</b>
+              <p style="margin: 4px 0 0 0;">Plățile se fac săptămânal, în fiecare zi de <b>vineri</b>, direct în contul tău bancar, pentru toate turele finalizate în săptămâna anterioară.</p>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;"><i>Exemplu: pentru turele efectuate între 1-7 ianuarie, plata se face vineri, 12 ianuarie.</i></p>
+            </div>
+          </div>
         </div>
 
-        <div class="info-card">
+        <div class="info-card" style="grid-column: 1 / -1;">
           <h3><span class="tag">04</span>Contact</h3>
           <p>Așteptăm documentele dumneavoastră pentru a demara procesul de angajare. Dacă aveți întrebări, vă stăm la dispoziție.</p>
           <a class="whatsapp-btn" href="https://wa.me/40753903370" target="_blank" rel="noopener">WhatsApp: 0753 903 370</a>

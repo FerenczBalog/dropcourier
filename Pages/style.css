@@ -329,7 +329,7 @@ nav ul li a.active::after {
   align-items: center;
   height: calc(100vh - 100px);
   position: relative;
-  background: url('/Media/photo/Hero_Colaborare.png') no-repeat center center;
+  background: url('/Media/photo/3.webp') no-repeat center center;
   background-size: cover;
 }
 

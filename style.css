@@ -237,7 +237,7 @@ nav ul li a.active::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('/Media/486525179_1621459291947662_9026406712776786859_n.jpg') no-repeat center center / cover;
+  background: url('/Media/photo/2.webp') no-repeat center center / cover;
 }
 
 .hero-overlay {

@@ -856,6 +856,10 @@ footer p {
   .contact-form-block {
     padding: 24px;
   }
+
+  .hero-colaborare {
+  display: none;
+}
 }
 
 /* ---------- UTILS ---------- */

@@ -288,56 +288,30 @@
     statusBox.innerHTML = html;
   }
 
-  // ---------- REJTETT FORM & IFRAME KÜLDŐ (POST hiba elkerülésére) ----------
-  function submitViaHiddenForm(actionUrl, fields, files) {
-    return new Promise((resolve) => {
-      const iframeName = 'fs_target_' + Date.now();
-      const iframe = document.createElement('iframe');
-      iframe.name = iframeName;
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+  // ---------- KÖZVETLEN FETCH KÜLDÉS (CORS-biztos) ----------
+  async function submitViaAjax(actionUrl, fields, files) {
+    const formData = new FormData();
 
-      const f = document.createElement('form');
-      f.method = 'POST';
-      f.action = actionUrl;
-      f.enctype = 'multipart/form-data';
-      f.target = iframeName;
-      f.style.display = 'none';
-
-      Object.keys(fields).forEach(name => {
-        const inp = document.createElement('input');
-        inp.type = 'hidden';
-        inp.name = name;
-        inp.value = fields[name];
-        f.appendChild(inp);
-      });
-
-      files.forEach(({ field, blob, filename }) => {
-        if (!blob) return;
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.name = field;
-        inp.style.display = 'none';
-        const dt = new DataTransfer();
-        dt.items.add(new File([blob], filename, { type: blob.type || 'application/octet-stream' }));
-        inp.files = dt.files;
-        f.appendChild(inp);
-      });
-
-      document.body.appendChild(f);
-
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        resolve();
-        setTimeout(() => { f.remove(); iframe.remove(); }, 1500);
-      };
-      iframe.addEventListener('load', finish);
-      setTimeout(finish, 9000);
-
-      f.submit();
+    Object.keys(fields).forEach(key => {
+      formData.append(key, fields[key]);
     });
+
+    files.forEach(({ field, blob, filename }) => {
+      if (blob) {
+        formData.append(field, blob, filename);
+      }
+    });
+
+    const response = await fetch(actionUrl, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error(`Szerver hiba: ${response.status}`);
+    }
+
+    return response;
   }
 
   function collectData(){
@@ -592,8 +566,8 @@
 
         setStatus('info', '<div class="spinner"></div><div>Se trimite (cu atașamente)…</div>');
 
-        // FormSubmit küldés rejtett form/iframe segítségével
-        await submitViaHiddenForm(`https://formsubmit.co/${TARGET_EMAIL}`, fields, files);
+        // Küldés FormSubmit felé CORS-mentesen
+        await submitViaAjax(`https://formsubmit.co/${TARGET_EMAIL}`, fields, files);
 
         // Szerver oldali sorszám növelése
         await incrementContractNumber();

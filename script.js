@@ -22,7 +22,6 @@
   const JSONBIN_BIN_ID = "6a7acfebf5f4af5e2905fcc3"; 
   const JSONBIN_API_KEY = "$2a$10$h4.WeaBJidVm/e.h54rtZ.5Jb4dFiRcOn5ZUMCKXN0YUL.0M571xe"; 
 
-  // Kezdőérték null, hogy tudjuk mikor töltött be az API
   let currentContractNumber = null;
 
   // ---------- Szerződésszám betöltése a szerverről ----------
@@ -41,12 +40,12 @@
       }
     } catch (err) {
       console.error("Nem sikerült lekérni a szerződésszámot:", err);
-      currentContractNumber = 439; // Tartalék szám hiba esetén
+      currentContractNumber = 439;
     }
     updateReview();
   }
 
-  // ---------- Szerződésszám növelése a szerveren (Sikeres beküldéskor) ----------
+  // ---------- Szerződésszám növelése ----------
   async function incrementContractNumber() {
     if (!currentContractNumber) return;
     try {
@@ -191,7 +190,6 @@
     if(!form) return;
     let rows = [];
 
-    // Ha még töltődik az API-ból a szám, ideiglenes kijelzés
     const displayNum = currentContractNumber ? currentContractNumber : 'se încarcă...';
     const formattedNrString = `înregistrat sub nr. ${displayNum} din data de ${dataSemnare}`;
     const selectedRadio = document.querySelector('input[name="situatie_og"]:checked');
@@ -199,21 +197,21 @@
     if(mode==='pfa'){
       rows = [
         ['Tip colaborare', 'PFA / SRL'],
-        ['Denumire firmă', form.denumire_prestator.value || '—'],
-        ['Sediu', form.sediu_prestator.value || '—'],
-        ['CUI', form.cui_prestator.value || '—'],
-        ['IBAN', form.iban_prestator.value || '—'],
-        ['Reprezentant legal', form.reprezentant_prestator.value || '—'],
+        ['Denumire firmă', (form.denumire_prestator && form.denumire_prestator.value) || '—'],
+        ['Sediu', (form.sediu_prestator && form.sediu_prestator.value) || '—'],
+        ['CUI', (form.cui_prestator && form.cui_prestator.value) || '—'],
+        ['IBAN', (form.iban_prestator && form.iban_prestator.value) || '—'],
+        ['Reprezentant legal', (form.reprezentant_prestator && form.reprezentant_prestator.value) || '—'],
         ['Certificat CUI', (form.certificat_cui && form.certificat_cui.files.length) ? '✓ încărcat' : '— lipsește']
       ];
     } else if(mode==='cim'){
       rows = [
         ['Tip colaborare', 'Contract individual de muncă'],
-        ['Nume și prenume', form.nume_salariat.value || '—'],
-        ['Domiciliu', form.domiciliu_salariat.value || '—'],
-        ['CNP', form.cnp_salariat.value || '—'],
-        ['IBAN', form.iban_salariat.value || '—'],
-        ['CI', (form.serie_ci.value||'—') + ' ' + (form.numar_ci.value||'')],
+        ['Nume și prenume', (form.nume_salariat && form.nume_salariat.value) || '—'],
+        ['Domiciliu', (form.domiciliu_salariat && form.domiciliu_salariat.value) || '—'],
+        ['CNP', (form.cnp_salariat && form.cnp_salariat.value) || '—'],
+        ['IBAN', (form.iban_salariat && form.iban_salariat.value) || '—'],
+        ['CI', ((form.serie_ci && form.serie_ci.value) || '—') + ' ' + ((form.numar_ci && form.numar_ci.value) || '')],
         ['Declarație OG 4/2017', selectedRadio ? '✓ Opțiune selectată' : '— Selectează o opțiune!']
       ];
     } else {
@@ -259,7 +257,7 @@
 
   function processFile(file, maxDim=1600, quality=0.82){
     return new Promise((resolve, reject)=>{
-      if(!file.type.startsWith('image/')) {
+      if(!file || !file.type || !file.type.startsWith('image/')) {
         resolve(file); 
         return;
       }
@@ -290,54 +288,34 @@
     statusBox.innerHTML = html;
   }
 
-  function submitViaHiddenForm(actionUrl, fields, files){
-    return new Promise((resolve)=>{
-      const iframeName = 'fs_target_' + Date.now();
-      const iframe = document.createElement('iframe');
-      iframe.name = iframeName;
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+  // ---------- ÚJ AJAX KÜLDŐ FÜGGVÉNY ----------
+  async function submitViaAjax(actionUrl, fields, files) {
+    const formData = new FormData();
 
-      const f = document.createElement('form');
-      f.method = 'POST';
-      f.action = actionUrl;
-      f.enctype = 'multipart/form-data';
-      f.target = iframeName;
-      f.style.display = 'none';
-
-      Object.keys(fields).forEach(name=>{
-        const inp = document.createElement('input');
-        inp.type = 'hidden';
-        inp.name = name;
-        inp.value = fields[name];
-        f.appendChild(inp);
-      });
-
-      files.forEach(({field, blob, filename})=>{
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.name = field;
-        inp.style.display = 'none';
-        const dt = new DataTransfer();
-        dt.items.add(new File([blob], filename, { type: blob.type || 'application/octet-stream' }));
-        inp.files = dt.files;
-        f.appendChild(inp);
-      });
-
-      document.body.appendChild(f);
-
-      let done = false;
-      const finish = ()=>{
-        if(done) return;
-        done = true;
-        resolve();
-        setTimeout(()=>{ f.remove(); iframe.remove(); }, 1500);
-      };
-      iframe.addEventListener('load', finish);
-      setTimeout(finish, 9000);
-
-      f.submit();
+    Object.keys(fields).forEach(key => {
+      formData.append(key, fields[key]);
     });
+
+    files.forEach(({ field, blob, filename }) => {
+      if (blob) {
+        formData.append(field, blob, filename);
+      }
+    });
+
+    const response = await fetch(actionUrl, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Szerver hiba: ${response.status}`);
+    }
+
+    return await response.json();
   }
 
   function collectData(){
@@ -411,7 +389,6 @@
     });
   }
 
-  // ---------- DECLARAȚIE DOCX GENERÁLÁS ----------
   function generateDeclaratieDocx(data) {
     const declaratieData = {
       nume_salariat: data.nume_salariat || '',
@@ -450,7 +427,7 @@
     return cleanBase.replace(/[^a-z0-9]+/gi, '_').toUpperCase();
   }
 
-  // ---------- Previzualizare (Doar descărcare) ----------
+  // ---------- Previzualizare ----------
   if(btnPreview) {
     btnPreview.addEventListener('click', ()=>{
       if(!mode){
@@ -551,7 +528,7 @@
 
         const files = [
           { field:'contract', blob: contractBlob, filename: `${mode==='cim' ? 'CIM' : 'Contract'}_${sName}.docx` },
-          { field:'carte_identitate_fata', blob: frontBlob, filename: `CI_fata_${sName}.${frontBlob.type==='application/pdf'?'pdf':'jpg'}` }
+          { field:'carte_identitate_fata', blob: frontBlob, filename: `CI_fata_${sName}.${frontBlob && frontBlob.type==='application/pdf'?'pdf':'jpg'}` }
         ];
 
         if (backBlob) {
@@ -593,53 +570,24 @@
 
         setStatus('info', '<div class="spinner"></div><div>Se trimite (cu atașamente)…</div>');
 
-       async function submitViaAjax(actionUrl, fields, files) {
-  const formData = new FormData();
-
-  // Szöveges mezők hozzáadása
-  Object.keys(fields).forEach(key => {
-    formData.append(key, fields[key]);
-  });
-
-  // Fájlok hozzáadása
-  files.forEach(({ field, blob, filename }) => {
-    if (blob) {
-      formData.append(field, blob, filename);
-    }
-  });
-
-  // Beküldés a FormSubmit AJAX végpontjára
-  const response = await fetch(actionUrl, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'Accept': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `Szerver hiba: ${response.status}`);
-  }
-
-  return await response.json();
-}
+        // Küldés AJAX-szal
+        await submitViaAjax(`https://formsubmit.co/ajax/${TARGET_EMAIL}`, fields, files);
 
         // Szerver oldali sorszám növelése
         await incrementContractNumber();
 
         setStatus('ok', `<div>✓ Cererea a fost trimisă cu succes! (Nr. contract: ${data.nr_contract || data.nr_contract_cim})</div>`);
-      }catch(err){
+      } catch(err) {
         console.error(err);
         setStatus('bad', `A apărut o eroare la trimitere: ${err.message}. Încearcă din nou sau folosește butonul „Doar descărcare” și trimite manual.`);
-      }finally{
+      } finally {
         if(btnSend) btnSend.disabled = false; 
         if(btnPreview) btnPreview.disabled = false;
       }
     });
   }
 
-  // INICIALIZÁLÁS: Először lekérjük a számot, és inicializáljuk a jelölőket
+  // INICIALIZÁLÁS
   fetchNextContractNumber();
   refreshMarkers();
 })();

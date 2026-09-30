@@ -18,6 +18,36 @@
 
   let mode = null; // 'pfa' | 'cim'
 
+// Ezt a függvényt használhatod mindhárom form script.js fájljában:
+async function submitViaNetlify(targetEmail, fields, files) {
+  const formData = new FormData();
+
+  // Szöveges mezők hozzáadása
+  Object.keys(fields).forEach(key => {
+    formData.append(key, fields[key]);
+  });
+
+  // Fájlok hozzáadása
+  files.forEach(({ field, blob, filename }) => {
+    if (blob) {
+      formData.append(field, blob, filename);
+    }
+  });
+
+  // Meghívjuk a gyökérben lévő Netlify API-t (relatív útvonal: /api/send-contract)
+  const response = await fetch(`/api/send-contract?target=${encodeURIComponent(targetEmail)}`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.message || `Hiba a beküldés során (${response.status})`);
+  }
+
+  return await response.json();
+}
+
   // ---------- JSONbin Konfiguráció ----------
   const JSONBIN_BIN_ID = "6a7acfebf5f4af5e2905fcc3"; 
   const JSONBIN_API_KEY = "$2a$10$h4.WeaBJidVm/e.h54rtZ.5Jb4dFiRcOn5ZUMCKXN0YUL.0M571xe"; 

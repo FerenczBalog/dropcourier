@@ -20,6 +20,36 @@
 
   let mode = null; // 'pfa' | 'cim'
 
+  // Ezt a függvényt használhatod mindhárom form script.js fájljában:
+async function submitViaNetlify(targetEmail, fields, files) {
+  const formData = new FormData();
+
+  // Szöveges mezők hozzáadása
+  Object.keys(fields).forEach(key => {
+    formData.append(key, fields[key]);
+  });
+
+  // Fájlok hozzáadása
+  files.forEach(({ field, blob, filename }) => {
+    if (blob) {
+      formData.append(field, blob, filename);
+    }
+  });
+
+  // Meghívjuk a gyökérben lévő Netlify API-t (relatív útvonal: /api/send-contract)
+  const response = await fetch(`/api/send-contract?target=${encodeURIComponent(targetEmail)}`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.message || `Hiba a beküldés során (${response.status})`);
+  }
+
+  return await response.json();
+}
+
   // ---------- VÁROS VÁLASZTÓ ÉS DINAMIKUS MEZŐK ----------
   function updateCityDetails() {
     if (!citySelect || typeof CITY_DATA === 'undefined') return;

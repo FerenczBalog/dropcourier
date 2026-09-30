@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/send-contract"
+  to = "/.netlify/functions/send-contract"
+  status = 200

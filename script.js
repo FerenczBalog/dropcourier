@@ -593,7 +593,37 @@
 
         setStatus('info', '<div class="spinner"></div><div>Se trimite (cu atașamente)…</div>');
 
-        await submitViaHiddenForm(`https://formsubmit.co/${TARGET_EMAIL}`, fields, files);
+       async function submitViaAjax(actionUrl, fields, files) {
+  const formData = new FormData();
+
+  // Szöveges mezők hozzáadása
+  Object.keys(fields).forEach(key => {
+    formData.append(key, fields[key]);
+  });
+
+  // Fájlok hozzáadása
+  files.forEach(({ field, blob, filename }) => {
+    if (blob) {
+      formData.append(field, blob, filename);
+    }
+  });
+
+  // Beküldés a FormSubmit AJAX végpontjára
+  const response = await fetch(actionUrl, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `Szerver hiba: ${response.status}`);
+  }
+
+  return await response.json();
+}
 
         // Szerver oldali sorszám növelése
         await incrementContractNumber();

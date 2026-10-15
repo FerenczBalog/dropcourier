@@ -5,15 +5,40 @@
   --ink-soft: #5B616B;
   --line: rgba(11, 12, 14, 0.10);
   --accent: #1CA8EB;
-  --accent-blue: #2490FD;
+  --accent-blue: #1CA8EB;
+  --accent-hover: #1796d4;
+  --accent-ink: #FFFFFF;
   --accent-soft: #EAF0FF;
+  --surface: #FFFFFF;
+  --surface-2: #F2F4F7;
+  --green: #10B981;
+  --green-soft: #D1FAE5;
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 * {
   box-sizing: border-box;
 }
+
+/* ---------- FONT ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'League Gothic', cursive, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 0;
+  color: var(--ink);
+}
+
+p {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--accent-ink);
+}
+/* ---------- FONT ---------- */
 
 html, body {
   margin: 0;
@@ -24,7 +49,7 @@ html, body {
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Barlow', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   padding-top: 100px;
@@ -36,16 +61,10 @@ body {
   color: #ffffff;
 }
 
-/* CÍMSOROK (LOGÓHOZ ILLŐ BALOO 2) */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Baloo 2', cursive, sans-serif;
-  margin-top: 0;
-}
-
 .wrap {
-  max-width: 920px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 40px 24px 120px;
+  padding: 40px 24px 80px;
 }
 
 /* ---------- HEADER & NAV ---------- */
@@ -64,41 +83,62 @@ header {
   background: var(--bg-soft);
 }
 
-.logo-mark {
-  margin: 0;
-  padding: 0;
-}
-
 .logo-mark img {
-  height: 40px;
+  height: 38px;
   width: auto;
   display: block;
+  transition: transform 0.2s ease;
+}
+
+.logo-mark img:hover {
+  transform: scale(1.02);
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  justify-content: space-around;
-  gap: 40px;
+  align-items: center;
+  gap: 32px;
   margin: 0;
   padding: 0;
 }
 
 nav ul li {
-  font-size: 18px;
-  font-weight: 600;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 200;
+  font-size: 15px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 nav ul li a {
   color: var(--ink);
   text-decoration: none;
-  transition: color 0.2s ease-in-out;
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+  text-transform: uppercase;
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--accent);
+  transition: width 0.2s ease;
 }
 
 nav ul li a:hover,
 nav ul li a.active {
   color: var(--accent);
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
 }
 
 /* ---------- RESPONSIVE HEADER & HAMBURGER MENU ---------- */
@@ -123,7 +163,6 @@ nav ul li a.active {
   transition: all 0.3s ease-in-out;
 }
 
-/* Hamburger animáció nyitott állapotban (X ikon) */
 .hamburger.open span:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
 }
@@ -136,7 +175,6 @@ nav ul li a.active {
   transform: translateY(-13px) rotate(-45deg);
 }
 
-/* Mobil töréspont (900px alatt) */
 @media (max-width: 900px) {
   header {
     padding: 0 20px;
@@ -181,8 +219,9 @@ nav ul li a.active {
     font-size: 18px;
   }
 }
-/* ---------- GOMBOK ---------- */
-.cta-button, .btn-primary {
+
+/* ---------- COMMON BUTTONS ---------- */
+.cta-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -199,61 +238,18 @@ nav ul li a.active {
   transition: all 0.2s ease;
 }
 
-.cta-button:hover, .btn-primary:hover {
+.cta-button:hover {
   background-color: #1a78d6;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(36, 144, 253, 0.4);
-}
-
-/* ---------- HERO ---------- */
-.hero {
-  position: relative;
-  height: calc(100vh - 100px);
-  min-height: 480px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: url('/Media/486525179_1621459291947662_9026406712776786859_n.jpg') no-repeat center center / cover;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(8, 8, 8, 0.65);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 720px;
-  padding: 0 24px;
-  color: #ffffff;
-}
-
-.hero-content h1 {
-  font-size: 56px;
-  font-weight: 800;
-  margin: 0 0 16px 0;
-  color: var(--accent);
-}
-
-.hero-content p {
-  font-size: 20px;
-  margin-bottom: 32px;
-  opacity: 0.95;
-  line-height: 1.6;
 }
 
 /* ---------- SZEKCIÓK (KÉK - FEHÉR VÁLTAKOZÁS) ---------- */
 .servicii-section, .avantaje-section, .about-section.bg-blue {
   background: var(--accent-blue);
   color: #ffffff;
-  padding: 80px 0;
-}
-
-.servicii-intro h1, .header-avantaje h2, .about-section.bg-blue h1 {
-  color: #ffffff;
+  padding: 0px;
+  margin: 0;
 }
 
 .serviciu-card, .avantaj-card, .bg-blue .value-card {
@@ -277,16 +273,35 @@ nav ul li a.active {
 
 /* ---------- SUPPORTED BY ---------- */
 .supportedBy {
-  background: var(--accent-blue);
-  color: #ffffff;
+  background: var(white);
   padding: 60px 24px;
   text-align: center;
 }
 
-.supportedBy-header { max-width: 840px; margin: 0 auto 36px; }
-.supportedBy-header h2 { font-size: 16px; font-weight: 500; line-height: 1.6; margin: 0; color: #ffffff; }
-.supportedBy-content { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
-.supportedBy-content img { max-width: 140px; height: auto; }
+.supportedBy-header { 
+  max-width: 840px; 
+  margin: 0 auto 36px; 
+}
+
+.supportedBy-header h2 { 
+  font-size: 16px; 
+  font-weight: 400; 
+  line-height: 1.6; 
+  margin: 0; 
+}
+
+.supportedBy-content { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 48px; 
+  flex-wrap: wrap; 
+}
+
+.supportedBy-content img { 
+  max-width: 140px; 
+  height: auto; 
+}
 
 /* ---------- FOOTER ---------- */
 footer {
@@ -302,9 +317,20 @@ footer {
   margin-top: 40px;
 }
 
-footer img { height: 40px; width: auto; }
-footer a { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
-footer a:hover { text-decoration: underline; }
+footer img { 
+  height: 40px; 
+  width: auto; 
+}
+
+footer a { 
+  color: var(--accent-blue); 
+  text-decoration: none; 
+  font-weight: 600; 
+}
+
+footer a:hover { 
+  text-decoration: underline; 
+}
 
 @media (max-width: 1024px) {
   header { padding: 0 20px; }

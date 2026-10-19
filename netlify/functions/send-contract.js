@@ -1,51 +1,63 @@
+const { Resend } = require('resend');
+
 exports.handler = async (event, context) => {
-  // Csak POST kéréseket fogadunk el
-  if (event.httpMethod !== "POST") {
+  // 1. CORS Preflight (OPTIONS) kérések kezelése
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
+      body: ''
+    };
+  }
+
+  // 2. Csak POST kéréseket fogadunk el
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      body: JSON.stringify({ message: "Method Not Allowed" })
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ message: 'Method Not Allowed' })
     };
   }
 
   try {
-    // A kliens elküldi a target_email-t a mezők között, ha nincs megadva, alapértelmezett gmail
-    const isBase64 = event.isBase64Encoded;
-    const bodyBuffer = Buffer.from(event.body, isBase64 ? 'base64' : 'utf8');
-
-    // Cél e-mail cím kinyerése a query paraméterből vagy a meglévő headerből
-    const targetEmail = event.queryStringParameters.target || "balogferencz.artist@gmail.com";
-
-    // Szerver-szerver POST küldés a FormSubmit felé
-    const response = await fetch(`https://formsubmit.co/${targetEmail}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': event.headers['content-type'] || event.headers['Content-Type'],
-        'Accept': 'application/json'
-      },
-      body: bodyBuffer
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
+    // 3. Ellenőrizzük a Netlify környezeti változót
+    if (!process.env.RESEND_API_KEY) {
+      console.error("Hiányzik a RESEND_API_KEY a Netlify-ban!");
       return {
-        statusCode: response.status,
-        body: JSON.stringify({ message: `FormSubmit szerver hiba: ${response.status}`, details: errText })
+        statusCode: 500,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ message: 'Hiányzó RESEND_API_KEY környezeti változó a szerveren.' })
       };
     }
 
-    const resData = await response.json().catch(() => ({ success: true }));
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const targetEmail = event.queryStringParameters.target || 'balogferencz.artist@gmail.com';
+
+    // 4. E-mail küldése a Resend használatával
+    // Fontos: Tesztelés alatt a 'from' cím mindig 'onboarding@resend.dev' legyen,
+    // kivéve ha már igazoltad a saját domainedet a Resend felületén.
+    const response = await resend.emails.send({
+      from: 'DROP Fleet <onboarding@resend.dev>',
+      to: [targetEmail],
+      subject: 'Contract nou Tasku',
+      html: '<p>A csatolmányban találhatók a szerződés dokumentumai.</p>'
+    });
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ success: true, data: resData })
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ success: true, response })
     };
-
   } catch (error) {
-    console.error("Netlify Function Error:", error);
+    console.error('Resend API küldési hiba:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Szerveroldali hiba történt.", error: error.message })
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ message: error.message || 'Szerveroldali hiba történt az e-mail küldésekor.' })
     };
   }
 };

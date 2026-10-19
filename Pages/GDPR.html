@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politica de Confidențialitate & GDPR — DROP</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/Favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/Favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/Favicon/favicon.ico" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F5F7FA;
+      --ink: #0B0C0E;
+      --ink-soft: #5B616B;
+      --line: rgba(11, 12, 14, 0.10);
+      --accent: #1CA8EB;
+      --accent-blue: #1CA8EB;
+      --accent-hover: #1796d4;
+      --accent-ink: #FFFFFF;
+      --accent-soft: #EAF0FF;
+      --surface: #FFFFFF;
+      --surface-2: #F2F4F7;
+      --green: #10B981;
+      --green-soft: #D1FAE5;
+      --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* ---------- FONT & TYPOGRAPHY ---------- */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'League Gothic', cursive, sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      margin-top: 0;
+      color: var(--ink);
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 52px);
+      margin-bottom: 12px;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-top: 28px;
+      margin-bottom: 12px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+    }
+
+    p, li {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Barlow', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding-top: 100px;
+      line-height: 1.5;
+    }
+
+    ::selection {
+      background: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ---------- HEADER & NAV ---------- */
+    header {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-soft);
+    }
+
+    .logo-mark img {
+      height: 38px;
+      width: auto;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .logo-mark img:hover {
+      transform: scale(1.02);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 200;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul li a {
+      color: var(--ink);
+      text-decoration: none;
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+      text-transform: uppercase;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--accent);
+    }
+
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    /* ---------- RESPONSIVE HEADER & HAMBURGER MENU ---------- */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 24px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 101;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background-color: var(--ink);
+      border-radius: 2px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-13px) rotate(-45deg);
+    }
+
+    @media (max-width: 900px) {
+      header {
+        padding: 0 20px;
+        height: 80px;
+      }
+
+      body {
+        padding-top: 80px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        background: var(--surface);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+      }
+
+      nav.open {
+        right: 0;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+      }
+
+      nav ul li {
+        font-size: 18px;
+      }
+    }
+
+    /* ---------- CARD CONTENT ---------- */
+    .hero-inner {
+      margin-bottom: 24px;
+    }
+
+    .hero-inner p {
+      color: var(--ink-soft);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      background: var(--bg-soft);
+      border-top: 1px solid var(--line);
+      padding: 30px 24px;
+      color: var(--ink-soft);
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    footer img { 
+      height: 40px; 
+      width: auto; 
+    }
+
+    footer a { 
+      color: var(--accent-blue); 
+      text-decoration: none; 
+      font-weight: 600; 
+    }
+
+    footer a:hover { 
+      text-decoration: underline; 
+    }
+
+    @media (max-width: 1024px) {
+      header { padding: 0 20px; }
+      nav ul { gap: 20px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-mark">
+      <a href="/index.html"><img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet"></a>
+    </div>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Deschide meniul">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="navMenu">
+      <ul>
+        <li><a href="/index.html">Acasa</a></li>
+        <li><a href="/Pages/Despre-noi.html">Despre noi</a></li>
+        <li><a href="/Pages/Colaborare.html">Colaborare</a></li>
+        <li><a href="/Pages/Contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="wrap">
+    
+    <div class="hero-inner">
+      <h1>Politica de Confidențialitate <span>& GDPR</span></h1>
+      <p>Termenii și condițiile privind prelucrarea datelor cu caracter personal în cadrul DROP.</p>
+    </div>
+
+    <div class="card">
+      <p><em>Ultima actualizare: 19 Octombrie 2026</em></p>
+
+      <h2>1. Operatorul de data cu caracter personal</h2>
+      <p>EASTRIDE BICYCLE DELIVERY S.R.L. (numit în continuare "DROP"), în calitate de operator de date, respectă confidențialitatea și securitatea prelucrării datelor cu caracter personal ale candidaților și colaboratorilor, în conformitate cu Regulamentul (UE) 2016/679 (GDPR).</p>
+
+      <h2>2. Ce date colectăm?</h2>
+      <p>Prin intermediul formularelor de aplicare și înregistrare, colectăm următoarele categorii de date:</p>
+      <ul>
+        <li><strong>Date de identificare:</strong> Nume, prenume, CNP, serie, număr carte de identitate și cont bancar (IBAN).</li>
+        <li><strong>Date de contact:</strong> Adresă de e-mail, număr de telefon.</li>
+        <li><strong>Date privind activitatea:</strong> Orașul de activitate, forma juridică (CIM, PFA/SRL), platformele selectate (Glovo, Wolt, Bolt Food, Tasku).</li>
+        <li><strong>Documente atașate:</strong> Copii ale actelor de identitate (CI față/verso), adeverință de reședință, documente CUI/CIF (pentru persoane juridice).</li>
+      </ul>
+
+      <h2>3. Scopul și temeiul juridic al prelucrării</h2>
+      <p>Datele colectate sunt utilizate exclusiv în următoarele scopuri:</p>
+      <ul>
+        <li>Redactarea, generarea și semnalarea contractelor individuale de muncă (CIM) sau a contractelor de prestări servicii (PFA/SRL).</li>
+        <li>Înregistrarea și activarea conturilor de curier/tasker pe platformele partenere.</li>
+        <li>Îndeplinirea obligațiilor legale, fiscale și administrative.</li>
+      </ul>
+
+      <h2>4. Acordul de Adatfeldolgozó (Procesator de date)</h2>
+      <p>În măsura în care datele sunt transmise către terțe platforme partenere (Glovo, Wolt, Bolt, Tasku) sau către furnizorii noștri de servicii tehnice (stocare securizată, servicii e-mail), DROP acționează ca procesator/operator autorizat, garantând că datele dumneavoastră sunt prelucrate în condiții maxime de securitate.</p>
+
+      <h2>5. Drepturile dumneavoastră</h2>
+      <p>Conform Regulamentului GDPR, beneficiați de următoarele drepturi:</p>
+      <ul>
+        <li>Dreptul de acces la datele proprii.</li>
+        <li>Dreptul de rectificare sau ștergere a datelor ("dreptul de a fi uitat").</li>
+        <li>Dreptul de a retrage consimțământul în orice moment.</li>
+        <li>Dreptul de a depune o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP).</li>
+      </ul>
+
+      <h2>6. Contact GDPR</h2>
+      <p>Pentru orice solicitare sau întrebare legată de prelucrarea datelor dumneavoastră cu caracter personal, ne puteți contacta la adresa de e-mail: <strong>cristian@eastride.ro</strong> sau direct la sediul nostru.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">BiF web solutions</a> &copy; 2026</p>
+    <img src="/Media/LOGO.png" alt="drop fleet" width="120">
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const navMenu = document.getElementById('navMenu');
+
+      if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener('click', () => {
+          hamburgerBtn.classList.toggle('open');
+          navMenu.classList.toggle('open');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

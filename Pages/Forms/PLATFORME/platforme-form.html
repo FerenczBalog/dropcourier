@@ -412,6 +412,24 @@
           </div>
           <div class="card">
             <div class="review-list" id="reviewList"></div>
+
+            <!-- GDPR SI TERMENI CHECKBOXES -->
+            <div class="card" style="margin-top: 16px; padding: 16px; border: 1px solid var(--border);">
+              <div class="field">
+                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
+                  <input type="checkbox" id="chk_gdpr" name="gdpr_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
+                  <span>Am citit și sunt de acord cu <a href="/Pages/GDPR.html" target="_blank" style="color: #58a6ff; text-decoration: underline;">Politica de Confidențialitate și GDPR</a> *</span>
+                </label>
+              </div>
+
+              <div class="field" style="margin-top: 10px;">
+                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
+                  <input type="checkbox" id="chk_terms" name="terms_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
+                  <span>Confirm că datele introduse sunt corecte și sunt de acord cu prelucrarea lor în scopul redactării contractului *</span>
+                </label>
+              </div>
+            </div>
+            
             <div class="actions">
               <button type="submit" class="cta-button " id="btnSend">Generează și trimite contractul</button>
               <button type="button" class="cta-button btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>

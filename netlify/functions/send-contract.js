@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
     const result = await multipart.parse(event);
 
     // Másolat címzett (CC) kiolvasása a form-ból vagy alapértelmezett cím
-    const ccEmail = result._cc || 'cristian@eastride.ro';
+    // const ccEmail = result._cc || 'cristian@eastride.ro';
 
     // Szöveges mezők HTML formázása
     let fieldsHtml = '<h3>Detaliile contractului:</h3><ul>';
@@ -59,7 +59,7 @@ exports.handler = async (event, context) => {
     const emailData = await resend.emails.send({
       from: 'DROP ONBOARDING <onboarding@resend.dev>',
       to: [targetEmail],
-      cc: [ccEmail], // <-- ITT KÜLDI EL A MÁSODIK EMAIL CÍMRE IS!
+      // cc: [ccEmail],  <-- ITT KÜLDI EL A MÁSODIK EMAIL CÍMRE IS!
       replyTo: result._replyto || undefined,
       subject: subject,
       html: fieldsHtml,

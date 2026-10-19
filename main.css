@@ -31,6 +31,10 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--ink);
 }
 
+.info-card h3 {
+  font-size: 25px;
+}
+
 p {
   font-family: 'Barlow', sans-serif;
   font-weight: 400;
@@ -242,6 +246,12 @@ nav ul li a.active::after {
   background-color: #1a78d6;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(36, 144, 253, 0.4);
+}
+
+.btn-secondary {
+  background-color: rgba(160, 159, 159, 0.197);
+  color: var(--ink);
+  border-radius: 8px;
 }
 
 /* ---------- SZEKCIÓK (KÉK - FEHÉR VÁLTAKOZÁS) ---------- */

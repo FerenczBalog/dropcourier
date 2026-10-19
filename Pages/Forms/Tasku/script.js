@@ -15,53 +15,49 @@
   const cimFields = document.getElementById('cimFields');
   const cardPfa = document.getElementById('card-pfa');
   const cardCim = document.getElementById('card-cim');
+  const normaSelect = document.getElementById('normaMuncaSelect');
+  const declaratieCard = document.getElementById('declaratieCard');
 
   let mode = null; // 'pfa' | 'cim'
 
-// Ezt a függvényt használhatod mindhárom form script.js fájljában:
-async function submitViaNetlify(targetEmail, fields, files) {
-  const formData = new FormData();
+  // ---------- Netlify Function Küldés ----------
+  async function submitViaNetlify(targetEmail, fields, files) {
+    const formData = new FormData();
 
-  // Szöveges mezők hozzáadása
-  Object.keys(fields).forEach(key => {
-    formData.append(key, fields[key]);
-  });
+    Object.keys(fields).forEach(key => {
+      formData.append(key, fields[key]);
+    });
 
-  // Fájlok hozzáadása
-  files.forEach(({ field, blob, filename }) => {
-    if (blob) {
-      formData.append(field, blob, filename);
+    files.forEach(({ field, blob, filename }) => {
+      if (blob) {
+        formData.append(field, blob, filename);
+      }
+    });
+
+    const response = await fetch(`/api/send-contract?target=${encodeURIComponent(targetEmail)}`, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.message || `Hiba a beküldés során (${response.status})`);
     }
-  });
 
-  // Meghívjuk a gyökérben lévő Netlify API-t (relatív útvonal: /api/send-contract)
-  const response = await fetch(`/api/send-contract?target=${encodeURIComponent(targetEmail)}`, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!response.ok) {
-    const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.message || `Hiba a beküldés során (${response.status})`);
+    return await response.json();
   }
-
-  return await response.json();
-}
 
   // ---------- JSONbin Konfiguráció ----------
   const JSONBIN_BIN_ID = "6a7acfebf5f4af5e2905fcc3"; 
   const JSONBIN_API_KEY = "$2a$10$h4.WeaBJidVm/e.h54rtZ.5Jb4dFiRcOn5ZUMCKXN0YUL.0M571xe"; 
 
-  // Kezdőérték null, hogy tudjuk mikor töltött be az API
   let currentContractNumber = null;
 
-  // ---------- Szerződésszám betöltése a szerverről ----------
+  // ---------- Szerződésszám betöltése ----------
   async function fetchNextContractNumber() {
     try {
       const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-        headers: {
-          'X-Master-Key': JSONBIN_API_KEY
-        }
+        headers: { 'X-Master-Key': JSONBIN_API_KEY }
       });
       const data = await response.json();
       if (data && data.record && typeof data.record.last_number !== 'undefined') {
@@ -71,12 +67,12 @@ async function submitViaNetlify(targetEmail, fields, files) {
       }
     } catch (err) {
       console.error("Nem sikerült lekérni a szerződésszámot:", err);
-      currentContractNumber = 439; // Tartalék szám hiba esetén
+      currentContractNumber = 439;
     }
     updateReview();
   }
 
-  // ---------- Szerződésszám növelése a szerveren (Sikeres beküldéskor) ----------
+  // ---------- Szerződésszám növelése ----------
   async function incrementContractNumber() {
     if (!currentContractNumber) return;
     try {
@@ -109,6 +105,28 @@ async function submitViaNetlify(targetEmail, fields, files) {
   if(document.getElementById('dispSemnare')) document.getElementById('dispSemnare').textContent = dataSemnare;
   if(document.getElementById('dispInceperii')) document.getElementById('dispInceperii').textContent = dataInceperii;
 
+  // ---------- Declarație OG 4/2017 megjelenítés kapcsoló ----------
+  function toggleDeclaratie() {
+    if (!declaratieCard) return;
+    const isFullTime = normaSelect && (normaSelect.value === 'full_time');
+    
+    // Ha CIM + Full-time, elrejtjük a nyilatkozat kártyát
+    const shouldHide = (mode !== 'cim') || isFullTime;
+    declaratieCard.classList.toggle('hidden', shouldHide);
+
+    document.querySelectorAll('input[name="situatie_og"]').forEach(r => {
+      r.disabled = shouldHide;
+      if (shouldHide) r.checked = false;
+    });
+  }
+
+  if (normaSelect) {
+    normaSelect.addEventListener('change', () => {
+      toggleDeclaratie();
+      refreshMarkers();
+    });
+  }
+
   // ---------- Opció választás (PFA / CIM) ----------
   function selectMode(newMode){
     mode = newMode;
@@ -124,6 +142,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
       el.required = (mode==='cim'); el.disabled = (mode!=='cim');
     });
 
+    toggleDeclaratie();
     refreshMarkers();
   }
 
@@ -144,7 +163,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
 
       dz.querySelectorAll('.lbl,.sub,.fname,img').forEach(el=>el.remove());
 
-      if(file.type.startsWith('image/')) {
+      if(file.type && file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = e => {
           const img = document.createElement('img');
@@ -178,7 +197,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
   function groupFilled(selector){
     const elements = Array.from(document.querySelectorAll(selector));
     
-    const radios = elements.filter(el => el.type === 'radio');
+    const radios = elements.filter(el => el.type === 'radio' && !el.disabled);
     if (radios.length > 0) {
       const radioNames = [...new Set(radios.map(r => r.name))];
       const allRadiosChecked = radioNames.every(name => {
@@ -196,7 +215,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
 
   function refreshMarkers(){
     if(!form) return;
-    const step1ok = !!mode && groupFilled(mode==='pfa' ? '[data-group="pfa"]' : '[data-group="cim"]');
+    const step1ok = !!mode && (form.oras_activitate ? form.oras_activitate.value !== '' : true) && groupFilled(mode==='pfa' ? '[data-group="pfa"]' : '[data-group="cim"]');
     const step2ok = true; 
     const step3ok = form.id_front && form.id_front.files ? form.id_front.files.length>0 : false;
     const step5ok = true; 
@@ -221,31 +240,38 @@ async function submitViaNetlify(targetEmail, fields, files) {
     if(!form) return;
     let rows = [];
 
-    // Ha még töltődik az API-ból a szám, ideiglenes kijelzés
     const displayNum = currentContractNumber ? currentContractNumber : 'se încarcă...';
     const formattedNrString = `înregistrat sub nr. ${displayNum} din data de ${dataSemnare}`;
     const selectedRadio = document.querySelector('input[name="situatie_og"]:checked');
+    const oras = form.oras_activitate ? form.oras_activitate.value : '—';
+    const isFullTime = normaSelect && normaSelect.value === 'full_time';
 
     if(mode==='pfa'){
       rows = [
+        ['Oraș activitate', oras || '—'],
         ['Tip colaborare', 'PFA / SRL'],
-        ['Denumire firmă', form.denumire_prestator.value || '—'],
-        ['Sediu', form.sediu_prestator.value || '—'],
-        ['CUI', form.cui_prestator.value || '—'],
-        ['IBAN', form.iban_prestator.value || '—'],
-        ['Reprezentant legal', form.reprezentant_prestator.value || '—'],
+        ['Denumire firmă', (form.denumire_prestator && form.denumire_prestator.value) || '—'],
+        ['Sediu', (form.sediu_prestator && form.sediu_prestator.value) || '—'],
+        ['CUI', (form.cui_prestator && form.cui_prestator.value) || '—'],
+        ['IBAN', (form.iban_prestator && form.iban_prestator.value) || '—'],
+        ['Reprezentant legal', (form.reprezentant_prestator && form.reprezentant_prestator.value) || '—'],
         ['Certificat CUI', (form.certificat_cui && form.certificat_cui.files.length) ? '✓ încărcat' : '— lipsește']
       ];
     } else if(mode==='cim'){
       rows = [
+        ['Oraș activitate', oras || '—'],
         ['Tip colaborare', 'Contract individual de muncă'],
-        ['Nume și prenume', form.nume_salariat.value || '—'],
-        ['Domiciliu', form.domiciliu_salariat.value || '—'],
-        ['CNP', form.cnp_salariat.value || '—'],
-        ['IBAN', form.iban_salariat.value || '—'],
-        ['CI', (form.serie_ci.value||'—') + ' ' + (form.numar_ci.value||'')],
-        ['Declarație OG 4/2017', selectedRadio ? '✓ Opțiune selectată' : '— Selectează o opțiune!']
+        ['Normă de muncă', isFullTime ? 'Normă întreagă (8h/zi)' : 'Part-time'],
+        ['Nume și prenume', (form.nume_salariat && form.nume_salariat.value) || '—'],
+        ['Domiciliu', (form.domiciliu_salariat && form.domiciliu_salariat.value) || '—'],
+        ['CNP', (form.cnp_salariat && form.cnp_salariat.value) || '—'],
+        ['IBAN', (form.iban_salariat && form.iban_salariat.value) || '—'],
+        ['CI', ((form.serie_ci && form.serie_ci.value) || '—') + ' ' + ((form.numar_ci && form.numar_ci.value) || '')]
       ];
+
+      if (!isFullTime) {
+        rows.push(['Declarație OG 4/2017', selectedRadio ? '✓ Opțiune selectată' : '— Selectează o opțiune!']);
+      }
     } else {
       rows = [['Tip colaborare', 'Alege o opțiune mai sus ↑']];
     }
@@ -289,7 +315,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
 
   function processFile(file, maxDim=1600, quality=0.82){
     return new Promise((resolve, reject)=>{
-      if(!file.type.startsWith('image/')) {
+      if(!file || !file.type || !file.type.startsWith('image/')) {
         resolve(file); 
         return;
       }
@@ -320,62 +346,15 @@ async function submitViaNetlify(targetEmail, fields, files) {
     statusBox.innerHTML = html;
   }
 
-  function submitViaHiddenForm(actionUrl, fields, files){
-    return new Promise((resolve)=>{
-      const iframeName = 'fs_target_' + Date.now();
-      const iframe = document.createElement('iframe');
-      iframe.name = iframeName;
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-
-      const f = document.createElement('form');
-      f.method = 'POST';
-      f.action = actionUrl;
-      f.enctype = 'multipart/form-data';
-      f.target = iframeName;
-      f.style.display = 'none';
-
-      Object.keys(fields).forEach(name=>{
-        const inp = document.createElement('input');
-        inp.type = 'hidden';
-        inp.name = name;
-        inp.value = fields[name];
-        f.appendChild(inp);
-      });
-
-      files.forEach(({field, blob, filename})=>{
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.name = field;
-        inp.style.display = 'none';
-        const dt = new DataTransfer();
-        dt.items.add(new File([blob], filename, { type: blob.type || 'application/octet-stream' }));
-        inp.files = dt.files;
-        f.appendChild(inp);
-      });
-
-      document.body.appendChild(f);
-
-      let done = false;
-      const finish = ()=>{
-        if(done) return;
-        done = true;
-        resolve();
-        setTimeout(()=>{ f.remove(); iframe.remove(); }, 1500);
-      };
-      iframe.addEventListener('load', finish);
-      setTimeout(finish, 9000);
-
-      f.submit();
-    });
-  }
-
   function collectData(){
     const selectedRadio = document.querySelector('input[name="situatie_og"]:checked');
     const validNum = currentContractNumber || 439;
+    const oras = form.oras_activitate ? form.oras_activitate.value : '';
+    const isFullTime = normaSelect && normaSelect.value === 'full_time';
 
     if(mode==='pfa'){
       return {
+        oras_activitate: oras,
         nr_contract: `${validNum}`,
         data_semnare: dataSemnare,
         denumire_prestator: form.denumire_prestator.value.trim(),
@@ -389,6 +368,9 @@ async function submitViaNetlify(targetEmail, fields, files) {
       };
     } else {
       return {
+        oras_activitate: oras,
+        norma_munca: isFullTime ? 'Normă întreagă (8h/zi)' : 'Part-time',
+        is_full_time: isFullTime,
         nr_contract_cim: `${validNum}`,
         data_semnare_cim: dataSemnare,
         nume_salariat: form.nume_salariat.value.trim(),
@@ -400,7 +382,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
         cnp_salariat: form.cnp_salariat.value.trim(),
         iban_salariat: form.iban_salariat.value.trim(),
         data_inceperii_cim: dataInceperii,
-        situatie_bifata: selectedRadio ? selectedRadio.value : ''
+        situatie_bifata: (selectedRadio && !isFullTime) ? selectedRadio.value : ''
       };
     }
   }
@@ -410,6 +392,11 @@ async function submitViaNetlify(targetEmail, fields, files) {
       setStatus('bad','Alege mai întâi tipul de colaborare (PFA/SRL sau CIM).');
       return false;
     }
+    if(form.oras_activitate && !form.oras_activitate.value){
+      setStatus('bad','Te rugăm să selectezi orașul în care vei activa.');
+      return false;
+    }
+
     let ok = true;
     
     const allRequired = document.querySelectorAll('#contractForm [required]:not(:disabled)');
@@ -419,7 +406,8 @@ async function submitViaNetlify(targetEmail, fields, files) {
       if(!filled) ok = false;
     });
 
-    if (mode === 'cim') {
+    const isFullTime = normaSelect && normaSelect.value === 'full_time';
+    if (mode === 'cim' && !isFullTime) {
       const selectedRadio = document.querySelector('input[name="situatie_og"]:checked');
       if (!selectedRadio) {
         ok = false;
@@ -441,7 +429,6 @@ async function submitViaNetlify(targetEmail, fields, files) {
     });
   }
 
-  // ---------- DECLARAȚIE DOCX GENERÁLÁS ----------
   function generateDeclaratieDocx(data) {
     const declaratieData = {
       nume_salariat: data.nume_salariat || '',
@@ -480,13 +467,10 @@ async function submitViaNetlify(targetEmail, fields, files) {
     return cleanBase.replace(/[^a-z0-9]+/gi, '_').toUpperCase();
   }
 
-  // ---------- Previzualizare (Doar descărcare) ----------
+  // ---------- Previzualizare ----------
   if(btnPreview) {
     btnPreview.addEventListener('click', ()=>{
-      if(!mode){
-        setStatus('bad','Alege mai întâi tipul de colaborare (PFA/SRL sau CIM).');
-        return;
-      }
+      if(!validate()) return;
       try{
         const data = collectData();
         const contractBlob = generateDocx(data);
@@ -497,7 +481,8 @@ async function submitViaNetlify(targetEmail, fields, files) {
         a.download = `${mode==='cim' ? 'CIM' : 'Contract'}_${sName}.docx`;
         document.body.appendChild(a); a.click(); a.remove();
 
-        if (mode === 'cim' && typeof TEMPLATE_DECLARATIE !== 'undefined') {
+        // Csak akkor töltjük le a nyilatkozatot, ha CIM és Part-time
+        if (mode === 'cim' && !data.is_full_time && typeof TEMPLATE_DECLARATIE !== 'undefined') {
           setTimeout(() => {
             const declaratieDocxBlob = generateDeclaratieDocx(data);
             const a2 = document.createElement('a');
@@ -513,7 +498,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
     });
   }
 
-  // ---------- Submit ----------
+  // ---------- Submit (Netlify Function) ----------
   if(form) {
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
@@ -541,15 +526,14 @@ async function submitViaNetlify(targetEmail, fields, files) {
         const sName = safeName(data);
 
         const fields = {};
-        fields['_subject'] = `Contract nou (${mode==='cim' ? 'CIM' : 'PFA/SRL'}) — ${displayName}`;
-        fields['_template'] = 'table';
-        fields['_captcha'] = 'false';
+        fields['_subject'] = `Contract nou (${mode==='cim' ? 'CIM' : 'PFA/SRL'}) — ${displayName} (${data.oras_activitate})`;
         fields['_cc'] = CC_EMAIL; 
 
         if(form.contact_email && form.contact_email.value.trim()){
           fields['_replyto'] = form.contact_email.value.trim();
         }
 
+        fields['Oraș activitate'] = data.oras_activitate;
         fields['Tip colaborare'] = mode==='cim' ? 'Contract individual de muncă' : 'PFA / SRL';
         fields['Nr. Contract'] = mode==='cim' ? data.nr_contract_cim : data.nr_contract;
 
@@ -564,6 +548,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
           fields['Data semnării'] = data.data_semnare;
           fields['Data începerii'] = data.data_inceperii;
         } else {
+          fields['Normă de muncă'] = data.norma_munca;
           fields['Nume și prenume'] = data.nume_salariat;
           fields['Domiciliu'] = data.domiciliu_salariat;
           fields['CNP'] = data.cnp_salariat;
@@ -574,14 +559,16 @@ async function submitViaNetlify(targetEmail, fields, files) {
           fields['Data eliberării CI'] = data.data_eliberare_ci;
           fields['Data semnării'] = data.data_semnare_cim;
           fields['Data începerii'] = data.data_inceperii_cim;
-          fields['Opțiune Declarație OG 4/2017'] = data.situatie_bifata;
+          if (!data.is_full_time) {
+            fields['Opțiune Declarație OG 4/2017'] = data.situatie_bifata;
+          }
         }
         fields['E-mail de contact'] = (form.contact_email && form.contact_email.value.trim()) || '—';
         fields['Număr de telefon'] = (form.contact_phone && form.contact_phone.value.trim()) || '—';
 
         const files = [
           { field:'contract', blob: contractBlob, filename: `${mode==='cim' ? 'CIM' : 'Contract'}_${sName}.docx` },
-          { field:'carte_identitate_fata', blob: frontBlob, filename: `CI_fata_${sName}.${frontBlob.type==='application/pdf'?'pdf':'jpg'}` }
+          { field:'carte_identitate_fata', blob: frontBlob, filename: `CI_fata_${sName}.${frontBlob && frontBlob.type==='application/pdf'?'pdf':'jpg'}` }
         ];
 
         if (backBlob) {
@@ -592,7 +579,8 @@ async function submitViaNetlify(targetEmail, fields, files) {
           });
         }
 
-        if (mode === 'cim' && typeof TEMPLATE_DECLARATIE !== 'undefined') {
+        // Csak Part-time esetén csatoljuk a nyilatkozatot
+        if (mode === 'cim' && !data.is_full_time && typeof TEMPLATE_DECLARATIE !== 'undefined') {
           const declaratieDocxBlob = generateDeclaratieDocx(data);
           files.push({
             field: 'declaratie_og4',
@@ -621,25 +609,26 @@ async function submitViaNetlify(targetEmail, fields, files) {
           });
         }
 
-        setStatus('info', '<div class="spinner"></div><div>Se trimite (cu atașamente)…</div>');
+        setStatus('info', '<div class="spinner"></div><div>Se trimite prin Netlify API…</div>');
 
-        await submitViaHiddenForm(`https://formsubmit.co/${TARGET_EMAIL}`, fields, files);
+        // Beküldés a Netlify Function-en keresztül
+        await submitViaNetlify(TARGET_EMAIL, fields, files);
 
         // Szerver oldali sorszám növelése
         await incrementContractNumber();
 
         setStatus('ok', `<div>✓ Cererea a fost trimisă cu succes! (Nr. contract: ${data.nr_contract || data.nr_contract_cim})</div>`);
-      }catch(err){
+      } catch(err) {
         console.error(err);
         setStatus('bad', `A apărut o eroare la trimitere: ${err.message}. Încearcă din nou sau folosește butonul „Doar descărcare” și trimite manual.`);
-      }finally{
+      } finally {
         if(btnSend) btnSend.disabled = false; 
         if(btnPreview) btnPreview.disabled = false;
       }
     });
   }
 
-  // INICIALIZÁLÁS: Először lekérjük a számot, és inicializáljuk a jelölőket
+  // INICIALIZÁLÁS
   fetchNextContractNumber();
   refreshMarkers();
 })();

@@ -1,7 +1,8 @@
 const { Resend } = require('resend');
+const multipart = require('lambda-multipart-parser');
 
 exports.handler = async (event, context) => {
-  // 1. CORS Preflight (OPTIONS) kérések kezelése
+  // CORS Preflight kezelés
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -14,7 +15,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // 2. Csak POST kéréseket fogadunk el
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -24,40 +24,54 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // 3. Ellenőrizzük a Netlify környezeti változót
     if (!process.env.RESEND_API_KEY) {
-      console.error("Hiányzik a RESEND_API_KEY a Netlify-ban!");
-      return {
-        statusCode: 500,
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ message: 'Hiányzó RESEND_API_KEY környezeti változó a szerveren.' })
-      };
+      throw new Error('Hiányzó RESEND_API_KEY környezeti változó.');
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const targetEmail = event.queryStringParameters.target || 'balogferencz.artist@gmail.com';
 
-    // 4. E-mail küldése a Resend használatával
-    // Fontos: Tesztelés alatt a 'from' cím mindig 'onboarding@resend.dev' legyen,
-    // kivéve ha már igazoltad a saját domainedet a Resend felületén.
-    const response = await resend.emails.send({
-      from: 'DROP Fleet <onboarding@resend.dev>',
+    // 1. A beküldött adatok és csatolmányok feldolgozása
+    const result = await multipart.parse(event);
+
+    // 2. Szöveges mezők összefoglalása az e-mail törzséhez
+    let fieldsHtml = '<h3>Formular nou trimis:</h3><ul>';
+    Object.keys(result).forEach(key => {
+      if (key !== 'files' && !key.startsWith('_')) {
+        fieldsHtml += `<li><strong>${key}:</strong> ${result[key]}</li>`;
+      }
+    });
+    fieldsHtml += '</ul>';
+
+    // 3. Csatolmányok előkészítése a Resend API számára
+    const attachments = (result.files || []).map(file => ({
+      filename: file.filename,
+      content: file.content // Buffer formátumban van
+    }));
+
+    const subject = result._subject || 'Contract nou Tasku';
+
+    // 4. E-mail küldése
+    const emailData = await resend.emails.send({
+      from: 'DROP Fleet <onboarding@resend.dev>', // Ha igazoltad a saját domainedet, cseréld arra (pl. no-reply@dropcourier.ro)
       to: [targetEmail],
-      subject: 'Contract nou Tasku',
-      html: '<p>A csatolmányban találhatók a szerződés dokumentumai.</p>'
+      subject: subject,
+      html: fieldsHtml,
+      attachments: attachments
     });
 
     return {
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ success: true, response })
+      body: JSON.stringify({ success: true, data: emailData })
     };
+
   } catch (error) {
-    console.error('Resend API küldési hiba:', error);
+    console.error('Szerveroldali hiba (send-contract):', error);
     return {
       statusCode: 500,
       headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ message: error.message || 'Szerveroldali hiba történt az e-mail küldésekor.' })
+      body: JSON.stringify({ message: error.message || 'Hiba történt a szerveren.' })
     };
   }
 };

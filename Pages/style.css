@@ -354,8 +354,8 @@ a.info-val:hover {
 }
 
 .city-card h3 {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 200;
   color: var(--accent);
   margin: 0 0 6px 0;
 }

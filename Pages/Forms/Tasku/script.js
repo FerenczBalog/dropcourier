@@ -64,11 +64,11 @@
       if (data && data.record && typeof data.record.last_number !== 'undefined') {
         currentContractNumber = parseInt(data.record.last_number, 10) + 1;
       } else {
-        currentContractNumber = 439;
+        currentContractNumber = "_______";
       }
     } catch (err) {
       console.error("Nem sikerült lekérni a szerződésszámot:", err);
-      currentContractNumber = 439;
+      currentContractNumber = "_______";
     }
     updateReview();
   }

@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>DROP fleet — Clienți Drop</title>
-
-  <link rel="icon" type="image/png" href="/Favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/Favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/Favicon/favicon.ico" />
+  <title>DROP — Clienți proprii</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/main.css">
   <link rel="stylesheet" href="style.css">
+  
 </head>
 <body>
 
@@ -40,7 +42,7 @@
   <section class="hero">
     <div class="hero-inner">
       <h1>Depune cererea pentru contractul tău pentru <br><span>clienți speciali DROP.</span></h1>
-      <p>Depune cererea pentru contractul tău de livrator drop și livrează pentru <span>Banca Transilvania,</span> <span>DHL,</span> <span>Crush Distribution</span> și multe altele</p>
+      <p>Depune cererea pentru contractul tău de livrator Drop și livrează pentru clienți din diverse industrii dinamice cum ar fi: e-commerce, bănci, optică medicală, tehnică dentară, distribuție mărfuri și altele</p>
     </div>
   </section>
 
@@ -66,7 +68,7 @@
       <div class="info-grid">
         <div class="info-card">
           <h3><span class="tag">01</span>Descrierea activității</h3>
-          <p>Livrare de colete și acte pentru cel puțin una dintre clienții noștri: <b>Banca Transilvania, DHL, Crush Distribution...</b>.</p>
+          <p>Activitatea constă în livrarea de colete și acte pentru unul sau mai mulți dintre clienții noștri.</p>
         </div>
 
         <div class="info-card">
@@ -83,7 +85,7 @@
   
   <!-- 0. SZEKCIÓ: KIFIZETÉS -->
   <p style="font-weight: 600; color: var(--accent); margin-bottom: 12px;">
-    💳 Plata se face săptămânal sau după preferință mai rar.
+    💳 Plata se face la două săptămâni sau la intervale predefinite.
   </p>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 10px;">
@@ -96,19 +98,6 @@
         <li>C.I.M. 4h/zi = <b>220 RON / săptămână</b></li>
         <li>C.I.M. 8h/zi = <b>375 RON / săptămână</b></li>
       </ul>
-    </div>
-
-    <!-- 2. SZEKCIÓ: CLIENTII NOSTRI DIN ORASUL TAU -->
-    <div style="background: var(--surface-2); padding: 14px; border-radius: 10px; border: 1px solid var(--line);">
-      <h4 style="margin-bottom: 8px; font-size: 15px; color: var(--text);">2. Comisioane flotă</h4>
-
-      <div>
-        <strong style="font-size: 13px; color: var(--accent);">B. GLOVO / WOLT (<span id="dispCityName">București</span>):</strong>
-        <div id="dispGlovoWoltComisions" style="font-size: 12.5px; margin-top: 4px; line-height: 1.5;">
-          <!-- Dinamikusan töltődik be JS-ből -->
-        </div>
-      </div>
-
     </div>
 
   </div>
@@ -401,8 +390,8 @@
           <div class="card">
             <div class="review-list" id="reviewList"></div>
             <div class="actions">
-              <button type="submit" class="btn-primary" id="btnSend">Generează și trimite contractul</button>
-              <button type="button" class="btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>
+              <button type="submit" class="cta-button " id="btnSend">Generează și trimite contractul</button>
+              <button type="button" class="cta-button btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>
             </div>
             <div class="status" id="statusBox"></div>
           </div>

@@ -174,14 +174,16 @@
             <div class="field span2">
               <label>Orașul în care vei activa <span style="color:red;">*</span></label>
               <select name="oras_activitate" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:15px;">
+                
                 <option value="" disabled selected>Alege orașul...</option>
                 <option value="București">București</option>
-                <option value="Cluj-Napoca">Cluj-Napoca</option>
-                <option value="Timișoara">Timișoara</option>
                 <option value="Brașov">Brașov</option>
-                <option value="Iași">Iași</option>
+                <option value="Cluj-Napoca">Cluj-Napoca</option>
+                <option value="Constanța">Constanța</option>                
                 <option value="Galați">Galați</option>
-                <option value="Constanța">Constanța</option>
+                <option value="Iași">Iași</option>
+                <option value="Timișoara">Timișoara</option>            
+                
               </select>
             </div>
           </div>
@@ -200,7 +202,8 @@
                   <input type="text" data-group="pfa" name="denumire_prestator" placeholder="ex. Popescu Delivery S.R.L.">
                 </div>
                 <div class="field span2">
-                  <label>Sediul (adresa completă)</label>
+                  <label>Sediul </label>
+                  <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă care apare în CUI</span>
                   <input type="text" data-group="pfa" name="sediu_prestator" placeholder="ex. București, Sector 1, Str. Exemplu nr. 10">
                 </div>
                 <div class="field">
@@ -251,7 +254,8 @@
                   <input type="text" data-group="cim" name="nume_salariat" placeholder="ex. Popescu Andrei">
                 </div>
                 <div class="field span2">
-                  <label>Domiciliul (adresa completă)</label>
+                  <label>Domiciliul</label>
+                  <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă din Cartea de Identitate (buletin) sau după caz Dovada de Reședință</span>
                   <input type="text" data-group="cim" name="domiciliu_salariat" placeholder="ex. București, Sector 2, Str. Exemplu nr. 5">
                 </div>
                 <div class="field">

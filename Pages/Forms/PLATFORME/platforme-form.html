@@ -56,11 +56,16 @@
         <div class="field">
           <label>Alege orașul în care dorești să lucrezi:</label>
           <select id="citySelect" name="oras_activitate" style="width: 100%; padding: 11px 13px; font-size: 14.5px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); font-family: inherit;">
+            
+           <option value="bucuresti" selected>București</option>
             <option value="cluj">Cluj-Napoca</option>
-            <option value="bucuresti" selected>București</option>
-            <option value="timisoara">Timișoara</option>
+            <option value="deva">Deva</option>
             <option value="oradea">Oradea</option>
             <option value="tg-mures">Târgu Mureș</option>
+            <option value="timisoara">Timișoara</option>
+            <option value="ploiești">Ploiești</option>
+            <option value="pitești">Pitești</option>
+
           </select>
         </div>
       </div>
@@ -85,40 +90,40 @@
   
   <!-- 0. SZEKCIÓ: KIFIZETÉS -->
   <p style="font-weight: 600; color: var(--accent); margin-bottom: 12px;">
-    💳 Plata se face săptămânal sau după preferință mai rar.
+    💳 Plata se face săptămânal, direct în contul tău.
   </p>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 10px;">
     
     <!-- 1. SZEKCIÓ: TAXA CIM (FIX) -->
     <div style="background: var(--surface-2); padding: 14px; border-radius: 10px; border: 1px solid var(--line);">
-      <h4 style="margin-bottom: 8px; font-size: 15px; color: var(--text);">1. Taxa C.I.M. (fixă)</h4>
+      <h4 style="margin-bottom: 8px; font-size: 15px; color: var(--text);">1. Taxe CIM (fără componentă fixă generală):</h4>
       <ul style="padding-left: 18px; font-size: 13.5px; line-height: 1.6;">
-        <li>C.I.M. 2h/zi = <b>90 RON / săptămână</b></li>
-        <li>C.I.M. 4h/zi = <b>220 RON / săptămână</b></li>
-        <li>C.I.M. 8h/zi = <b>375 RON / săptămână</b></li>
+        <li>Taxele pentru contractul de muncă <b>se calculează în funcție de numărul de ore lucrate.</b></li>
+        <li>Pentru contractele <b>part-time</b>, calculul se face la <b>11 RON pe oră lucrată</b>.</li>
+        <li>Pentru contractele <b>full-time</b>, taxa este fixă, în valoare de <b>410 RON pe săptămână</b>.</li>
       </ul>
     </div>
 
     <!-- 2. SZEKCIÓ: COMISIOANE (BOLT + GLOVO/WOLT) -->
     <div style="background: var(--surface-2); padding: 14px; border-radius: 10px; border: 1px solid var(--line);">
       <h4 style="margin-bottom: 8px; font-size: 15px; color: var(--text);">2. Comisioane flotă</h4>
-      
-      <!-- A. Bolt Food -->
+
+      <!-- A. Glovo / Wolt (Város szerint változik) -->
+      <div>
+        <strong style="font-size: 13px; color: var(--accent);">A. GLOVO / WOLT (<span id="dispCityName">București</span>):</strong>
+        <div id="dispGlovoWoltComisions" style="font-size: 12.5px; margin-top: 4px; line-height: 1.5;">
+          <!-- Dinamikusan töltődik be JS-ből -->
+        </div>
+      </div>
+
+      <!-- B. Bolt Food -->
       <div style="margin-bottom: 10px;">
-        <strong style="font-size: 13px; color: var(--accent);">A. Bolt Food (fix în toate orașele):</strong>
+        <strong style="font-size: 13px; color: var(--accent);">B. Bolt Food (fix în toate orașele):</strong>
         <ul style="padding-left: 18px; font-size: 13px; line-height: 1.5; margin-top: 4px;">
           <li>Venit &gt; 1001 RON brut / săptămână &rarr; <b>11%</b></li>
           <li>Venit &le; 1000 RON brut / săptămână &rarr; <b>10%</b></li>
         </ul>
-      </div>
-
-      <!-- B. Glovo / Wolt (Város szerint változik) -->
-      <div>
-        <strong style="font-size: 13px; color: var(--accent);">B. GLOVO / WOLT (<span id="dispCityName">București</span>):</strong>
-        <div id="dispGlovoWoltComisions" style="font-size: 12.5px; margin-top: 4px; line-height: 1.5;">
-          <!-- Dinamikusan töltődik be JS-ből -->
-        </div>
       </div>
 
     </div>
@@ -127,7 +132,7 @@
 </div>
 
         <div class="info-card" style="grid-column: 1 / -1; align-self: center; text-align: center;">
-          <h3><span class="tag">04</span>Contact local</h3>
+          <h3><span class="tag">04. </span>Contact local</h3>
           <p>Echipa noastră din orașul tău îți stă la dispoziție pentru detalii:</p>
           <a class="whatsapp-btn" id="dispWhatsapp" href="https://wa.me/40751234567" target="_blank" rel="noopener">WhatsApp: <span id="contactName">Contact drop</span> - <span id="dispPhone">075x xxx xxx</span></a>
         </div>
@@ -180,7 +185,8 @@
                   <input type="text" data-group="pfa" name="denumire_prestator" placeholder="ex. Popescu Delivery S.R.L.">
                 </div>
                 <div class="field span2">
-                  <label>Sediul (adresa completă)</label>
+                  <label>Sediul </label>
+                  <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă care apare în CUI</span>
                   <input type="text" data-group="pfa" name="sediu_prestator" placeholder="ex. București, Sector 1, Str. Exemplu nr. 10">
                 </div>
                 <div class="field">
@@ -238,7 +244,8 @@
                   </select>
                 </div>
                 <div class="field span2">
-                  <label>Domiciliul (adresa completă)</label>
+                  <label>Domiciliul</label>
+                  <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă din Cartea de Identitate (buletin) sau după caz Dovada de Reședință</span>
                   <input type="text" data-group="cim" name="domiciliu_salariat" placeholder="ex. București, Sector 2, Str. Exemplu nr. 5">
                 </div>
                 <div class="field">

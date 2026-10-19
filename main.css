@@ -75,6 +75,10 @@ body {
   padding: 40px 24px 80px;
 }
 
+.dropzone {
+  max-width: 300px;
+}
+
 /* ---------- HEADER & NAV ---------- */
 header {
   display: flex;

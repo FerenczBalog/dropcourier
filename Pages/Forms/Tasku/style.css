@@ -441,6 +441,7 @@ input.err {
 }
 
 .dropzone {
+  max-width: 300px;
   border: 1.5px dashed #C7CDD6;
   border-radius: 14px;
   padding: 18px;
@@ -455,6 +456,7 @@ input.err {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  overflow: hidden; /* Biztosítja, hogy semmi ne nyúljon ki a dropzone keretéből */
 }
 
 .dropzone:hover {
@@ -472,6 +474,7 @@ input.err {
   inset: 0;
   opacity: 0;
   cursor: pointer;
+  z-index: 2; /* A kattinthatóság miatt az előnézeti kép felett marad */
 }
 
 .dropzone .lbl {
@@ -482,6 +485,66 @@ input.err {
 .dropzone .sub {
   font-size: 11.5px;
   color: var(--ink-soft);
+}
+
+/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
+
+.dropzone {
+  max-width: 300px;
+  border: 1.5px dashed #C7CDD6;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface-2);
+  transition: border-color .15s, background .15s;
+  position: relative;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden; /* Biztosítja, hogy semmi ne nyúljon ki a dropzone keretéből */
+}
+
+.dropzone:hover {
+  border-color: var(--accent-blue);
+}
+
+.dropzone.has-file {
+  border-style: solid;
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.dropzone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2; /* A kattinthatóság miatt az előnézeti kép felett marad */
+}
+
+.dropzone .lbl {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dropzone .sub {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+
+/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
+
+.dropzone img,
+.dropzone .preview-img {
+  max-width: 100%;       /* Nem lehet szélesebb, mint a dropzone */
+  max-height: 120px;     /* A 140px-es min-height-hez igazítva, hogy a paddinggel együtt kényelmesen elférjen */
+  object-fit: contain;   /* Megtartja az eredeti képarányt, nem torzítja a képet */
+  border-radius: 8px;    /* Esztétikus lekerekítés */
+  pointer-events: none;  /* Átengedi a kattintást a felette lévő <input>-ra */
 }
 
 /* ---------- RADIO & CHECKBOX GROUP ---------- */

@@ -484,6 +484,18 @@ input.err {
   color: var(--ink-soft);
 }
 
+
+/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
+
+.dropzone img,
+.dropzone .preview-img {
+  max-width: 100%;       /* Nem lehet szélesebb, mint a dropzone */
+  max-height: 120px;     /* A 140px-es min-height-hez igazítva, hogy a paddinggel együtt kényelmesen elférjen */
+  object-fit: contain;   /* Megtartja az eredeti képarányt, nem torzítja a képet */
+  border-radius: 8px;    /* Esztétikus lekerekítés */
+  pointer-events: none;  /* Átengedi a kattintást a felette lévő <input>-ra */
+}
+
 /* ---------- RADIO & CHECKBOX GROUP ---------- */
 .radio-group {
   display: flex;

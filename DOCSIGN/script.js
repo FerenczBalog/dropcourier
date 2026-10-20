@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = '#000000';
+    ctx.strokeStyle = '#0400ff';
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
 

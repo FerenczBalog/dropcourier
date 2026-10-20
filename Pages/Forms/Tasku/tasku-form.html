@@ -5,15 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DROP — Tasku</title>
 
+  <script>
+    (function () {
+      try {
+        const descriptor = Object.getOwnPropertyDescriptor(Element.prototype, 'namespaceURI');
+        if (descriptor && !descriptor.writable && !descriptor.set) {
+          Object.defineProperty(Element.prototype, 'namespaceURI', {
+            get: descriptor.get,
+            set: function () {},
+            configurable: true
+          });
+        }
+      } catch (e) {
+        console.warn('Could not patch namespaceURI descriptor:', e);
+      }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+  <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/docx-preview@0.1.15/dist/docx-preview.min.js"></script>
+
+  <script src="pizzip.min.js"></script>
+  <script src="docxtemplater.js"></script>
+  <script src="imagemodule.js"></script>
+
   <link rel="stylesheet" href="/main.css">
   <link rel="stylesheet" href="style.css">
-  
 </head>
 <body>
 
@@ -22,7 +45,6 @@
     <a href="/index.html"><img src="/Media/DROP-LOGO-BLUE.svg" alt="DROP fleet"></a>
   </div>
 
-  <!-- Hamburger ikonos gomb mobilon -->
   <button class="hamburger" id="hamburgerBtn" aria-label="Deschide meniul">
     <span></span>
     <span></span>
@@ -39,455 +61,472 @@
   </nav>
 </header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>Depune cererea pentru contractul tău <span>Tasku.</span></h1>
-      <p>Alege tipul de colaborare, completează datele tale și trimite-l spre aprobare.</p>
-    </div>
-  </section>
-
- <section class="info-section">
-    <div class="info-inner">
-
-      <h1>Înainte de a aplica</h1>
-      <p style="color: #01608c;">Înainte de a aplica pentru contractul Tasku, te rugăm să 
-        citești cu atenție următoarele informații:</p>
-
-      <div class="info-grid">
-
-        <div class="info-card">
-          <h3><span class="tag">01. </span>Descrierea activității</h3>
-          <p>Activitatea constă în <b>picking</b> (pregătirea și colectarea comenzilor 
-            pentru platformele Glovo, Wolt și Bringo) și <b>reaprovizionarea</b> 
-            produselor pe rafturile magazinului.</p>
-        </div>
-
-        <div class="info-card">
-          <h3><span class="tag">02. </span>Condiții contractuale</h3>
-          <p>Pentru activarea contului, vom încheia un <b>contract individual de muncă
-          </b> sau un contract de prestări servicii, în funcție de opțiunea aleasă mai jos.</p>
-        </div>
-
-        <div class="info-card span2" style="grid-column: 1 / -1;">
-          <h3><span class="tag">03. </span>Ghid de calcul al veniturilor pentru Taskeri</h3>
-
-          <p>Spre deosebire de un job clasic, veniturile tale pe platforma 
-            Tasku depind direct de performanța și eficiența ta din teren. 
-            Cu cât colectezi mai rapid și mai corect produsele, cu atât 
-            venitul tău pe oră va fi mai mare!</p>
-          
-          <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 12px;">
-            <div>
-              <h4>1. Cum ești plătit? (Sistemul pe SKU)</h4>
-              <p style="margin: 4px 0 0 0;">Plata se face la numărul de SKU-uri scanate 
-                (articole unice), nu la numărul de produse fizice din coș.</p>
-              <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;"><i>Exemplu: 6 
-                sticle de apă Borsec de 1L reprezintă 1 singur SKU. 1 sticlă de apă Borsec 
-                și 1 pungă de pufuleți înseamnă 2 SKU-uri.</i></p>
-            </div>
-
-            <div>
-              <h4>2. Cum monitorizezi numărul de SKU-uri? (⚠️ IMPORTANT)</h4>
-              <p style="margin: 4px 0 0 0;">Numărul de SKU-uri scanate este înregistrat exclusiv 
-                în scannerul fizic primit de la magazinul Carrefour. Pentru a afla numărul exact 
-                de SKU-uri scanate, trimite un e-mail la: <a href="mailto:support@traxlo.com">support@traxlo.com</a>.</p>
-            </div>
-
-            <div>
-              <h4>3. Tarife brute &amp; Estimare câștig</h4>
-              <p style="margin: 4px 0 0 0;">Tariful este uniformizat la toate magazinele Carrefour 
-                la <span class="figure">0,69 RON/SKU</span>.</p>
-              <p style="margin: 4px 0 0 0;">Estimare: un tasker realizează în medie un venit 
-                brut de <span class="figure">25 - 40 RON / oră</span>.</p>
-            </div>
-
-            <div>
-              <h4>4. Taxe și comisioane scăzute din Venitul Brut:</h4>
-              <ul style="margin: 6px 0 0 0; padding-left: 20px;">
-                <li>Comisionul flotei: <span class="figure">10%</span> din totalul brut realizat.</li>
-                <li>Taxele către stat: <span class="figure">11 RON</span> pentru fiecare oră de 
-                  muncă pontată.</li>
-              </ul>
-            </div>
-
-            <div class="note-box" style="background: #f8f9fa; border-left: 4px solid #0056b3; padding: 10px 14px; margin-top: 6px;">
-              <h4>5. Exemplu practic de calcul (Tură de 4 ore / 200 SKU-uri):</h4>
-              • <b>Venit Brut:</b> 200 SKU x 0,69 RON = 138 RON brut<br>
-              • <b>După comision flotă (-10%):</b> 138 RON - 13,8 RON = 124,2 RON<br>
-              • <b>După taxe de muncă (-11 RON/h x 4h):</b> 124,2 RON - 44 RON = <b>80,2 RON NET</b> (~20 RON net/oră)
-            </div>
-
-            <div>
-              <h4>6. Când primești banii? 💳</h4>
-              <p style="margin: 4px 0 0 0;">Plățile se fac săptămânal, în fiecare zi de <b>vineri</b>, direct în contul tău bancar, pentru toate turele finalizate în săptămâna anterioară.</p>
-              <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;"><i>Exemplu: pentru turele efectuate între 1-7 ianuarie, plata se face vineri, 12 ianuarie.</i></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-card" style="grid-column: 1 / -1;">
-          <h3><span class="tag">04. </span>Contact</h3>
-          <p>Așteptăm documentele dumneavoastră pentru a demara procesul de angajare. 
-            Dacă aveți întrebări, vă stăm la dispoziție.</p>
-          <a class="whatsapp-btn" href="https://wa.me/40753903370" target="_blank" rel="noopener">WhatsApp: 0753 903 370</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="mode-section">
-    <div class="mode-inner">
-      <div class="info-kicker">Pasul 1</div>
-      <div><h2>Alege tipul de colaborare</h2></div>
-      <div class="mode-grid">
-        <div class="mode-card" id="card-pfa" data-mode="pfa">
-          <div class="check"></div>
-          <span class="tag2">Opțiunea A</span>
-          <h4>PFA / SRL</h4>
-          <p>Contract de prestări servicii logistice, încheiat cu firma ta (PFA sau S.R.L.) în calitate de Prestator.</p>
-        </div>
-        <div class="mode-card" id="card-cim" data-mode="cim">
-          <div class="check"></div>
-          <span class="tag2">Opțiunea B</span>
-          <h4>Contract individual de muncă (CIM)</h4>
-          <p>Angajare normală, ca persoană fizică salariată cu normă întreagă sau part-time.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="wrap">
-    <form id="contractForm" novalidate>
-
-      <div class="route">
-
-        <!-- STOP 1: Form adatok (PFA vagy CIM) -->
-        <div class="stop-rail">
-          <div class="stop-marker" data-marker="1">1</div>
-          <div class="line"></div>
-        </div>
-        <section class="stop">
-
-          <!-- ÚJ: VÁROS VÁLASZTÓ MEZŐ (Mindkét opcióhoz) -->
-          <div class="card" style="margin-bottom:14px;">
-            <div class="field span2">
-              <label>Orașul în care vei activa <span style="color:red;">*</span></label>
-              <select name="oras_activitate" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:15px;">
-                
-                <option value="" disabled selected>Alege orașul...</option>
-                <option value="București">București</option>
-                <option value="Brașov">Brașov</option>
-                <option value="Cluj-Napoca">Cluj-Napoca</option>
-                <option value="Constanța">Constanța</option>                
-                <option value="Galați">Galați</option>
-                <option value="Iași">Iași</option>
-                <option value="Timișoara">Timișoara</option>            
-                
-              </select>
-            </div>
-          </div>
-
-          <!-- PFA FIELDS -->
-          <div id="pfaFields" class="mode-fields hidden">
-            <div class="stop-head">
-              <div class="stop-kicker">Pasul 2</div>
-              <div><h3>Datele firmei (PRESTATOR)</h3></div>
-              <div class="stop-sub">Acestea vor fi introduse în contract ca date ale părții care prestează serviciile.</div>
-            </div>
-            <div class="card">
-              <div class="grid2">
-                <div class="field span2">
-                  <label>Denumirea firmei / numele PFA</label>
-                  <input type="text" data-group="pfa" name="denumire_prestator" placeholder="ex. Popescu Delivery S.R.L.">
-                </div>
-                <div class="field span2">
-                  <label>Sediul </label>
-                  <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă care apare în CUI</span>
-                  <input type="text" data-group="pfa" name="sediu_prestator" placeholder="ex. București, Sector 1, Str. Exemplu nr. 10">
-                </div>
-                <div class="field">
-                  <label>Nr. Registrul Comerțului</label>
-                  <input type="text" data-group="pfa" name="nr_reg_com" placeholder="ex. J40/1234/2024">
-                </div>
-                <div class="field">
-                  <label>Cod unic de înregistrare (CUI)</label>
-                  <input type="text" data-group="pfa" name="cui_prestator" placeholder="ex. RO12345678">
-                </div>
-                <div class="field">
-                  <label>IBAN</label>
-                  <input type="text" data-group="pfa" name="iban_prestator" placeholder="ex. RO00XXXX0000000000000000">
-                </div>
-                <div class="field">
-                  <label>Denumirea băncii</label>
-                  <input type="text" data-group="pfa" name="banca_prestator" placeholder="ex. BANCA TRANSILVANIA">
-                </div>
-                <div class="field span2">
-                  <label>Numele reprezentantului legal</label>
-                  <input type="text" data-group="pfa" name="reprezentant_prestator" placeholder="ex. Ionescu Andrei">
-                </div>
-                <div class="field span2" style="margin-top: 8px;">
-                  <label>Certificat de Înregistrare (CUI)</label>
-                  <div class="upload-grid" style="margin-top:6px;">
-                    <label class="dropzone" id="dz-cui" style="grid-column: 1 / -1; min-height: 120px;">
-                      <input type="file" data-group="pfa" name="certificat_cui">
-                      <div class="lbl">Încarcă Certificatul de Înregistrare</div>
-                      <div class="sub">Se acceptă PDF, JPG, PNG</div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- CIM FIELDS -->
-          <div id="cimFields" class="mode-fields hidden">
-            <div class="stop-head">
-              <div class="stop-kicker">Pasul 2</div>
-              <div><h2>Datele tale (ANGAJARE)</h2></div>
-              <div class="stop-sub">Acestea vor fi introduse în contractul individual de muncă și în fișa postului.</div>
-            </div>
-            <div class="card">
-              <div class="grid2">
-                <div class="field span2">
-                  <label>Nume și prenume</label>
-                  <input type="text" data-group="cim" name="nume_salariat" placeholder="ex. Popescu Andrei">
-                </div>
-                <div class="field span2">
-                  <label>Domiciliul</label>
-                  <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă din Cartea de Identitate (buletin) sau după caz Dovada de Reședință</span>
-                  <input type="text" data-group="cim" name="domiciliu_salariat" placeholder="ex. București, Sector 2, Str. Exemplu nr. 5">
-                </div>
-                <div class="field">
-                  <label>CNP</label>
-                  <input type="text" data-group="cim" name="cnp_salariat" placeholder="ex. 1900101123456" inputmode="numeric">
-                </div>
-                <div class="field">
-                  <label>IBAN (pentru plata salariului)</label>
-                  <input type="text" data-group="cim" name="iban_salariat" placeholder="ex. RO00XXXX0000000000000000">
-                </div>
-                <div class="field">
-                  <label>Seria CI</label>
-                  <input type="text" data-group="cim" name="serie_ci" placeholder="ex. RT">
-                </div>
-                <div class="field">
-                  <label>Numărul CI</label>
-                  <input type="text" data-group="cim" name="numar_ci" placeholder="ex. 123456">
-                </div>
-                <div class="field">
-                  <label>Eliberată de</label>
-                  <input type="text" data-group="cim" name="eliberat_de" placeholder="ex. SPCLEP Sector 3">
-                </div>
-                <div class="field">
-                  <label>Data eliberării CI</label>
-                  <input type="text" data-group="cim" name="data_eliberare_ci" placeholder="ex. 12.03.2021">
-                </div>
-
-                <!-- ÚJ: NORMA DE MUNCĂ (Part-time / Full-time) -->
-                <div class="field span2" style="margin-top:10px;">
-                  <label>Norma de muncă <span style="color:red;">*</span></label>
-                  <select id="normaMuncaSelect" name="norma_munca" data-group="cim" style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:15px;">
-                    <option value="part_time" selected>Part-time (necesită Declarație OG 4/2017)</option>
-                    <option value="full_time">Normă întreagă - 8h/zi (Fără Declarație OG 4/2017)</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <!-- Declarație OG 4/2017 (Kizárólag CIM + Part-time esetén) -->
-            <div class="card" id="declaratieCard" style="margin-top:14px;">
-              <div class="stop-head" style="margin-bottom:12px;">
-                <div class="stop-kicker">Declarație OG 4/2017</div>
-                <div class="stop-title" style="font-size:18px;">Situația personală / excepții</div>
-                <div class="stop-sub">Alege opțiunea care se aplică situației tale pentru calculul contribuțiilor sociale:</div>
-              </div>
-
-              <div class="field span2">
-                <div class="radio-group">
-                  
-                  <label class="radio-option">
-                    <input type="radio" data-group="cim" name="situatie_og" value="Realizez, în cursul aceleiași luni, venituri din salarii sau asimilate salariilor în baza a unul, două sau mai multe contracte individuale de muncă, iar baza lunară de calcul cumulată aferentă acestora este cel puțin egală cu salariul minim brut pe țară garantat în plată.">
-                    <span>Realizez, în cursul aceleiași luni, venituri din salarii în baza a două sau mai multe CIM, iar baza cumulată este cel puțin egală cu salariul minim brut.</span>
-                  </label>
-
-                  <label class="radio-option">
-                    <input type="radio" data-group="cim" name="situatie_og" value="Sunt elev sau student, cu vârsta până la 26 de ani, aflat/aflată într-o formă de școlarizare.">
-                    <span>Sunt elev sau student, cu vârsta până la 26 de ani, aflat într-o formă de școlarizare.</span>
-                  </label>
-
-                  <label class="radio-option">
-                    <input type="radio" data-group="cim" name="situatie_og" value="Sunt ucenic, potrivit legii, în vârstă de până la 18 ani.">
-                    <span>Sunt ucenic, potrivit legii, în vârstă de până la 18 ani.</span>
-                  </label>
-
-                  <label class="radio-option">
-                    <input type="radio" data-group="cim" name="situatie_og" value="Sunt persoană cu dizabilități, căreia prin lege i se recunoaște posibilitatea de a lucra mai puțin de 8 ore pe zi.">
-                    <span>Sunt persoană cu dizabilități (posibilitatea de a lucra mai puțin de 8 ore/zi).</span>
-                  </label>
-
-                  <label class="radio-option">
-                    <input type="radio" data-group="cim" name="situatie_og" value="Am calitatea de pensionar pentru limită de vârstă în sistemul public de pensii și declar că nu beneficiez de pensie de serviciu în baza unor legi/statute speciale și nici nu cumulez pensia pentru limită de vârstă din sistemul public de pensii cu pensia stabilită într-un sistem de pensii neintegrat sistemului public de pensii.">
-                    <span>Am calitatea de pensionar pentru limită de vârstă în sistemul public de pensii.</span>
-                  </label>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top:14px;">
-            <div class="grid2">
-              <div class="field">
-                <label>E-mail de contact <span class="opt">(doar pentru răspuns)</span></label>
-                <input type="email" name="contact_email" placeholder="tu@email.com">
-              </div>
-              <div class="field">
-                <label>Număr de telefon <span class="opt">(doar pentru contact)</span></label>
-                <input type="tel" name="contact_phone" placeholder="ex. 07xxxxxxxx">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- STOP 2: Dátumok -->
-        <div class="stop-rail">
-          <div class="stop-marker" data-marker="2">2</div>
-          <div class="line"></div>
-        </div>
-        <section class="stop">
-          <div class="stop-head">
-            <div class="stop-kicker">Pasul 3</div>
-            <div><h2>Datele contractului</h2></div>
-            <div class="stop-sub">Datele se completează automat cu ziua de azi — activitatea începe la 3 zile de la semnare.</div>
-          </div>
-          <div class="card">
-            <div class="auto-row">
-              <div class="auto-chip">
-                <div class="k">Data semnării</div>
-                <div class="v" id="dispSemnare">—</div>
-              </div>
-              <div class="auto-chip">
-                <div class="k">Data începerii activității</div>
-                <div class="v" id="dispInceperii">—</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- STOP 3: Személyi fotók & Lakcímigazolás -->
-        <div class="stop-rail">
-          <div class="stop-marker" data-marker="3">3</div>
-          <div class="line"></div>
-        </div>
-        <section class="stop">
-          <div class="stop-head">
-            <div class="stop-kicker">Pasul 4</div>
-            <div><h2>Fotografiile și documentele necesare</h2></div>
-            <div class="stop-sub">Fă câte o fotografie clară și lizibilă pentru fiecare document.</div>
-          </div>
-          <div class="card">
-            <div class="upload-grid">
-              <label class="dropzone" id="dz-front">
-                <input type="file" name="id_front" required>
-                <div class="lbl">Fața</div>
-                <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
-              </label>
-
-              <label class="dropzone" id="dz-back">
-                <input type="file" name="id_back">
-                <div class="lbl">Verso</div>
-                <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
-                <div class="sub" style="color:var(--red); font-size: 11px; margin-top: 4px;">Este nevoie doar în cazul actelor de identitate noi, cu cip.</div>
-              </label>
-
-              <label class="dropzone" id="dz-address" style="grid-column: 1 / -1;">
-                <input type="file" name="AddressProof">
-                <div class="lbl">Dovadă de reședință</div>
-                <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
-                <div class="sub" style="color:var(--red); font-size: 11px; margin-top: 4px;">Este nevoie doar în cazul actelor de identitate noi, cu cip.</div>
-              </label>
-            </div>
-          </div>
-        </section>
-
-        <!-- STOP 5: Până semnăm contractul -->
-        <div class="stop-rail">
-          <div class="stop-marker" data-marker="5">5</div>
-          <div class="line"></div>
-        </div>
-        <section class="stop">
-          <div class="stop-head">
-            <div class="stop-kicker">Pasul 5</div>
-            <div><h2>Până semnăm și noi contractul</h2></div>
-            <div class="stop-sub">Informații utile și pași de urmat înainte de activarea contului.</div>
-          </div>
-          <div class="card info-highlight">
-            <div style="display:flex; flex-direction:column; gap:14px;">
-              <div>
-                <h4 style="color:#128C7E;">💬 Vă invităm în grupul nostru WhatsApp - Tasku București</h4>
-                <p style="margin:0; font-size:14px; line-height:1.4; color:var(--text);">Te rugăm să te alături grupului de WhatsApp dedicat pentru comunicări rapide:</p>
-                <a class="whatsapp-btn" href="https://chat.whatsapp.com/CgXhoz7ZMSKE5lcCx80fa2" target="_blank" rel="noopener" style="background:#25D366; border-color:#25D366;">Grup WhatsApp Tasku București</a>
-              </div>
-
-              <hr style="border:0; border-top:1px solid var(--line); margin:2px 0;">
-
-              <div>
-                <h4>📚 Mini-training & Test de activare</h4>
-                <p style="margin:0 0 8px 0; font-size:14px; line-height:1.4;">
-                  Până ce finalizăm noul tău contract, avem rugămintea să parcurgi următorul mini-training pentru a afla ce ai de făcut în activitatea prestată prin intermediul Tasku.
-                </p>
-                <p style="margin:0 0 10px 0; font-size:14px; color:var(--text);">
-                  Accesează de aici: <a class="training-link" href="https://drive.google.com/file/d/1IUCqqxPCpG9SnauUPLClriK4brTxOJFy/view" target="_blank" rel="noopener">Accesează ghidul Mini-Training (PDF)</a>
-                </p>
-                <div class="note-box">
-                  ℹ️ <b>Notă:</b> La sfârșitul documentului ai o pagină cu linkul către testul pe care trebuie să-l faci ca să poți activa contul.
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- STOP 6: Áttekintés & Küldés -->
-        <div class="stop-rail">
-          <div class="stop-marker" data-marker="6">6</div>
-        </div>
-        <section class="stop">
-          <div class="stop-head">
-            <div class="stop-kicker">Pasul 6 — ultimul pas</div>
-            <div><h2>Verificare &amp; trimitere</h2></div>
-            <div class="stop-sub">Sistemul generează contractul .docx completat și îl trimite prin e-mail împreună cu documentele încărcate.</div>
-          </div>
-          <div class="card">
-            <div class="review-list" id="reviewList"></div>
-
-            <!-- GDPR SI TERMENI CHECKBOXES -->
-            <div class="card" style="margin-top: 16px; padding: 16px; border: 1px solid var(--border);">
-              <div class="field">
-                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
-                  <input type="checkbox" id="chk_gdpr" name="gdpr_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
-                  <span>Am citit și sunt de acord cu <a href="/Pages/GDPR.html" target="_blank" style="color: #58a6ff; text-decoration: underline;">Politica de Confidențialitate și GDPR</a> *</span>
-                </label>
-              </div>
-
-              <div class="field" style="margin-top: 10px;">
-                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
-                  <input type="checkbox" id="chk_terms" name="terms_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
-                  <span>Confirm că datele introduse sunt corecte și sunt de acord cu prelucrarea lor în scopul redactării contractului *</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="actions">
-              <button type="submit" class="cta-button " id="btnSend">Generează și trimite contractul</button>
-              <button type="button" class="cta-button btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>
-            </div>
-            <div class="status" id="statusBox"></div>
-          </div>
-        </section>
-
-      </div>
-    </form>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Depune cererea pentru contractul tău <span>Tasku.</span></h1>
+    <p>Alege tipul de colaborare, completează datele tale și trimite-l spre aprobare.</p>
   </div>
+</section>
+
+<section class="info-section">
+  <div class="info-inner">
+    <h1>Înainte de a aplica</h1>
+    <p style="color: #01608c;">Înainte de a aplica pentru contractul Tasku, te rugăm să citești cu atenție următoarele informații:</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3><span class="tag">01. </span>Descrierea activității</h3>
+        <p>Activitatea constă în <b>picking</b> (pregătirea și colectarea comenzilor pentru platformele Glovo, Wolt și Bringo) și <b>reaprovizionarea</b> produselor pe rafturile magazinului.</p>
+      </div>
+
+      <div class="info-card">
+        <h3><span class="tag">02. </span>Condiții contractuale</h3>
+        <p>Pentru activarea contului, vom încheia un <b>contract individual de muncă</b> sau un contract de prestări servicii, în funcție de opțiunea aleasă mai jos.</p>
+      </div>
+
+      <div class="info-card span2" style="grid-column: 1 / -1;">
+        <h3><span class="tag">03. </span>Ghid de calcul al veniturilor pentru Taskeri</h3>
+        <p>Spre deosebire de un job clasic, veniturile tale pe platforma Tasku depind direct de performanța și eficiența ta din teren. Cu cât colectezi mai rapid și mai corect produsele, cu atât venitul tău pe oră va fi mai mare!</p>
+        
+        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <h4>1. Cum ești plătit? (Sistemul pe SKU)</h4>
+            <p style="margin: 4px 0 0 0;">Plata se face la numărul de SKU-uri scanate (articole unice), nu la numărul de produse fizice din coș.</p>
+            <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;"><i>Exemplu: 6 sticle de apă Borsec de 1L reprezintă 1 singur SKU. 1 sticlă de apă Borsec și 1 pungă de pufuleți înseamnă 2 SKU-uri.</i></p>
+          </div>
+
+          <div>
+            <h4>2. Cum monitorizezi numărul de SKU-uri? (⚠️ IMPORTANT)</h4>
+            <p style="margin: 4px 0 0 0;">Numărul de SKU-uri scanate este înregistrat exclusiv în scannerul fizic primit de la magazinul Carrefour. Pentru a afla numărul exact de SKU-uri scanate, trimite un e-mail la: <a href="mailto:support@traxlo.com">support@traxlo.com</a>.</p>
+          </div>
+
+          <div>
+            <h4>3. Tarife brute &amp; Estimare câștig</h4>
+            <p style="margin: 4px 0 0 0;">Tariful este uniformizat la toate magazinele Carrefour la <span class="figure">0,69 RON/SKU</span>.</p>
+            <p style="margin: 4px 0 0 0;">Estimare: un tasker realizează în medie un venit brut de <span class="figure">25 - 40 RON / oră</span>.</p>
+          </div>
+
+          <div>
+            <h4>4. Taxe și comisioane scăzute din Venitul Brut:</h4>
+            <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+              <li>Comisionul flotei: <span class="figure">10%</span> din totalul brut realizat.</li>
+              <li>Taxele către stat: <span class="figure">11 RON</span> pentru fiecare oră de muncă pontată.</li>
+            </ul>
+          </div>
+
+          <div class="note-box" style="background: #f8f9fa; border-left: 4px solid #0056b3; padding: 10px 14px; margin-top: 6px;">
+            <h4>5. Exemplu practic de calcul (Tură de 4 ore / 200 SKU-uri):</h4>
+            • <b>Venit Brut:</b> 200 SKU x 0,69 RON = 138 RON brut<br>
+            • <b>După comision flotă (-10%):</b> 138 RON - 13,8 RON = 124,2 RON<br>
+            • <b>După taxe de muncă (-11 RON/h x 4h):</b> 124,2 RON - 44 RON = <b>80,2 RON NET</b> (~20 RON net/oră)
+          </div>
+
+          <div>
+            <h4>6. Când primești banii? 💳</h4>
+            <p style="margin: 4px 0 0 0;">Plățile se fac săptămânal, în fiecare zi de <b>vineri</b>, direct în contul tău bancar, pentru toate turele finalizate în săptămâna anterioară.</p>
+            <p style="margin: 4px 0 0 0; font-size: 13px; color: #666;"><i>Exemplu: pentru turele efectuate între 1-7 ianuarie, plata se face vineri, 12 ianuarie.</i></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card" style="grid-column: 1 / -1;">
+        <h3><span class="tag">04. </span>Contact</h3>
+        <p>Așteptăm documentele dumneavoastră pentru a demara procesul de angajare. Dacă aveți întrebări, vă stăm la dispoziție.</p>
+        <a class="whatsapp-btn" href="https://wa.me/40753903370" target="_blank" rel="noopener">WhatsApp: 0753 903 370</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mode-section">
+  <div class="mode-inner">
+    <div class="info-kicker">Pasul 1</div>
+    <div><h2>Alege tipul de colaborare</h2></div>
+    <div class="mode-grid">
+      <div class="mode-card" id="card-pfa" data-mode="pfa">
+        <div class="check"></div>
+        <span class="tag2">Opțiunea A</span>
+        <h4>PFA / SRL</h4>
+        <p>Contract de prestări servicii logistice, încheiat cu firma ta (PFA sau S.R.L.) în calitate de Prestator.</p>
+      </div>
+      <div class="mode-card" id="card-cim" data-mode="cim">
+        <div class="check"></div>
+        <span class="tag2">Opțiunea B</span>
+        <h4>Contract individual de muncă (CIM)</h4>
+        <p>Angajare normală, ca persoană fizică salariată cu normă întreagă sau part-time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <!-- FormSubmit támogatással kiegészített form tag -->
+  <form id="contractForm" action="https://formsubmit.co/ferenc2701@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="_subject" value="Înregistrare Nouă Tasku / Drop">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+
+    <div class="route">
+      <!-- STOP 1: Form adatok -->
+      <div class="stop-rail">
+        <div class="stop-marker" data-marker="1">1</div>
+        <div class="line"></div>
+      </div>
+      <section class="stop">
+        <div class="card" style="margin-bottom:14px;">
+          <div class="field span2">
+            <label>Orașul în care vei activa <span style="color:red;">*</span></label>
+            <select name="oras_activitate" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:15px;">
+              <option value="" disabled selected>Alege orașul...</option>
+              <option value="București">București</option>
+              <option value="Brașov">Brașov</option>
+              <option value="Cluj-Napoca">Cluj-Napoca</option>
+              <option value="Constanța">Constanța</option>
+              <option value="Galați">Galați</option>
+              <option value="Iași">Iași</option>
+              <option value="Timișoara">Timișoara</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PFA FIELDS -->
+        <div id="pfaFields" class="mode-fields hidden">
+          <div class="stop-head">
+            <div class="stop-kicker">Pasul 2</div>
+            <div><h3>Datele firmei (PRESTATOR)</h3></div>
+            <div class="stop-sub">Acestea vor fi introduse în contract ca date ale părții care prestează serviciile.</div>
+          </div>
+          <div class="card">
+            <div class="grid2">
+              <div class="field span2">
+                <label>Denumirea firmei / numele PFA</label>
+                <input type="text" data-group="pfa" name="denumire_prestator" placeholder="ex. Popescu Delivery S.R.L.">
+              </div>
+              <div class="field span2">
+                <label>Sediul </label>
+                <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă care apare în CUI</span>
+                <input type="text" data-group="pfa" name="sediu_prestator" placeholder="ex. București, Sector 1, Str. Exemplu nr. 10">
+              </div>
+              <div class="field">
+                <label>Nr. Registrul Comerțului</label>
+                <input type="text" data-group="pfa" name="nr_reg_com" placeholder="ex. J40/1234/2024">
+              </div>
+              <div class="field">
+                <label>Cod unic de înregistrare (CUI)</label>
+                <input type="text" data-group="pfa" name="cui_prestator" placeholder="ex. RO12345678">
+              </div>
+              <div class="field">
+                <label>IBAN</label>
+                <input type="text" data-group="pfa" name="iban_prestator" placeholder="ex. RO00XXXX0000000000000000">
+              </div>
+              <div class="field">
+                <label>Denumirea băncii</label>
+                <input type="text" data-group="pfa" name="banca_prestator" placeholder="ex. BANCA TRANSILVANIA">
+              </div>
+              <div class="field span2">
+                <label>Numele reprezentantului legal</label>
+                <input type="text" data-group="pfa" name="reprezentant_prestator" placeholder="ex. Ionescu Andrei">
+              </div>
+              <div class="field span2" style="margin-top: 8px;">
+                <label>Certificat de Înregistrare (CUI)</label>
+                <div class="upload-grid" style="margin-top:6px;">
+                  <label class="dropzone" id="dz-cui" style="grid-column: 1 / -1; min-height: 120px;">
+                    <input type="file" data-group="pfa" name="certificat_cui">
+                    <div class="lbl">Încarcă Certificatul de Înregistrare</div>
+                    <div class="sub">Se acceptă PDF, JPG, PNG</div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CIM FIELDS -->
+        <div id="cimFields" class="mode-fields hidden">
+          <div class="stop-head">
+            <div class="stop-kicker">Pasul 2</div>
+            <div><h2>Datele tale (ANGAJARE)</h2></div>
+            <div class="stop-sub">Acestea vor fi introduse în contractul individual de muncă și în fișa postului.</div>
+          </div>
+          <div class="card">
+            <div class="grid2">
+              <div class="field span2">
+                <label>Nume și prenume</label>
+                <input type="text" data-group="cim" name="nume_salariat" placeholder="ex. Popescu Andrei">
+              </div>
+              <div class="field span2">
+                <label>Domiciliul</label>
+                <span style="font-size: 12px; color: var(--accent); font-weight: bold;">Adresa completă din Cartea de Identitate (buletin) sau după caz Dovada de Reședință</span>
+                <input type="text" data-group="cim" name="domiciliu_salariat" placeholder="ex. București, Sector 2, Str. Exemplu nr. 5">
+              </div>
+              <div class="field">
+                <label>CNP</label>
+                <input type="text" data-group="cim" name="cnp_salariat" placeholder="ex. 1900101123456" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label>IBAN (pentru plata salariului)</label>
+                <input type="text" data-group="cim" name="iban_salariat" placeholder="ex. RO00XXXX0000000000000000">
+              </div>
+              <div class="field">
+                <label>Seria CI</label>
+                <input type="text" data-group="cim" name="serie_ci" placeholder="ex. RT">
+              </div>
+              <div class="field">
+                <label>Numărul CI</label>
+                <input type="text" data-group="cim" name="numar_ci" placeholder="ex. 123456">
+              </div>
+              <div class="field">
+                <label>Eliberată de</label>
+                <input type="text" data-group="cim" name="eliberat_de" placeholder="ex. SPCLEP Sector 3">
+              </div>
+              <div class="field">
+                <label>Data eliberării CI</label>
+                <input type="text" data-group="cim" name="data_eliberare_ci" placeholder="ex. 12.03.2021">
+              </div>
+
+              <div class="field span2" style="margin-top:10px;">
+                <label>Norma de muncă <span style="color:red;">*</span></label>
+                <select id="normaMuncaSelect" name="norma_munca" data-group="cim" style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:15px;">
+                  <option value="part_time" selected>Part-time (necesită Declarație OG 4/2017)</option>
+                  <option value="full_time">Normă întreagă - 8h/zi (Fără Declarație OG 4/2017)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Declarație OG 4/2017 -->
+          <div class="card" id="declaratieCard" style="margin-top:14px;">
+            <div class="stop-head" style="margin-bottom:12px;">
+              <div class="stop-kicker">Declarație OG 4/2017</div>
+              <div class="stop-title" style="font-size:18px;">Situația personală / excepții</div>
+              <div class="stop-sub">Alege opțiunea care se aplică situației tale pentru calculul contribuțiilor sociale:</div>
+            </div>
+
+            <div class="field span2">
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" data-group="cim" name="situatie_og" value="Realizez, în cursul aceleiași luni, venituri din salarii sau asimilate salariilor în baza a unul, două sau mai multe contracte individuale de muncă, iar baza lunară de calcul cumulată aferentă acestora este cel puțin egală cu salariul minim brut pe țară garantat în plată.">
+                  <span>Realizez, în cursul aceleiași luni, venituri din salarii în baza a două sau mai multe CIM, iar baza cumulată este cel puțin egală cu salariul minim brut.</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" data-group="cim" name="situatie_og" value="Sunt elev sau student, cu vârsta până la 26 de ani, aflat/aflată într-o formă de școlarizare.">
+                  <span>Sunt elev sau student, cu vârsta până la 26 de ani, aflat într-o formă de școlarizare.</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" data-group="cim" name="situatie_og" value="Sunt ucenic, potrivit legii, în vârstă de până la 18 ani.">
+                  <span>Sunt ucenic, potrivit legii, în vârstă de până la 18 ani.</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" data-group="cim" name="situatie_og" value="Sunt persoană cu dizabilități, căreia prin lege i se recunoaște posibilitatea de a lucra mai puțin de 8 ore pe zi.">
+                  <span>Sunt persoană cu dizabilități (posibilitatea de a lucra mai puțin de 8 ore/zi).</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" data-group="cim" name="situatie_og" value="Am calitatea de pensionar pentru limită de vârstă în sistemul public de pensii și declar că nu beneficiez de pensie de serviciu în baza unor legi/statute speciale și nici nu cumulez pensia pentru limită de vârstă din sistemul public de pensii cu pensia stabilită într-un sistem de pensii neintegrat sistemului public de pensii.">
+                  <span>Am calitatea de pensionar pentru limită de vârstă în sistemul public de pensii.</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div class="grid2">
+            <div class="field">
+              <label>E-mail de contact <span class="opt">(doar pentru răspuns)</span></label>
+              <input type="email" name="contact_email" placeholder="tu@email.com">
+            </div>
+            <div class="field">
+              <label>Număr de telefon <span class="opt">(doar pentru contact)</span></label>
+              <input type="tel" name="contact_phone" placeholder="ex. 07xxxxxxxx">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP 2: Dátumok -->
+      <div class="stop-rail">
+        <div class="stop-marker" data-marker="2">2</div>
+        <div class="line"></div>
+      </div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 3</div>
+          <div><h2>Datele contractului</h2></div>
+          <div class="stop-sub">Datele se completează automat cu ziua de azi — activitatea începe la 3 zile de la semnare.</div>
+        </div>
+        <div class="card">
+          <div class="auto-row">
+            <div class="auto-chip">
+              <div class="k">Data semnării</div>
+              <div class="v" id="dispSemnare">—</div>
+            </div>
+            <div class="auto-chip">
+              <div class="k">Data începerii activității</div>
+              <div class="v" id="dispInceperii">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP 3: Dokumentumok & Aláírás -->
+      <div class="stop-rail">
+        <div class="stop-marker" data-marker="3">3</div>
+        <div class="line"></div>
+      </div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 4</div>
+          <div><h2>Fotografiile și documentele necesare</h2></div>
+          <div class="stop-sub">Fă câte o fotografie clară și lizibilă pentru fiecare document.</div>
+        </div>
+        <div class="card">
+          <div class="upload-grid">
+            <label class="dropzone" id="dz-front">
+              <input type="file" name="id_front" required>
+              <div class="lbl">Fața</div>
+              <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
+            </label>
+
+            <label class="dropzone" id="dz-back">
+              <input type="file" name="id_back">
+              <div class="lbl">Verso</div>
+              <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
+              <div class="sub" style="color:var(--red); font-size: 11px; margin-top: 4px;">Este nevoie doar în cazul actelor de identitate noi, cu cip.</div>
+            </label>
+
+            <label class="dropzone" id="dz-address" style="grid-column: 1 / -1;">
+              <input type="file" name="AddressProof">
+              <div class="lbl">Dovadă de reședință</div>
+              <div class="sub">Se acceptă orice format de document (PDF, JPG, PNG)</div>
+              <div class="sub" style="color:var(--red); font-size: 11px; margin-top: 4px;">Este nevoie doar în cazul actelor de identitate noi, cu cip.</div>
+            </label>
+
+            <div class="field span2" style="margin-top: 10px;">
+              <label>Semnătură candidat (Semnează pe ecran):</label>
+              <div class="signature-container">
+                <canvas id="signatureCanvas" width="400" height="150"></canvas>
+                <button type="button" id="clearSignatureBtn" class="btn-clear">Șterge semnătura</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP 5: Információk -->
+      <div class="stop-rail">
+        <div class="stop-marker" data-marker="5">5</div>
+        <div class="line"></div>
+      </div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 5</div>
+          <div><h2>Până se activează contul</h2></div>
+          <div class="stop-sub">Informații utile și pași de urmat înainte de activarea contului.</div>
+        </div>
+        <div class="card info-highlight">
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div>
+              <h4 style="color:#128C7E;">💬 Vă invităm în grupul nostru WhatsApp - Tasku București</h4>
+              <p style="margin:0; font-size:14px; line-height:1.4; color:var(--text);">Te rugăm să te alături grupului de WhatsApp dedicat pentru comunicări rapide:</p>
+              <a class="whatsapp-btn" href="https://chat.whatsapp.com/CgXhoz7ZMSKE5lcCx80fa2" target="_blank" rel="noopener" style="background:#25D366; border-color:#25D366;">Grup WhatsApp Tasku București</a>
+            </div>
+
+            <hr style="border:0; border-top:1px solid var(--line); margin:2px 0;">
+
+            <div>
+              <h4>📚 Mini-training & Test de activare</h4>
+              <p style="margin:0 0 8px 0; font-size:14px; line-height:1.4;">
+                Până ce finalizăm noul tău contract, avem rugămintea să parcurgi următorul mini-training pentru a afla ce ai de făcut în activitatea prestată prin intermediul Tasku.
+              </p>
+              <p style="margin:0 0 10px 0; font-size:14px; color:var(--text);">
+                Accesează de aici: <a class="training-link" href="https://drive.google.com/file/d/1IUCqqxPCpG9SnauUPLClriK4brTxOJFy/view" target="_blank" rel="noopener">Accesează ghidul Mini-Training (PDF)</a>
+              </p>
+              <div class="note-box">
+                ℹ️ <b>Notă:</b> La sfârșitul documentului ai o pagină cu linkul către testul pe care trebuie să-l faci ca să poți activa contul.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STOP 6: Áttekintés & Küldés -->
+      <div class="stop-rail">
+        <div class="stop-marker" data-marker="6">6</div>
+      </div>
+      <section class="stop">
+        <div class="stop-head">
+          <div class="stop-kicker">Pasul 6 — ultimul pas</div>
+          <div><h2>Verificare &amp; trimitere</h2></div>
+          <div class="stop-sub">Sistemul generează contractul .docx completat și îl trimite prin e-mail împreună cu documentele încărcate.</div>
+        </div>
+        <div class="card">
+          <div class="review-list" id="reviewList"></div>
+
+          <div class="card" style="margin-top: 16px; padding: 16px; border: 1px solid var(--border);">
+            <div class="field">
+              <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
+                <input type="checkbox" id="chk_gdpr" name="gdpr_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
+                <span>Am citit și sunt de acord cu <a href="/Pages/GDPR.html" target="_blank" style="color: #58a6ff; text-decoration: underline;">Politica de Confidențialitate și GDPR</a> *</span>
+              </label>
+            </div>
+
+            <div class="field" style="margin-top: 10px;">
+              <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
+                <input type="checkbox" id="chk_terms" name="terms_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
+                <span>Confirm că datele introduse sunt corecte și sunt de acord cu prelucrarea lor în scopul redactării contractului *</span>
+              </label>
+            </div>
+
+            <div class="field" style="margin-top: 10px;">
+              <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 13.5px;">
+                <input type="checkbox" id="chk_terms" name="terms_consent" value="DA" style="margin-top: 3px; accent-color: var(--accent);" required>
+                <span>Sunt de acord cu prelucrarea datelor personale (G.D.P.R.) potrivit REGULAMENTULUI (UE) 2016/679 în scopul încheierii unui contract individual de muncă și derulării raporturilor de muncă</span>
+              </label>
+            </div>
+           </div>
+
+
+
+          <div class="actions">
+            <button type="button" class="cta-button btn-submit" onclick="generateAndPreview()">Previzualizare și trimitere documente</button>
+            <button type="button" class="cta-button btn-secondary" id="btnPreview">Doar descărcare (previzualizare)</button>
+          </div>
+          
+          <!-- MODAL PREVIZUALIZARE DOCUMENT -->
+          <div id="documentPreviewModal" class="modal">
+            <div class="modal-content-large">
+              <div>
+                <span class="close-btn" onclick="closeDocPreview()">&times;</span>
+                <h2>Verificare Documente</h2>
+                <p>Vă rugăm să parcurgeți contractul și declarația generate înainte de trimiterea finală!</p>
+              </div>
+
+              <div class="tab-buttons">
+                <button type="button" class="tab-btn active" onclick="switchDocTab('contract')">Contract</button>
+                <button type="button" class="tab-btn" id="declaratieTabBtn" style="display:none;" onclick="switchDocTab('declaratie')">Declarație</button>
+              </div>
+
+              <div id="contractPreviewContainer" class="docx-render-container"></div>
+              <div id="declaratiePreviewContainer" class="docx-render-container" style="display: none;"></div>
+
+              <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeDocPreview()">Înapoi la editare</button>
+                <!-- Ha FormSubmit tesztet futtatsz: submitFinalDocs(true)-ra írd át! -->
+                <button type="button" class="btn-confirm" onclick="submitFinalDocs(true)">Trimitere finală</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </form>
+</div>
 
 <footer>
   <p>Created by <a href="https://bif-pfa.netlify.app" target="_blank" rel="noopener">BiF web solutions</a> &copy; 2026</p>

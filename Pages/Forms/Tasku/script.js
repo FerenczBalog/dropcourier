@@ -404,7 +404,7 @@ async function generateAndPreview() {
 
   } catch (error) {
     console.error("Hiba a dokumentum generálásakor:", error);
-    alert("Hiba történt a dokumentum előnézetének elkészítésekor: " + error.message);
+    alert("Eroare la generarea documentului: " + error.message);
   }
 }
 
@@ -454,7 +454,7 @@ async function submitViaNetlify(targetEmail, fields, files) {
 
   if (!response.ok) {
     const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.message || `Netlify API hiba (${response.status})`);
+    throw new Error(errData.message || `Netlify API ERROR (${response.status})`);
   }
 
   return await response.json();
@@ -605,8 +605,8 @@ async function submitFinalDocs(useFormSubmitTest = false) {
     alert(`Cererea a fost trimisă cu succes! (Nr. contract: ${data.nr_contract || data.nr_contract_cim})`);
 
   } catch (err) {
-    console.error("Beküldési hiba:", err);
-    alert("Hiba történt a küldés során: " + err.message);
+    console.error("Eroare la trimiterea cererii:", err);
+    alert("Eroare in timpul trimiterii: " + err.message);
   } finally {
     if (confirmBtn) {
       confirmBtn.disabled = false;

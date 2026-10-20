@@ -641,8 +641,15 @@ input.err {
 }
 
 /* --- MODAL STYLES --- */
+
+/* Ha a .modal nem rejtve van (pl. display: block) */
+body:has(.modal:not([style*="display: none"])) header {
+  position: relative !important;
+  z-index: 1; /* Szükség esetén, hogy a modal z-indexe (100000) alatt maradjon */
+}
+
     .modal {
-      display: none;
+      display: none; /* Alapértelmezés szerint rejtve */
       position: fixed;
       z-index: 100000;
       left: 0;

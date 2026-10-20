@@ -139,22 +139,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // JAVÍTOTT CANVAS RAJZOLÓ LOGIKA
 // ==========================================
+// ==========================================
+// FINOMÍTOTT CANVAS RAJZOLÓ LOGIKA (BÉZIER SMOOTHING)
+// ==========================================
+let lastPoint = null;
+
 function initCanvas() {
   canvas = document.getElementById('signatureCanvas');
   if (!canvas) return;
 
   ctx = canvas.getContext('2d');
 
-  // Vászon belső felbontásának beállítása
   canvas.width = 400;
   canvas.height = 200;
 
   clearSignature();
 
-  ctx.strokeStyle = '#1CA8EB';
-  ctx.lineWidth = 1;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#1CA8EB'; // Írás színe
+  ctx.lineWidth = 0.5;         // Vonalszélesség
+  ctx.lineCap = 'round';       // Lekerekített vonalvégek
+  ctx.lineJoin = 'round';      // Lekerekített csatlakozások
 
   // Egér eseménykezelők
   canvas.addEventListener('mousedown', startDrawing);
@@ -165,6 +169,51 @@ function initCanvas() {
   canvas.addEventListener('touchstart', startDrawing, { passive: false });
   canvas.addEventListener('touchmove', draw, { passive: false });
   canvas.addEventListener('touchend', stopDrawing);
+}
+
+function clearSignature() {
+  if (ctx && canvas) {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    hasSigned = false;
+    lastPoint = null;
+  }
+}
+
+function startDrawing(e) {
+  isDrawing = true;
+  hasSigned = true;
+  lastPoint = getPos(e);
+  if (e.cancelable) e.preventDefault();
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  
+  const currentPoint = getPos(e);
+  
+  if (lastPoint) {
+    // Köztes pont kiszámítása a simább görbéhez
+    const midPoint = {
+      x: lastPoint.x + (currentPoint.x - lastPoint.x) / 2,
+      y: lastPoint.y + (currentPoint.y - lastPoint.y) / 2
+    };
+
+    ctx.beginPath();
+    ctx.moveTo(lastPoint.x, lastPoint.y);
+    // Bézier-görbe rajzolása a köztes pont felé
+    ctx.quadraticCurveTo(lastPoint.x, lastPoint.y, midPoint.x, midPoint.y);
+    ctx.stroke();
+
+    lastPoint = currentPoint;
+  }
+
+  if (e.cancelable) e.preventDefault();
+}
+
+function stopDrawing() {
+  isDrawing = false;
+  lastPoint = null;
 }
 
 function clearSignature() {

@@ -1,0 +1,695 @@
+:root {
+  --bg: #FFFFFF;
+  --bg-soft: #F5F7FA; 
+  --ink: #0B0C0E;
+  --ink-soft: #5B616B;
+  --line: rgba(11, 12, 14, 0.10);
+  --accent: #1CA8EB;
+  --accent-blue: #2490FD;
+  --accent-hover: #1796d4;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #EAF0FF;
+  --surface: #FFFFFF;
+  --surface-2: #F2F4F7;
+  --green: #12B76A;
+  --green-soft: #E7F9F1;
+  --red: #F04438;
+  --red-soft: #FEECEB;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-top: 100px;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 24px 120px;
+}
+
+#contractForm input[type="text"] {
+  text-transform: uppercase;
+}
+
+/* ---------- FORM PÁRHUZAMOS HERO ---------- */
+section.hero {
+  height: auto;
+  min-height: auto;
+  background: transparent;
+  padding: 40px 24px 20px;
+}
+
+.hero-inner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.hero-inner span {
+  color: var(--accent-blue);
+}
+
+/* ---------- BEMUTATKOZÓ SZEKCIÓK (KÉK - FEHÉR VÁLTAKOZÁS) ---------- */
+.servicii-section, .avantaje-section, .about-section.bg-blue {
+  background: var(--accent-blue);
+  color: #ffffff;
+  padding: 80px 0;
+}
+
+.serviciu-card, .avantaj-card, .bg-blue .value-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.serviciu-card:hover, .avantaj-card:hover, .bg-blue .value-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.clienti-section, .callTOapply, .about-section.bg-soft {
+  background: var(--bg-soft);
+  padding: 80px 0;
+}
+
+/* ---------- INFO PANEL (FORMOKHOZ) ---------- */
+.info-section {
+  padding: 24px 24px 8px;
+}
+
+.info-inner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.info-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .info-grid { grid-template-columns: 1fr; }
+}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+
+.info-card h3, h2 .tag {
+  font-size: 15px;
+  letter-spacing: .08em;
+  background: var(--accent-soft);
+  color: var(--accent-blue);
+  border-radius: 5px;
+  padding: 2px 7px;
+}
+
+.info-card p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+.info-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+
+.whatsapp-btn:hover {
+  opacity: .85;
+}
+
+/* ---------- MODE SELECTOR ---------- */
+.mode-section {
+  padding: 24px 24px 8px;
+}
+
+.mode-inner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .mode-grid { grid-template-columns: 1fr; }
+}
+
+.mode-card {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s, background .15s;
+  position: relative;
+}
+
+.mode-card:hover {
+  border-color: #c7d3f5;
+}
+
+.mode-card.active {
+  border-color: var(--accent-blue);
+  background: var(--accent-soft);
+}
+
+.mode-card .check {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: #ffffff;
+}
+
+.mode-card.active .check {
+  border-color: var(--accent-blue);
+  background: var(--accent-blue);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'><path d='M7.5 13.5L4 10l-1.4 1.4L7.5 16.3 17.4 6.4 16 5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 13px;
+}
+
+.mode-card .tag2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.mode-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ---------- STEPPER & ROUTE ---------- */
+.route {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  column-gap: 18px;
+  margin-top: 24px;
+}
+
+.stop-rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stop-rail .line {
+  position: absolute;
+  top: 14px;
+  bottom: -14px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--line);
+}
+
+.stop-rail:last-child .line {
+  display: none;
+}
+
+.stop-marker {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 2px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  z-index: 1;
+  transition: all .25s ease;
+  flex-shrink: 0;
+}
+
+.stop-marker.done {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+}
+
+section.stop {
+  padding-bottom: 40px;
+}
+
+.stop-head {
+  padding-top: 2px;
+  margin-bottom: 16px;
+}
+
+.stop-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+
+.stop-title {
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.stop-sub {
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  margin-top: 5px;
+  line-height: 1.55;
+  max-width: 560px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 1px 2px rgba(11, 12, 14, .03);
+}
+
+/* ---------- FORM ELEMEK ---------- */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 640px) {
+  .grid2 { grid-template-columns: 1fr; }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field.span2 {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+label .opt {
+  color: var(--ink-soft);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+input[type=text], input[type=email], input[type=tel], select {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-size: 14.5px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+
+input:focus, select:focus {
+  border-color: var(--accent-blue);
+  background: #ffffff;
+}
+
+input.err {
+  border-color: var(--red);
+  background: var(--red-soft);
+}
+
+.auto-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.auto-chip {
+  flex: 1;
+  min-width: 200px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.auto-chip .k {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.auto-chip .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  color: var(--accent-blue);
+}
+
+/* ---------- UPLOAD / DROPZONE ---------- */
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 640px) {
+  .upload-grid { grid-template-columns: 1fr; }
+}
+
+.dropzone {
+  max-width: 300px;
+  border: 1.5px dashed #C7CDD6;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface-2);
+  transition: border-color .15s, background .15s;
+  position: relative;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden; /* Biztosítja, hogy semmi ne nyúljon ki a dropzone keretéből */
+}
+
+.dropzone:hover {
+  border-color: var(--accent-blue);
+}
+
+.dropzone.has-file {
+  border-style: solid;
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.dropzone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2; /* A kattinthatóság miatt az előnézeti kép felett marad */
+}
+
+.dropzone .lbl {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dropzone .sub {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+
+/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
+
+.dropzone {
+  max-width: 300px;
+  border: 1.5px dashed #C7CDD6;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface-2);
+  transition: border-color .15s, background .15s;
+  position: relative;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden; /* Biztosítja, hogy semmi ne nyúljon ki a dropzone keretéből */
+}
+
+.dropzone:hover {
+  border-color: var(--accent-blue);
+}
+
+.dropzone.has-file {
+  border-style: solid;
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.dropzone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2; /* A kattinthatóság miatt az előnézeti kép felett marad */
+}
+
+.dropzone .lbl {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dropzone .sub {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+
+/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
+
+.dropzone img,
+.dropzone .preview-img {
+  max-width: 100%;       /* Nem lehet szélesebb, mint a dropzone */
+  max-height: 120px;     /* A 140px-es min-height-hez igazítva, hogy a paddinggel együtt kényelmesen elférjen */
+  object-fit: contain;   /* Megtartja az eredeti képarányt, nem torzítja a képet */
+  border-radius: 8px;    /* Esztétikus lekerekítés */
+  pointer-events: none;  /* Átengedi a kattintást a felette lévő <input>-ra */
+}
+
+/* ---------- RADIO & CHECKBOX GROUP ---------- */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.radio-option:hover {
+  border-color: var(--accent-blue);
+  background: #ffffff;
+}
+
+.radio-option input[type="radio"], .radio-option input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: var(--accent-blue);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.radio-option span {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ---------- REVIEW LIST ---------- */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: var(--surface-2);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+}
+
+.review-row .k { color: var(--ink-soft); font-weight: 500; }
+.review-row .v { font-family: 'IBM Plex Mono', monospace; color: var(--ink); font-weight: 600; text-align: right; word-break: break-word; }
+
+/* ---------- SIGNATURE CANVAS ---------- */
+.signature-container {
+  position: relative;
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+#sigCanvas {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  touch-action: none;
+  cursor: crosshair;
+  width: 100%;
+  max-width: 500px;
+  height: 150px;
+}
+
+.btn-clear {
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-end;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.btn-clear:hover {
+  background: var(--red-soft);
+}
+
+/* ---------- SUPPORTED BY ---------- */
+.supportedBy {
+  background: var(--accent-blue);
+  color: #ffffff;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.supportedBy-header { max-width: 840px; margin: 0 auto 36px; }
+.supportedBy-header h2 { font-size: 16px; font-weight: 500; line-height: 1.6; margin: 0; color: #ffffff; }
+.supportedBy-content { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
+.supportedBy-content img { max-width: 140px; height: auto; }
+
+/* ---------- FOOTER ---------- */
+footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  padding: 30px 24px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-top: 40px;
+}
+
+footer img { height: 40px; width: auto; }
+footer a { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
+footer a:hover { text-decoration: underline; }
+
+/* ---------- UTILS & RESPONSIVE ---------- */
+.hidden { display: none !important; }
+
+@media (max-width: 1024px) {
+  header { padding: 0 20px; }
+  nav ul { gap: 20px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+}

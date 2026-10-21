@@ -136,9 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
   refreshMarkers();
 });
 
-// ==========================================
-// JAVÍTOTT CANVAS RAJZOLÓ LOGIKA
-// ==========================================
+
 // ==========================================
 // FINOMÍTOTT CANVAS RAJZOLÓ LOGIKA (BÉZIER SMOOTHING)
 // ==========================================
@@ -325,7 +323,7 @@ async function buildDocxBlob(templateSource, includeCompanySignature = false) {
   if (templateSource.startsWith('http') || templateSource.startsWith('/') || templateSource.startsWith('templates/')) {
     const response = await fetch(templateSource);
     if (!response.ok) {
-      throw new Error(`Nem található a sablonfájl (${response.status}: ${response.statusText})`);
+      throw new Error(`Lipsa fișier template (${response.status}: ${response.statusText})`);
     }
     arrayBuffer = await response.arrayBuffer();
   } else {
@@ -409,7 +407,7 @@ async function generateAndPreview() {
   if (!validate()) return;
 
   if (!hasSigned) {
-    alert("Vă rugăm să semnați contractul înainte de a vedea previzualizarea!");
+    alert("Vă rugăm să semnați contractul înainte de previzualizare!");
     return;
   }
 

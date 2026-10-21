@@ -53,7 +53,7 @@ exports.handler = async (event, context) => {
 
     // 4. E-mail küldése
     const emailData = await resend.emails.send({
-      from: 'DROP Fleet <onboarding@resend.dev>', // Ha igazoltad a saját domainedet, cseréld arra (pl. no-reply@dropcourier.ro)
+      from: 'DROP Onboarding <onboarding@resend.dev>', // Ha igazoltad a saját domainedet, cseréld arra (pl. no-reply@dropcourier.ro)
       to: [targetEmail],
       subject: subject,
       html: fieldsHtml,

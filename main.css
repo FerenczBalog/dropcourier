@@ -98,7 +98,7 @@ header {
   background: var(--bg-soft);
 }
 
-  /* Amikor a modal nyitva van, a header semmilyen körülmények között nem látszódhat */
+/* Amikor a modal nyitva van, a header semmilyen körülmények között nem látszódhat */
 body.modal-open header {
   display: none !important;
 }
@@ -225,8 +225,10 @@ nav ul li a.active::after {
     z-index: 100;
   }
 
+  /* Mindkét osztályra rányitjuk a nav-ot, hogy minden JS szkripttel kompatibilis legyen */
+  nav.open,
   nav.active {
-    right: 0;
+    right: 0 !important;
   }
 
   nav ul {

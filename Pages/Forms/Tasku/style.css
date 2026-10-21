@@ -331,7 +331,7 @@ input.err {
   font-weight: 600;
 }
 
-/* ---------- DROPZONE (FÁJL FELTSÖLTÉS & ELŐNÉZET) ---------- */
+/* ---------- DROPZONE (FÁJL FELTÖLTÉS & ELŐNÉZET) ---------- */
 .upload-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -533,16 +533,21 @@ input.err {
 }
 
 /* ==========================================
-   MODAL & SZERZŐDÉS ELŐNÉZET (RESPONSIVE)
+   MODAL & SZERZŐDÉS ELŐNÉZET (FIXED & RESPONSIVE)
    ========================================== */
 body.modal-open {
   overflow: hidden;
 }
 
+/* Amikor a modal nyitva van, a header garantáltan mögé kerül */
+body.modal-open header {
+  z-index: 1 !important;
+}
+
 .modal {
   display: none;
   position: fixed;
-  z-index: 100000;
+  z-index: 100000 !important;
   left: 0;
   top: 0;
   width: 100%;
@@ -561,10 +566,11 @@ body.modal-open {
   width: 96%;
   max-width: 960px;
   height: 94vh;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   position: relative;
+  overflow: hidden;
 }
 
 @media (max-width: 600px) {
@@ -585,45 +591,51 @@ body.modal-open {
   transition: color 0.15s;
 }
 
+.modal-content-large h2 {
+  color: var(--accent-blue);
+}
+
 .close-btn:hover {
   color: var(--ink);
 }
 
+/* KORÁBBI FÜLEK MEGTARTÁSA FIX POZÍCIÓBAN A DOKUMENTUM FELETT */
 .tab-buttons {
-  margin: 12px 0;
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
+  margin: 15px 0 10px 0;
+  display: flex !important;
+  gap: 10px;
+  flex-shrink: 0 !important;
+  z-index: 2;
 }
 
 .tab-btn {
-  padding: 8px 16px;
-  border: 1px solid var(--line);
+  padding: 10px 20px;
+  border: 1px solid #ccc;
   background-color: #e9ecef;
   cursor: pointer;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 13.5px;
+  border-radius: 6px 6px 0 0;
+  font-weight: bold;
   transition: all 0.15s;
 }
 
 .tab-btn.active {
-  background-color: var(--accent-blue);
-  color: #ffffff;
-  border-color: var(--accent-blue);
+  background-color: #fff;
+  border-bottom: 2px solid var(--accent-blue);
+  color: var(--accent-blue);
 }
 
-/* SZERZŐDÉS DOKUMENTUM KONTAINER - NICS OVERFLOW */
+/* DOCX PREVIEW CONTAINER */
 .docx-render-container {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: #525659;
+  flex: 1 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background-color: var(--surface-2);
   padding: 15px;
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
 }
+
 
 @media (max-width: 600px) {
   .docx-render-container {
@@ -631,7 +643,7 @@ body.modal-open {
   }
 }
 
-/* DOCX-PREVIEW KIRENDERELT MEGJELENÍTÉS SKÁLÁZÁSA */
+/* DOCX-PREVIEW KIRENDERELT MEGJELENÍTÉS SKÁLÁZÁSA (NINCS HORIZONTÁLIS OVERFLOW) */
 .docx-render-container .docx-wrapper {
   background-color: transparent !important;
   padding: 0 !important;

@@ -98,6 +98,11 @@ header {
   background: var(--bg-soft);
 }
 
+  /* Amikor a modal nyitva van, a header semmilyen körülmények között nem látszódhat */
+body.modal-open header {
+  display: none !important;
+}
+
 .logo-mark img {
   height: 38px;
   width: auto;
@@ -235,7 +240,7 @@ nav ul li a.active::after {
   }
 }
 
-/* ---------- GOMBOK ---------- */
+/* ---------- GLOBÁLIS GOMBOK ---------- */
 .cta-button {
   display: inline-flex;
   align-items: center;

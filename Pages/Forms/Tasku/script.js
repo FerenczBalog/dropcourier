@@ -403,22 +403,23 @@ async function buildDocxBlob(templateSource, includeCompanySignature = false) {
 // ==========================================
 // ELŐNÉZET ÉS MODAL
 // ==========================================
+// ELŐNÉZET MEGNYITÁSA
 async function generateAndPreview() {
   if (!validate()) return;
 
   if (!hasSigned) {
-    alert("Vă rugăm să semnați contractul înainte de previzualizare!");
+    alert("Vă rugăm să semnați contractul înainte de a vedea previzualizarea!");
     return;
   }
 
   try {
     const data = collectData();
-    let templatePath = typeof TEMPLATE_B64_PFA !== 'undefined' ? TEMPLATE_B64_PFA : 'templates/contract_template.docx';
+    let templatePath = typeof TEMPLATE_B64_PFA !== 'undefined' ? TEMPLATE_B64_PFA : TEMPLATE_B64_CIM;
     if (mode === 'cim') {
       templatePath = data.is_full_time ? TEMPALATE_B64_CIM_FULL : TEMPLATE_B64_CIM;
     }
 
-    generatedContractBlob = await buildDocxBlob(templatePath, false);
+    generatedContractBlob = await buildDocxBlob(templatePath, true);
 
     const contractContainer = document.getElementById('contractPreviewContainer');
     if (contractContainer) {
@@ -430,14 +431,12 @@ async function generateAndPreview() {
     const declaratieTabBtn = document.getElementById('declaratieTabBtn');
 
     if (requiresDeclaratie && typeof TEMPLATE_DECLARATIE !== 'undefined') {
-      generatedDeclaratieBlob = await buildDocxBlob(TEMPLATE_DECLARATIE, false);
-      
+      generatedDeclaratieBlob = await buildDocxBlob(TEMPLATE_DECLARATIE, true);
       const declaratieContainer = document.getElementById('declaratiePreviewContainer');
       if (declaratieContainer) {
         declaratieContainer.innerHTML = '';
         await docx.renderAsync(generatedDeclaratieBlob, declaratieContainer);
       }
-
       if (declaratieTabBtn) declaratieTabBtn.style.display = 'inline-block';
     } else {
       if (declaratieTabBtn) declaratieTabBtn.style.display = 'none';
@@ -447,12 +446,32 @@ async function generateAndPreview() {
     switchDocTab('contract');
     
     const modal = document.getElementById('documentPreviewModal');
-    if (modal) modal.style.display = 'block';
+    if (modal) {
+      modal.style.display = 'block';
+      document.body.classList.add('modal-open');
+    }
+
+    // --- ÚJ: HEADER COMPLET ELREJTÉSE MODAL MEGNYITÁSAKOR ---
+    const header = document.querySelector('header');
+    if (header) {
+      header.style.display = 'none';
+    }
 
   } catch (error) {
     console.error("Hiba a dokumentum generálásakor:", error);
-    alert("Eroare la generarea documentului: " + error.message);
+    alert("Hiba történt a dokumentum elkészítésekor: " + error.message);
   }
+}
+
+// ELŐNÉZET BEZÁRÁSA
+function closeDocPreview() {
+  const modal = document.getElementById('documentPreviewModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+
+
 }
 
 function switchDocTab(tabName) {
@@ -476,6 +495,12 @@ function switchDocTab(tabName) {
 function closeDocPreview() {
   const modal = document.getElementById('documentPreviewModal');
   if (modal) modal.style.display = 'none';
+
+    // --- ÚJ: HEADER VISSZAÁLLÍTÁSA BEZÁRÁSKOR ---
+  const header = document.querySelector('header');
+  if (header) {
+    header.style.display = 'flex';
+  }
 }
 
 // ==========================================

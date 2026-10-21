@@ -5,53 +5,31 @@
   --ink-soft: #5B616B;
   --line: rgba(11, 12, 14, 0.10);
   --accent: #1CA8EB;
-  --accent-blue: #1CA8EB;
+  --accent-blue: #2490FD;
   --accent-hover: #1796d4;
   --accent-ink: #FFFFFF;
   --accent-soft: #EAF0FF;
   --surface: #FFFFFF;
   --surface-2: #F2F4F7;
-  --green: #10B981;
-  --green-soft: #D1FAE5;
+  --green: #12B76A;
+  --green-soft: #E7F9F1;
+  --red: #F04438;
+  --red-soft: #FEECEB;
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
 }
-
-/* ---------- FONT ---------- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'League Gothic', cursive, sans-serif;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin-top: 0;
-  color: var(--ink);
-}
-
-.info-card h3 {
-  font-size: 25px;
-}
-
-p {
-  font-family: 'Barlow', sans-serif;
-  font-weight: 400;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: var(--accent-ink);
-}
-
-.hero-inner p {
-  color: var(--ink);
-}
-/* ---------- FONT ---------- */
 
 html, body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -69,20 +47,45 @@ body {
   color: #ffffff;
 }
 
-.wrap {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 40px 24px 80px;
+/* ---------- TIPOGRÁFIA ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'League Gothic', cursive, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: var(--ink);
 }
 
-.dropzone {
-  max-width: 300px;
+h1 { font-size: 2.5rem; line-height: 1.1; }
+h2 { font-size: 2rem; line-height: 1.15; }
+h3 { font-size: 1.5rem; line-height: 1.2; }
+h4 { font-size: 1.25rem; }
+
+p {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--ink);
+}
+
+.hero-inner p {
+  color: var(--ink-soft);
+}
+
+/* ---------- KONTÉNER ---------- */
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 20px 100px;
+  width: 100%;
 }
 
 /* ---------- HEADER & NAV ---------- */
 header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 0;
@@ -90,7 +93,7 @@ header {
   z-index: 100;
   width: 100%;
   height: 100px;
-  padding: 0 24px;
+  padding: 0 40px;
   border-bottom: 1px solid var(--line);
   background: var(--bg-soft);
 }
@@ -117,7 +120,7 @@ nav ul {
 
 nav ul li {
   font-family: 'Barlow', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -153,7 +156,7 @@ nav ul li a.active::after {
   width: 100%;
 }
 
-/* ---------- RESPONSIVE HEADER & HAMBURGER MENU ---------- */
+/* ---------- HAMBURGER MENU ---------- */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -184,7 +187,7 @@ nav ul li a.active::after {
 }
 
 .hamburger.open span:nth-child(3) {
-  transform: translateY(-13px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 @media (max-width: 900px) {
@@ -217,7 +220,7 @@ nav ul li a.active::after {
     z-index: 100;
   }
 
-  nav.open {
+  nav.active {
     right: 0;
   }
 
@@ -232,22 +235,23 @@ nav ul li a.active::after {
   }
 }
 
-/* ---------- COMMON BUTTONS ---------- */
+/* ---------- GOMBOK ---------- */
 .cta-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: var(--accent-blue);
   color: #ffffff;
-  padding: 14px 28px;
+  padding: 14px 24px;
   border: none;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(36, 144, 253, 0.3);
   transition: all 0.2s ease;
+  text-align: center;
 }
 
 .cta-button:hover {
@@ -257,42 +261,26 @@ nav ul li a.active::after {
 }
 
 .btn-secondary {
-  background-color: rgba(160, 159, 159, 0.197);
+  background-color: var(--surface-2);
   color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 14px 24px;
   border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* ---------- SZEKCIÓK (KÉK - FEHÉR VÁLTAKOZÁS) ---------- */
-.servicii-section, .avantaje-section, .about-section.bg-blue {
+.btn-secondary:hover {
+  background-color: #e2e6ea;
+}
+
+/* ---------- SUPPORTED BY & FOOTER ---------- */
+.supportedBy {
   background: var(--accent-blue);
   color: #ffffff;
-  padding: 0px;
-  margin: 0;
-}
-
-.serviciu-card, .avantaj-card, .bg-blue .value-card {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 32px;
-  backdrop-filter: blur(4px);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.serviciu-card:hover, .avantaj-card:hover, .bg-blue .value-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.clienti-section, .callTOapply, .about-section.bg-soft {
-  background: var(--bg-soft);
-  padding: 80px 0;
-}
-
-/* ---------- SUPPORTED BY ---------- */
-.supportedBy {
-  background: var(white);
-  padding: 60px 24px;
+  padding: 60px 20px;
   text-align: center;
 }
 
@@ -302,10 +290,11 @@ nav ul li a.active::after {
 }
 
 .supportedBy-header h2 { 
-  font-size: 16px; 
-  font-weight: 400; 
+  font-size: 20px; 
+  font-weight: 500; 
   line-height: 1.6; 
   margin: 0; 
+  color: #ffffff; 
 }
 
 .supportedBy-content { 
@@ -321,7 +310,6 @@ nav ul li a.active::after {
   height: auto; 
 }
 
-/* ---------- FOOTER ---------- */
 footer {
   display: flex;
   justify-content: space-around;
@@ -329,7 +317,7 @@ footer {
   width: 100%;
   background: var(--bg-soft);
   border-top: 1px solid var(--line);
-  padding: 30px 24px;
+  padding: 30px 20px;
   color: var(--ink-soft);
   font-size: 14px;
   margin-top: 40px;
@@ -350,8 +338,10 @@ footer a:hover {
   text-decoration: underline; 
 }
 
-@media (max-width: 1024px) {
-  header { padding: 0 20px; }
-  nav ul { gap: 20px; }
-  footer { flex-direction: column; gap: 16px; text-align: center; }
+@media (max-width: 768px) {
+  footer { 
+    flex-direction: column; 
+    gap: 16px; 
+    text-align: center; 
+  }
 }

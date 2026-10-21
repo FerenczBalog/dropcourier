@@ -1,52 +1,7 @@
-:root {
-  --bg: #FFFFFF;
-  --bg-soft: #F5F7FA; 
-  --ink: #0B0C0E;
-  --ink-soft: #5B616B;
-  --line: rgba(11, 12, 14, 0.10);
-  --accent: #1CA8EB;
-  --accent-blue: #2490FD;
-  --accent-hover: #1796d4;
-  --accent-ink: #FFFFFF;
-  --accent-soft: #EAF0FF;
-  --surface: #FFFFFF;
-  --surface-2: #F2F4F7;
-  --green: #12B76A;
-  --green-soft: #E7F9F1;
-  --red: #F04438;
-  --red-soft: #FEECEB;
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-
-
-::selection {
-  background: var(--accent-blue);
-  color: #ffffff;
-}
-
-.wrap {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 40px 24px 120px;
-}
-
-#contractForm input[type="text"] {
-  text-transform: uppercase;
-}
-
-/* ---------- FORM PÁRHUZAMOS HERO ---------- */
+/* ---------- HERO & INFO SECTIONS ---------- */
 section.hero {
-  height: auto;
-  min-height: auto;
   background: transparent;
-  padding: 40px 24px 20px;
+  padding: 40px 20px 10px;
 }
 
 .hero-inner {
@@ -58,38 +13,11 @@ section.hero {
   color: var(--accent-blue);
 }
 
-/* ---------- BEMUTATKOZÓ SZEKCIÓK (KÉK - FEHÉR VÁLTAKOZÁS) ---------- */
-.servicii-section, .avantaje-section, .about-section.bg-blue {
-  background: var(--accent-blue);
-  color: #ffffff;
-  padding: 80px 0;
+.info-section, .mode-section {
+  padding: 20px 20px 10px;
 }
 
-.serviciu-card, .avantaj-card, .bg-blue .value-card {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 32px;
-  backdrop-filter: blur(4px);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.serviciu-card:hover, .avantaj-card:hover, .bg-blue .value-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.clienti-section, .callTOapply, .about-section.bg-soft {
-  background: var(--bg-soft);
-  padding: 80px 0;
-}
-
-/* ---------- INFO PANEL (FORMOKHOZ) ---------- */
-.info-section {
-  padding: 24px 24px 8px;
-}
-
-.info-inner {
+.info-inner, .mode-inner {
   max-width: 920px;
   margin: 0 auto;
 }
@@ -103,44 +31,44 @@ section.hero {
   margin-bottom: 8px;
 }
 
-.info-grid {
+.info-grid, .mode-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
 @media (max-width: 700px) {
-  .info-grid { grid-template-columns: 1fr; }
+  .info-grid, .mode-grid { 
+    grid-template-columns: 1fr; 
+  }
 }
 
 .info-card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 20px 22px;
+  padding: 20px;
 }
 
-.info-card h3, h2 .tag {
-  font-size: 15px;
+.info-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.info-card .tag {
+  font-size: 13px;
   letter-spacing: .08em;
   background: var(--accent-soft);
   color: var(--accent-blue);
   border-radius: 5px;
   padding: 2px 7px;
+  margin-right: 6px;
 }
 
 .info-card p {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: var(--ink);
-  margin: 0 0 8px;
-}
-
-.info-card ul {
-  margin: 0;
-  padding-left: 18px;
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 8px;
 }
 
 .whatsapp-btn {
@@ -148,40 +76,22 @@ section.hero {
   align-items: center;
   gap: 8px;
   margin-top: 10px;
-  background: var(--ink);
-  border: 1px solid var(--ink);
+  background: #25D366;
+  border: 1px solid #25D366;
   color: #ffffff;
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
   border-radius: 10px;
-  padding: 10px 15px;
+  padding: 10px 16px;
+  transition: opacity 0.2s;
 }
 
 .whatsapp-btn:hover {
-  opacity: .85;
+  opacity: .9;
 }
 
-/* ---------- MODE SELECTOR ---------- */
-.mode-section {
-  padding: 24px 24px 8px;
-}
-
-.mode-inner {
-  max-width: 920px;
-  margin: 0 auto;
-}
-
-.mode-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-@media (max-width: 700px) {
-  .mode-grid { grid-template-columns: 1fr; }
-}
-
+/* ---------- MODE SELECTOR (OPȚIUNEA A / B) ---------- */
 .mode-card {
   background: var(--surface);
   border: 2px solid var(--line);
@@ -214,10 +124,7 @@ section.hero {
 
 .mode-card.active .check {
   border-color: var(--accent-blue);
-  background: var(--accent-blue);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'><path d='M7.5 13.5L4 10l-1.4 1.4L7.5 16.3 17.4 6.4 16 5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: var(--accent-blue) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'><path d='M7.5 13.5L4 10l-1.4 1.4L7.5 16.3 17.4 6.4 16 5z'/></svg>") no-repeat center;
   background-size: 13px;
 }
 
@@ -232,18 +139,25 @@ section.hero {
 }
 
 .mode-card p {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--ink-soft);
-  line-height: 1.55;
+  line-height: 1.5;
   margin: 0;
 }
 
-/* ---------- STEPPER & ROUTE ---------- */
+/* ---------- STEPPER ROUTE ---------- */
 .route {
   display: grid;
   grid-template-columns: 36px 1fr;
   column-gap: 18px;
   margin-top: 24px;
+}
+
+@media (max-width: 480px) {
+  .route {
+    grid-template-columns: 28px 1fr;
+    column-gap: 12px;
+  }
 }
 
 .stop-rail {
@@ -310,27 +224,27 @@ section.stop {
 }
 
 .stop-title {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 700;
 }
 
 .stop-sub {
   color: var(--ink-soft);
   font-size: 13.5px;
-  margin-top: 5px;
-  line-height: 1.55;
-  max-width: 560px;
+  margin-top: 4px;
+  line-height: 1.5;
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 22px;
+  padding: 20px;
   box-shadow: 0 1px 2px rgba(11, 12, 14, .03);
+  width: 100%;
 }
 
-/* ---------- FORM ELEMEK ---------- */
+/* ---------- INPUT MEZŐK ---------- */
 .grid2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -365,6 +279,7 @@ label .opt {
 }
 
 input[type=text], input[type=email], input[type=tel], select {
+  width: 100%;
   background: var(--surface-2);
   border: 1px solid var(--line);
   color: var(--ink);
@@ -394,7 +309,7 @@ input.err {
 
 .auto-chip {
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
   background: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -411,11 +326,12 @@ input.err {
 
 .auto-chip .v {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--accent-blue);
+  font-weight: 600;
 }
 
-/* ---------- UPLOAD / DROPZONE ---------- */
+/* ---------- DROPZONE (FÁJL FELTSÖLTÉS & ELŐNÉZET) ---------- */
 .upload-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -427,10 +343,11 @@ input.err {
 }
 
 .dropzone {
-  max-width: 300px;
+  width: 100%;
+  max-width: 100%;
   border: 1.5px dashed #C7CDD6;
   border-radius: 14px;
-  padding: 18px;
+  padding: 16px;
   text-align: center;
   cursor: pointer;
   background: var(--surface-2);
@@ -441,8 +358,8 @@ input.err {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  overflow: hidden; /* Biztosítja, hogy semmi ne nyúljon ki a dropzone keretéből */
+  gap: 6px;
+  overflow: hidden;
 }
 
 .dropzone:hover {
@@ -460,7 +377,9 @@ input.err {
   inset: 0;
   opacity: 0;
   cursor: pointer;
-  z-index: 2; /* A kattinthatóság miatt az előnézeti kép felett marad */
+  z-index: 2;
+  width: 100%;
+  height: 100%;
 }
 
 .dropzone .lbl {
@@ -472,68 +391,17 @@ input.err {
   font-size: 11.5px;
   color: var(--ink-soft);
 }
-
-/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
-
-.dropzone {
-  max-width: 300px;
-  border: 1.5px dashed #C7CDD6;
-  border-radius: 14px;
-  padding: 18px;
-  text-align: center;
-  cursor: pointer;
-  background: var(--surface-2);
-  transition: border-color .15s, background .15s;
-  position: relative;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  overflow: hidden; /* Biztosítja, hogy semmi ne nyúljon ki a dropzone keretéből */
-}
-
-.dropzone:hover {
-  border-color: var(--accent-blue);
-}
-
-.dropzone.has-file {
-  border-style: solid;
-  border-color: var(--green);
-  background: var(--green-soft);
-}
-
-.dropzone input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 2; /* A kattinthatóság miatt az előnézeti kép felett marad */
-}
-
-.dropzone .lbl {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.dropzone .sub {
-  font-size: 11.5px;
-  color: var(--ink-soft);
-}
-
-/* --- ÚJ: A feltöltött képek méretkorlátozása --- */
 
 .dropzone img,
 .dropzone .preview-img {
-  max-width: 100%;       /* Nem lehet szélesebb, mint a dropzone */
-  max-height: 120px;     /* A 140px-es min-height-hez igazítva, hogy a paddinggel együtt kényelmesen elférjen */
-  object-fit: contain;   /* Megtartja az eredeti képarányt, nem torzítja a képet */
-  border-radius: 8px;    /* Esztétikus lekerekítés */
-  pointer-events: none;  /* Átengedi a kattintást a felette lévő <input>-ra */
+  max-width: 100%;
+  max-height: 110px;
+  object-fit: contain;
+  border-radius: 8px;
+  pointer-events: none;
 }
 
-/* ---------- RADIO & CHECKBOX GROUP ---------- */
+/* ---------- RADIO OPTIONS ---------- */
 .radio-group {
   display: flex;
   flex-direction: column;
@@ -559,7 +427,7 @@ input.err {
 }
 
 .radio-option input[type="radio"], .radio-option input[type="checkbox"] {
-  margin-top: 2px;
+  margin-top: 3px;
   accent-color: var(--accent-blue);
   cursor: pointer;
   flex-shrink: 0;
@@ -567,9 +435,8 @@ input.err {
 
 .radio-option span {
   font-size: 13.5px;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--ink);
-  font-weight: 500;
 }
 
 /* ---------- REVIEW LIST ---------- */
@@ -579,7 +446,7 @@ input.err {
   gap: 8px;
   margin-bottom: 20px;
   background: var(--surface-2);
-  padding: 16px;
+  padding: 14px;
   border-radius: 12px;
   border: 1px solid var(--line);
 }
@@ -588,7 +455,7 @@ input.err {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   padding: 10px 12px;
   background: #ffffff;
   border-radius: 8px;
@@ -596,10 +463,18 @@ input.err {
   font-size: 13.5px;
 }
 
-.review-row .k { color: var(--ink-soft); font-weight: 500; }
-.review-row .v { font-family: 'IBM Plex Mono', monospace; color: var(--ink); font-weight: 600; text-align: right; word-break: break-word; }
+@media (max-width: 500px) {
+  .review-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
 
-/* ---------- SIGNATURE CANVAS ---------- */
+.review-row .k { color: var(--ink-soft); font-weight: 500; }
+.review-row .v { font-family: 'IBM Plex Mono', monospace; color: var(--ink); font-weight: 600; text-align: right; word-break: break-all; }
+
+/* ---------- CANVAS (ALÁÍRÁS) ---------- */
 .signature-container {
   position: relative;
   border: 1.5px dashed var(--line);
@@ -609,19 +484,18 @@ input.err {
   flex-direction: column;
   align-items: center;
   padding: 10px;
+  width: 100%;
 }
 
 #signatureCanvas {
-
   background: #ffffff;
   border: 1px solid var(--line);
   border-radius: 8px;
   touch-action: none;
-  cursor: pencil; /* Ha a böngésző támogatja */
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'/></svg>") 0 24, pointer;
   width: 100%;
-  max-width: 500px;
-  height: 200px;
+  max-width: 100%;
+  height: 150px;
 }
 
 .btn-clear {
@@ -642,155 +516,164 @@ input.err {
   background: var(--red-soft);
 }
 
-/* --- MODAL STYLES --- */
-
-/* Ha a .modal nem rejtve van (pl. display: block) */
-body:has(.modal:not([style*="display: none"])) header {
-  position: relative !important;
-  z-index: 1; /* Szükség esetén, hogy a modal z-indexe (100000) alatt maradjon */
-}
-
-    .modal {
-      display: none; /* Alapértelmezés szerint rejtve */
-      position: fixed;
-      z-index: 100000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      color: rgb(43, 46, 226);
-      overflow-y: auto;
-    }
-    .modal p {
-      color: var(--ink);
-    }
-
-    .modal-content-large {
-      background-color: #f4f6f8;
-      margin: 2% auto;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 1000px;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-    }
-
-    .close-btn {
-      font-size: 28px;
-      font-weight: bold;
-      float: right;
-      cursor: pointer;
-      line-height: 20px;
-    }
-
-    .tab-buttons {
-      margin: 15px 0 10px 0;
-      display: flex;
-      gap: 10px;
-    }
-
-    .tab-btn {
-      padding: 10px 20px;
-      border: 1px solid #ccc;
-      background-color: #e9ecef;
-      cursor: pointer;
-      border-radius: 6px 6px 0 0;
-      font-weight: bold;
-    }
-
-    .tab-btn.active {
-      background-color: #fff;
-      border-bottom: 2px solid var(--accent-blue);
-      color: var(--accent-blue);
-    }
-
-    .docx-render-container {
-      flex: 1;
-      overflow-y: auto;
-      background-color: #525659;
-      padding: 20px;
-      border-radius: 6px;
-      min-height: 350px;
-      max-height: 60vh;
-    }
-
-    .docx-render-container .docx-wrapper {
-      background-color: transparent !important;
-      padding: 0 !important;
-    }
-
-    .docx-render-container .docx-wrapper > section.docx {
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
-      margin: 0 auto 20px auto !important;
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .btn-secondary {
-      background: #6c757d;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .btn-confirm {
-      background: var(--green);
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-/* ---------- SUPPORTED BY ---------- */
-.supportedBy {
-  background: var(--accent-blue);
-  color: #ffffff;
-  padding: 60px 24px;
-  text-align: center;
-}
-
-.supportedBy-header { max-width: 840px; margin: 0 auto 36px; }
-.supportedBy-header h2 { font-size: 16px; font-weight: 500; line-height: 1.6; margin: 0; color: #ffffff; }
-.supportedBy-content { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
-.supportedBy-content img { max-width: 140px; height: auto; }
-
-/* ---------- FOOTER ---------- */
-footer {
+.actions {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  background: var(--bg-soft);
-  border-top: 1px solid var(--line);
-  padding: 30px 24px;
-  color: var(--ink-soft);
-  font-size: 14px;
-  margin-top: 40px;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
 }
 
-footer img { height: 40px; width: auto; }
-footer a { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
-footer a:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .actions {
+    flex-direction: column;
+  }
+  .actions button {
+    width: 100%;
+  }
+}
 
-/* ---------- UTILS & RESPONSIVE ---------- */
-.hidden { display: none !important; }
+/* ==========================================
+   MODAL & SZERZŐDÉS ELŐNÉZET (RESPONSIVE)
+   ========================================== */
+body.modal-open {
+  overflow: hidden;
+}
 
-@media (max-width: 1024px) {
-  header { padding: 0 20px; }
-  nav ul { gap: 20px; }
-  footer { flex-direction: column; gap: 16px; text-align: center; }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.modal-content-large {
+  background-color: #f8f9fa;
+  margin: 1vh auto;
+  padding: 20px;
+  border-radius: 14px;
+  width: 96%;
+  max-width: 960px;
+  height: 94vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .modal-content-large {
+    padding: 12px;
+    height: 98vh;
+    margin: 0.5vh auto;
+  }
+}
+
+.close-btn {
+  font-size: 32px;
+  font-weight: bold;
+  float: right;
+  cursor: pointer;
+  line-height: 20px;
+  color: var(--ink-soft);
+  transition: color 0.15s;
+}
+
+.close-btn:hover {
+  color: var(--ink);
+}
+
+.tab-buttons {
+  margin: 12px 0;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  background-color: #e9ecef;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: all 0.15s;
+}
+
+.tab-btn.active {
+  background-color: var(--accent-blue);
+  color: #ffffff;
+  border-color: var(--accent-blue);
+}
+
+/* SZERZŐDÉS DOKUMENTUM KONTAINER - NICS OVERFLOW */
+.docx-render-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #525659;
+  padding: 15px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .docx-render-container {
+    padding: 6px;
+  }
+}
+
+/* DOCX-PREVIEW KIRENDERELT MEGJELENÍTÉS SKÁLÁZÁSA */
+.docx-render-container .docx-wrapper {
+  background-color: transparent !important;
+  padding: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.docx-render-container .docx-wrapper > section.docx {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+  margin: 0 auto 15px auto !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  height: auto !important;
+  padding: 20px !important;
+}
+
+@media (max-width: 768px) {
+  .docx-render-container .docx-wrapper > section.docx {
+    padding: 12px !important;
+    font-size: 12px !important;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+.hidden {
+  display: none !important;
 }

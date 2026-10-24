@@ -459,7 +459,7 @@ async function generateAndPreview() {
 
   } catch (error) {
     console.error("Hiba a dokumentum generálásakor:", error);
-    alert("Hiba történt a dokumentum elkészítésekor: " + error.message);
+    alert("Eroare la generarea documentului: " + error.message);
   }
 }
 

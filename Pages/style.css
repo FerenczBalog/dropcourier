@@ -493,7 +493,23 @@ a.info-val:hover {
 @media (max-width: 1024px) {
   .container {
     flex-direction: column;
-    gap: 40px;
+  }
+
+  .WhyUs .container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .WhyUs .card {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .wrap-whyus {
+    max-width: 100%;
+    align-items: center;
   }
   
   .parallelogram {

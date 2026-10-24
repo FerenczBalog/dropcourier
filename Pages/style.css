@@ -220,7 +220,7 @@
   overflow: hidden;
 }
 
-.WhyUs .card-1 {
+//*.WhyUs .card-1 {
   background-image: url('/Media/photo/5f8024816ea5041b891977bb_flexible.svg');
   background-size: cover;
   background-position: center;
@@ -238,6 +238,9 @@
   background-position: center;
 }
 
+*/
+
+/*
 .WhyUs .textContainer {
   display: none;
 }
@@ -247,8 +250,9 @@
   background-color: var(--surface);
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
+*/
 
-.WhyUs .card:hover .textContainer {
+/*.WhyUs .card:hover */.textContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;

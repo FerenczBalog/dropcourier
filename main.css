@@ -32,6 +32,54 @@ html, body {
   overflow-x: hidden;
 }
 
+/* ---------- BETÖLTÉSI ANIMÁCIÓ (PRELOADER) ---------- */
+#page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Elrejti a betöltőt a fade-out osztály hozzáadásakor */
+#page-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Középső tipográfia pulzálása */
+.loader-logo {
+  font-family: 'League Gothic', cursive, sans-serif;
+  font-size: clamp(54px, 12vw, 90px);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--accent-blue, #2490FD);
+  letter-spacing: 4px;
+  user-select: none;
+  animation: logo-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes logo-pulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--ink);

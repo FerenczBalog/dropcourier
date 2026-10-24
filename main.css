@@ -50,6 +50,17 @@ html, body {
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
+.motto {
+  font-family: "Great Vibes", cursive;
+  font-size: 30px;
+  opacity: 0.95;
+  line-height: 1.6;
+  rotate: -3deg;
+  margin-top: -40px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* Elrejti a betöltőt a fade-out osztály hozzáadásakor */
 #page-loader.fade-out {
   opacity: 0;

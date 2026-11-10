@@ -1,0 +1,84 @@
+const { Resend } = require('resend');
+const multipart = require('lambda-multipart-parser');
+
+exports.handler = async (event) => {
+  // CORS Preflight handling
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
+      body: ''
+    };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ message: 'Method Not Allowed' })
+    };
+  }
+
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error('Hiányzó RESEND_API_KEY környezeti változó.');
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    // 1. Dinamikus cél e-mail cím kiolvasása a frontend kérésből (?target=...)
+    const targetEmail = event.queryStringParameters.target || 'contact@dropcourier.ro';
+
+    // 2. Beküldött adatok és csatolmányok feldolgozása
+    const result = await multipart.parse(event);
+
+    // Másolat küldése a fő kezelő Gmail címre
+    const ccEmail = result._cc || 'contactdropcourier@gmail.com';
+
+    // 3. HTML törzs összeállítása
+    let fieldsHtml = '<h3>Formular nou trimis:</h3><ul>';
+    Object.keys(result).forEach(key => {
+      if (key !== 'files' && !key.startsWith('_')) {
+        fieldsHtml += `<li><strong>${key}:</strong> ${result[key]}</li>`;
+      }
+    });
+    fieldsHtml += '</ul>';
+
+    // 4. Csatolmányok előkészítése
+    const attachments = (result.files || []).map(file => ({
+      filename: file.filename,
+      content: file.content
+    }));
+
+    const subject = result._subject || 'Contract nou Drop Courier';
+
+    // 5. E-mail küldése a verifikált domainről
+    const emailData = await resend.emails.send({
+      from: 'DROP Courier <noreply@dropcourier.ro>', // A verifikált domainről fut!
+      to: [targetEmail],
+      cc: [ccEmail],
+      replyTo: result._replyto || undefined,
+      subject: subject,
+      html: fieldsHtml,
+      attachments: attachments
+    });
+
+    return {
+      statusCode: 200,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ success: true, data: emailData })
+    };
+
+  } catch (error) {
+    console.error('Resend Error:', error);
+    return {
+      statusCode: 500,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ message: error.message || 'Szerver hiba történt' })
+    };
+  }
+};

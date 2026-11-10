@@ -29,12 +29,17 @@ exports.handler = async (event, context) => {
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const targetEmail = event.queryStringParameters.target || 'balogferencz.artist@gmail.com';
 
-    // 1. A beküldött adatok és csatolmányok feldolgozása
+    // 1. Cél e-mail cím kinyerése az URL paraméterből (pl. ?target=cluj@dropcourier.ro)
+    const targetEmail = event.queryStringParameters.target || 'contact@dropcourier.ro';
+
+    // 2. FormData adatok kinyerése
     const result = await multipart.parse(event);
 
-    // 2. Szöveges mezők összefoglalása az e-mail törzséhez
+    // Központi gyűjtőfiók a másolatokhoz (Gmail)
+    const ccEmail = result._cc || 'contactdropcourier@gmail.com';
+
+    // 3. HTML törzs összeállítása
     let fieldsHtml = '<h3>Formular nou trimis:</h3><ul>';
     Object.keys(result).forEach(key => {
       if (key !== 'files' && !key.startsWith('_')) {
@@ -43,18 +48,20 @@ exports.handler = async (event, context) => {
     });
     fieldsHtml += '</ul>';
 
-    // 3. Csatolmányok előkészítése a Resend API számára
+    // 4. Csatolmányok feldolgozása
     const attachments = (result.files || []).map(file => ({
       filename: file.filename,
-      content: file.content // Buffer formátumban van
+      content: file.content
     }));
 
-    const subject = result._subject || 'Contract nou Tasku';
+    const subject = result._subject || 'Contract nou Drop Courier';
 
-    // 4. E-mail küldése
+    // 5. E-mail küldése a Resend API-val
     const emailData = await resend.emails.send({
-      from: 'DROP Onboarding <onboarding@resend.dev>', // Ha igazoltad a saját domainedet, cseréld arra (pl. no-reply@dropcourier.ro)
+      from: 'DROP Courier <noreply@dropcourier.ro>', // Verifikált domain!
       to: [targetEmail],
+      cc: [ccEmail],
+      replyTo: result._replyto || undefined,
       subject: subject,
       html: fieldsHtml,
       attachments: attachments

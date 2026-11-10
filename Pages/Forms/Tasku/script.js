@@ -8,7 +8,7 @@ const CC_EMAIL = "cristian@eastride.ro";
 const FORMSUBMIT_URL = `https://formsubmit.co/${TARGET_EMAIL}`;
 
 // JSONbin konfiguráció a szerződésszámok nyomon követéséhez
-const JSONBIN_BIN_ID = "6a7acfebf5f4af5e2905fcc3"; 
+const JSONBIN_BIN_ID = "6af3588fffd5d16053b76346"; // A JSONbin azonosítója
 const JSONBIN_API_KEY = "$2a$10$h4.WeaBJidVm/e.h54rtZ.5Jb4dFiRcOn5ZUMCKXN0YUL.0M571xe"; 
 
 let form = null;

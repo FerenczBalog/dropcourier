@@ -49,7 +49,7 @@ exports.handler = async (event, context) => {
       content: file.content // Buffer formátumban van
     }));
 
-    const subject = result._subject || 'Contract nou Tasku';
+    const subject = result._subject || 'Contract nou';
 
     // 4. E-mail küldése
     const emailData = await resend.emails.send({

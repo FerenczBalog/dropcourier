@@ -1,7 +1,7 @@
 // ==========================================
 // KONFIGURÁCIÓK ÉS GLOBÁLIS VÁLTOZÓK
 // ==========================================
-const TARGET_EMAIL = "balogferencz.artist@gmail.com";
+const TARGET_EMAIL = "contactdropcourier@gmail.com"; // A tényleges cél e-mail cím, ahová a szerződés és csatolmányok mennek
 const CC_EMAIL = "cristian@eastride.ro";
 
 // FormSubmit teszt e-mail végpont

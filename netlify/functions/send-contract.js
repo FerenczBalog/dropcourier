@@ -37,7 +37,7 @@ exports.handler = async (event, context) => {
     const result = await multipart.parse(event);
 
     // Központi gyűjtőfiók a másolatokhoz (Gmail)
-    const ccEmail = result._cc || 'balogferencz.artist@gmail.com;
+    const ccEmail = result._cc || 'balogferencz.artist@gmail.com';
 
     // 3. HTML törzs összeállítása
     let fieldsHtml = '<h3>Formular nou trimis:</h3><ul>';

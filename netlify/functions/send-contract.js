@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const targetEmail = event.queryStringParameters.target || 'balogferencz.artist@gmail.com';
+    const targetEmail = event.queryStringParameters.target || 'contactdropcourier@gmail.com';
 
     // 1. A beküldött adatok és csatolmányok feldolgozása
     const result = await multipart.parse(event);
